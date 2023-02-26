@@ -1,33 +1,37 @@
 using UnityEngine;
 
-public class AttackerMovement : MonoBehaviour
+namespace Attacker.Movement
 {
-    [SerializeField] private float _speed;
-
-    private Waypoints _waypoints;
-    private Transform _currentPoint;
-
-    private void Start()
+    public class AttackerMovement : MonoBehaviour
     {
-        _waypoints = FindObjectOfType<Waypoints>();
-        _currentPoint = _waypoints.GetNextPoint(_currentPoint);
+        [SerializeField] private float _speed;
 
-        transform.position = _currentPoint.position;
-    }
+        private Waypoints _waypoints;
+        private Transform _currentPoint;
 
-    private void Update()
-    {
-        if (_currentPoint != null)
+        private void Start()
         {
-            transform.position = Vector3.MoveTowards(transform.position, _currentPoint.position, _speed * Time.deltaTime);
+            _waypoints = FindObjectOfType<Waypoints>();
+            _currentPoint = _waypoints.GetNextPoint(_currentPoint);
 
-            if (transform.position == _currentPoint.transform.position)
-                _currentPoint = _waypoints.GetNextPoint(_currentPoint);
+            transform.position = _currentPoint.position;
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Destroy(gameObject);
+        private void Update()
+        {
+            if (_currentPoint != null)
+            {
+                transform.position =
+                    Vector3.MoveTowards(transform.position, _currentPoint.position, _speed * Time.deltaTime);
+
+                if (transform.position == _currentPoint.transform.position)
+                    _currentPoint = _waypoints.GetNextPoint(_currentPoint);
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Destroy(gameObject);
+        }
     }
 }

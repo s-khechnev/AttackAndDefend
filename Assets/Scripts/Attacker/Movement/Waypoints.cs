@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class Waypoints : MonoBehaviour
+namespace Attacker.Movement
 {
-    public Transform GetNextPoint(Transform currentPoint)
+    public class Waypoints : MonoBehaviour
     {
-        if (currentPoint == null)
-            return transform.GetChild(0);
+        public Transform GetNextPoint(Transform currentPoint)
+        {
+            if (currentPoint == null)
+                return transform.GetChild(0);
 
-        if (currentPoint.GetSiblingIndex() < transform.childCount - 1)
-        {
-            return transform.GetChild(currentPoint.GetSiblingIndex() + 1);
-        }
-        else
-        {
-            return null;
+            if (currentPoint.GetSiblingIndex() < transform.childCount - 1)
+            {
+                return transform.GetChild(currentPoint.GetSiblingIndex() + 1);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

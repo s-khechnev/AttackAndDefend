@@ -1,50 +1,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+namespace Attacker.Waves
 {
-    [SerializeField] private List<Wave> _waves;
-
-    private Wave _currentWave;
-    private int _currentWaveIndex;
-
-    private float _elapsedTime;
-
-    private int _countSpawned;
-
-    private void Start()
+    public class Spawner : MonoBehaviour
     {
-        _currentWaveIndex = 0;
-        SetWave(_currentWaveIndex);
+        [SerializeField] private List<Wave> _waves;
 
-        _elapsedTime = 0;
+        private Wave _currentWave;
+        private int _currentWaveIndex;
 
-        _countSpawned = 0;
-    }
+        private float _elapsedTime;
 
-    private void Update()
-    {
-        if (_currentWave == null)
-            return;
+        private int _countSpawned;
 
-        _elapsedTime += Time.deltaTime;
-
-        if (_elapsedTime >= _currentWave.DelayBetweenSpawn)
+        private void Start()
         {
+            _currentWaveIndex = 0;
+            SetWave(_currentWaveIndex);
+
             _elapsedTime = 0;
 
-            Instantiate(_currentWave.AttackerPrefab, transform.position, Quaternion.identity);
-            _countSpawned += 1;
+            _countSpawned = 0;
         }
 
-        if (_currentWave.CountAttackers <= _countSpawned)
+        private void Update()
         {
-            _currentWave = null;
-        }
-    }
+            if (_currentWave == null)
+                return;
 
-    private void SetWave(int index)
-    {
-        _currentWave = _waves[index];
+            _elapsedTime += Time.deltaTime;
+
+            if (_elapsedTime >= _currentWave.DelayBetweenSpawn)
+            {
+                _elapsedTime = 0;
+
+                Instantiate(_currentWave.AttackerPrefab, transform.position, Quaternion.identity);
+                _countSpawned += 1;
+            }
+
+            if (_currentWave.CountAttackers <= _countSpawned)
+            {
+                _currentWave = null;
+            }
+        }
+
+        private void SetWave(int index)
+        {
+            _currentWave = _waves[index];
+        }
     }
 }
