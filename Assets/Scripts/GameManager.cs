@@ -4,6 +4,7 @@ using Defender.HUD;
 using Defender.Towers;
 using Helpers;
 using Models;
+using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -16,47 +17,82 @@ public class GameManager : Singleton<GameManager>
         Victory
     }
 
+    public State GameState { get; private set; }
     public event Action<TowerData> StartBuildTower;
+    public event Action<int> MoneyChanged;
 
-    public State CurrentState { get; private set; }
-    public bool IsBuilding => CurrentState == State.Building;
+    [SerializeField] private TowerBuilder _towerBuilder;
+    [SerializeField] private HUDManager _hudManager;
 
-    public Wallet Wallet { get; private set; }
-    private const int defaultCountMoney = 100; 
+    private Wallet _wallet;
+    
+    private const int DefaultCountMoney = 10;
 
     private void Awake()
     {
-        Init();
-        
+        InitWallet();
+
         SubscribeEvents();
     }
 
-    private void Init()
+    private void Start()
     {
-        Wallet = new Wallet(defaultCountMoney);
+        InitHUD();
+    }
+
+    private void InitHUD()
+    {
+        MoneyChanged?.Invoke(_wallet.Money);
+    }
+
+    private void InitWallet()
+    {
+        _wallet = new Wallet(DefaultCountMoney);
     }
 
     private void SubscribeEvents()
     {
-        HUDManager.Instance.BuildTowerTapped += OnBuildTowerTapped;
-        
-        TowerBuilder.Instance.TowerBuilt += OnTowerBuilt;
-        TowerBuilder.Instance.CancelBuild += OnCancelBuild;
+        _hudManager.BuildTowerTapped += OnStartBuildTower;
+
+        _towerBuilder.TowerBuilt += OnTowerBuilt;
+        _towerBuilder.CancelBuild += OnCancelBuild;
+
+        _wallet.MoneyChanged += OnMoneyChanged;
+    }
+
+    private void OnMoneyChanged(int money)
+    {
+        MoneyChanged?.Invoke(money);
     }
 
     private void OnCancelBuild(Tower tower)
     {
-        SetState(State.Normal);
+        if (GameState == State.Building)
+        {
+            SetState(State.Normal);
+        }
+        else
+        {
+            throw new Exception("State exception");
+        }
     }
 
     private void OnTowerBuilt(Tower tower)
     {
-        SetState(State.Normal);
+        if (GameState == State.Building)
+        {
+            _wallet.Purchase(tower.TowerData.Cost);
+            SetState(State.Normal);
+        }
+        else
+        {
+            throw new Exception("State exception");
+        }
     }
 
     private void SetState(State newState)
     {
-        CurrentState = newState;
+        GameState = newState;
 
         switch (newState)
         {
@@ -67,10 +103,20 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void OnBuildTowerTapped(TowerData towerData)
+    private void OnStartBuildTower(TowerData towerData)
     {
-        SetState(State.Building);
+        if (GameState == State.Normal)
+        {
+            if (_wallet.IsEnoughMoney(towerData.Cost))
+            {
+                SetState(State.Building);
 
-        StartBuildTower?.Invoke(towerData);
+                StartBuildTower?.Invoke(towerData); 
+            }
+        }
+        else
+        {
+            throw new Exception("State exception");
+        }
     }
 }

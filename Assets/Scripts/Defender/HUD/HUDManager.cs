@@ -1,15 +1,18 @@
 using System;
 using Data.Towers;
-using Helpers;
+using TMPro;
+using UnityEngine;
 
 namespace Defender.HUD
 {
-    public class HUDManager : Singleton<HUDManager>
+    public class HUDManager : MonoBehaviour
     {
+        public event Action<TowerData> BuildTowerTapped;
+
+        [SerializeField] private TMP_Text _moneyText;
+
         private BuildTowerButton[] _buildTowerButtons;
 
-        public event Action<TowerData> BuildTowerTapped;
-        
         private void Awake()
         {
             _buildTowerButtons = FindObjectsOfType<BuildTowerButton>();
@@ -21,11 +24,18 @@ namespace Defender.HUD
         {
             foreach (var button in _buildTowerButtons)
             {
-                button.BuildTowerClick += BuildTowerClick;
+                button.BuildTowerTapped += OnBuildTowerTapped;
             }
+
+            GameManager.Instance.MoneyChanged += OnMoneyChanged;
         }
 
-        private void BuildTowerClick(TowerData towerData)
+        private void OnMoneyChanged(int money)
+        {
+            _moneyText.text = money.ToString();
+        }
+
+        private void OnBuildTowerTapped(TowerData towerData)
         {
             BuildTowerTapped?.Invoke(towerData);
         }

@@ -2,11 +2,10 @@
 using Data.Towers;
 using Defender.HUD;
 using Defender.Towers;
-using Helpers;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class TowerBuilder : Singleton<TowerBuilder>
+public class TowerBuilder : MonoBehaviour
 {
     public event Action<Tower> TowerBuilt;
     public event Action<Tower> CancelBuild;
@@ -38,7 +37,7 @@ public class TowerBuilder : Singleton<TowerBuilder>
 
     private void SubscribeEvents()
     {
-        HUDManager.Instance.BuildTowerTapped += OnBuildTower;
+        GameManager.Instance.StartBuildTower += OnBuildTower;
     }
 
     private void OnBuildTower(TowerData towerData)

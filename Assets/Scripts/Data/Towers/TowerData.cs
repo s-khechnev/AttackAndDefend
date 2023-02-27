@@ -8,8 +8,10 @@ namespace Data.Towers
     {
         [SerializeField] private string _name;
         [SerializeField] private Tower _tower;
+        [SerializeField] private int _cost;
 
         public string Name => _name;
         public Tower Tower => _tower;
+        public int Cost => _cost;
     }
 }

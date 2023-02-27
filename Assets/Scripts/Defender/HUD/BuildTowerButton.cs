@@ -8,7 +8,7 @@ namespace Defender.HUD
     [RequireComponent(typeof(Button))]
     public class BuildTowerButton : MonoBehaviour
     {
-        public event Action<TowerData> BuildTowerClick;
+        public event Action<TowerData> BuildTowerTapped;
 
         [SerializeField] private TowerData _towerData;
 
@@ -31,7 +31,7 @@ namespace Defender.HUD
 
         private void OnClick()
         {
-            BuildTowerClick?.Invoke(_towerData);
+            BuildTowerTapped?.Invoke(_towerData);
         }
     }
 }

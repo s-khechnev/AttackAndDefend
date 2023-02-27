@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: "\u041E\u0431\u044B\u0447\u043D\u0430\u044F \u0431\u0430\u0448\u043D\u044F"
   _tower: {fileID: 5382873187724382646, guid: 997eda0f844715845a30121b4553e2fd, type: 3}
+  _cost: 10
