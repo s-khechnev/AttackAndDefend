@@ -16,9 +16,9 @@ namespace Defender.Towers
         [SerializeField] private TowerData _towerData;
 
         private Renderer _renderer;
-        private Color _availablePlaceColor = Color.green;
-        private Color _unavailablePlaceColor = Color.red;
-        private Color _normalColor = Color.white;
+        private readonly Color _availablePlaceColor = Color.green;
+        private readonly Color _unavailablePlaceColor = Color.red;
+        private readonly Color _normalColor = Color.white;
         
         public TowerData TowerData => _towerData;
 

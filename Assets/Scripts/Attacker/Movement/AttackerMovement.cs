@@ -1,19 +1,22 @@
+using Data.Attackers;
 using UnityEngine;
 
 namespace Attacker.Movement
 {
+    [RequireComponent(typeof(Attacker))]
     public class AttackerMovement : MonoBehaviour
     {
-        [SerializeField] private float _speed;
+        private AttackerData _attackerData;
 
         private Waypoints _waypoints;
         private Transform _currentPoint;
 
-        private void Start()
+        private void Awake()
         {
+            _attackerData = GetComponent<Attacker>().AttackerData;
+
             _waypoints = FindObjectOfType<Waypoints>();
             _currentPoint = _waypoints.GetNextPoint(_currentPoint);
-
             transform.position = _currentPoint.position;
         }
 
@@ -22,7 +25,8 @@ namespace Attacker.Movement
             if (_currentPoint != null)
             {
                 transform.position =
-                    Vector3.MoveTowards(transform.position, _currentPoint.position, _speed * Time.deltaTime);
+                    Vector3.MoveTowards(transform.position, _currentPoint.position,
+                        _attackerData.Speed * Time.deltaTime);
 
                 if (transform.position == _currentPoint.transform.position)
                     _currentPoint = _waypoints.GetNextPoint(_currentPoint);

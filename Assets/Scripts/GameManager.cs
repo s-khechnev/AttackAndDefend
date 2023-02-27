@@ -24,10 +24,10 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private TowerBuilder _towerBuilder;
     [SerializeField] private HUDManager _hudManager;
+    [SerializeField] private Castle _castle;
 
     private Wallet _wallet;
-    private Castle _castle;
-    
+
     private const int DefaultCountMoney = 10;
     private const int CastleMaxHealth = 100;
 
@@ -52,7 +52,8 @@ public class GameManager : Singleton<GameManager>
     private void InitModels()
     {
         _wallet = new Wallet(DefaultCountMoney);
-        _castle = new Castle(CastleMaxHealth);
+
+        _castle.Init(CastleMaxHealth);
     }
 
     private void SubscribeEvents()
@@ -123,7 +124,7 @@ public class GameManager : Singleton<GameManager>
             {
                 SetState(State.Building);
 
-                StartBuildTower?.Invoke(towerData); 
+                StartBuildTower?.Invoke(towerData);
             }
         }
         else

@@ -6,16 +6,16 @@ namespace Defender.HUD
     [RequireComponent(typeof(Slider))]
     public abstract class Bar : MonoBehaviour
     {
-        protected Slider Slider;
+        private Slider _slider;
 
         private void Awake()
         {
-            Slider = GetComponent<Slider>();
+            _slider = GetComponent<Slider>();
         }
 
         protected void OnValueChanged(int value, int maxValue)
         {
-            Slider.value = (float)value / maxValue;
+            _slider.value = (float)value / maxValue;
         }
     }
 }

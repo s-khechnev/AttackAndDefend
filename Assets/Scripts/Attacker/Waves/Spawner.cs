@@ -35,7 +35,7 @@ namespace Attacker.Waves
             {
                 _elapsedTime = 0;
 
-                Instantiate(_currentWave.AttackerPrefab, transform.position, Quaternion.identity);
+                Instantiate(_currentWave.Attacker, transform.position, Quaternion.identity);
                 _countSpawned += 1;
             }
 

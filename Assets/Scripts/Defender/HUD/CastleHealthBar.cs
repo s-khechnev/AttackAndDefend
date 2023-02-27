@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Defender.HUD
+﻿namespace Defender.HUD
 {
     public class CastleHealthBar : Bar
     {
