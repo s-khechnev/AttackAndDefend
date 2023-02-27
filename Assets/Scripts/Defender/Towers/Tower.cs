@@ -8,25 +8,26 @@ namespace Defender.Towers
         Available,
         Unavailable
     }
-    
+
     public class Tower : MonoBehaviour
     {
-        public TowerData TowerData => _towerData;
         public PlacementTowerState CurrentState { get; private set; }
 
         [SerializeField] private TowerData _towerData;
-        [SerializeField] private Renderer _renderer;
 
+        private Renderer _renderer;
         private Color _availablePlaceColor = Color.green;
         private Color _unavailablePlaceColor = Color.red;
         private Color _normalColor = Color.white;
+        
+        public TowerData TowerData => _towerData;
 
         private void Awake()
         {
             _renderer = GetComponentInChildren<Renderer>();
         }
 
-        public void HideState()
+        public void HidePlacementState()
         {
             _renderer.material.color = _normalColor;
         }
@@ -34,7 +35,7 @@ namespace Defender.Towers
         public void SetState(PlacementTowerState newState)
         {
             CurrentState = newState;
-            
+
             switch (newState)
             {
                 case PlacementTowerState.Available:

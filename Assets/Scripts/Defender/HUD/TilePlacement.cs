@@ -8,7 +8,7 @@ namespace Defender.HUD
         Empty,
     }
 
-    [RequireComponent(typeof(Material), typeof(Renderer))]
+    [RequireComponent(typeof(Renderer))]
     public class TilePlacement : MonoBehaviour
     {
         public PlacementTileState CurrentState { get; private set; }

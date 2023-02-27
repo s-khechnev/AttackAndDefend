@@ -2,7 +2,6 @@
 using Data.Towers;
 using Defender.HUD;
 using Defender.Towers;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class TowerBuilder : MonoBehaviour
@@ -56,7 +55,7 @@ public class TowerBuilder : MonoBehaviour
         }
     }
 
-    private void HideTileStates()
+    private void HideStateTiles()
     {
         foreach (var tile in _tiles)
         {
@@ -86,9 +85,6 @@ public class TowerBuilder : MonoBehaviour
 
     private void Building()
     {
-        Debug.DrawRay(_mainCamera.transform.position,
-            _mainCamera.ScreenPointToRay(Input.mousePosition).direction * 100f, Color.red);
-
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 50f, _groundLayerMask))
@@ -120,20 +116,18 @@ public class TowerBuilder : MonoBehaviour
 
     private void PlaceTower()
     {
-        Tower tower = Instantiate(_towerGhost, _towerGhost.transform.position, quaternion.identity);
-        tower.HideState();
-
         _assumedTilePlacement.SetState(PlacementTileState.Filled);
-        HideTileStates();
+        HideStateTiles();
+        
+        _towerGhost.HidePlacementState();
 
-        Destroy(_towerGhost.gameObject);
-
-        TowerBuilt?.Invoke(tower);
+        TowerBuilt?.Invoke(_towerGhost);
+        _towerGhost = null;
     }
     
     private void CancelBuilding()
     {
-        HideTileStates();
+        HideStateTiles();
         Destroy(_towerGhost.gameObject);
 
         CancelBuild?.Invoke(_towerGhost);

@@ -20,17 +20,20 @@ public class GameManager : Singleton<GameManager>
     public State GameState { get; private set; }
     public event Action<TowerData> StartBuildTower;
     public event Action<int> MoneyChanged;
+    public event Action<int, int> CastleHealthChanged;
 
     [SerializeField] private TowerBuilder _towerBuilder;
     [SerializeField] private HUDManager _hudManager;
 
     private Wallet _wallet;
+    private Castle _castle;
     
     private const int DefaultCountMoney = 10;
+    private const int CastleMaxHealth = 100;
 
     private void Awake()
     {
-        InitWallet();
+        InitModels();
 
         SubscribeEvents();
     }
@@ -43,11 +46,13 @@ public class GameManager : Singleton<GameManager>
     private void InitHUD()
     {
         MoneyChanged?.Invoke(_wallet.Money);
+        CastleHealthChanged?.Invoke(_castle.Health, CastleMaxHealth);
     }
 
-    private void InitWallet()
+    private void InitModels()
     {
         _wallet = new Wallet(DefaultCountMoney);
+        _castle = new Castle(CastleMaxHealth);
     }
 
     private void SubscribeEvents()
@@ -58,6 +63,13 @@ public class GameManager : Singleton<GameManager>
         _towerBuilder.CancelBuild += OnCancelBuild;
 
         _wallet.MoneyChanged += OnMoneyChanged;
+
+        _castle.HealthChanged += OnHealthChanged;
+    }
+
+    private void OnHealthChanged(int value, int maxValue)
+    {
+        CastleHealthChanged?.Invoke(value, maxValue);
     }
 
     private void OnMoneyChanged(int money)
