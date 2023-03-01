@@ -20,6 +20,8 @@ namespace Defender.HUD
         private Color _realColor;
         private Renderer _tileRenderer;
 
+        public Vector3 CenterPosition => transform.GetChild(0).transform.position;
+
         private void Awake()
         {
             _tileRenderer = GetComponent<Renderer>();

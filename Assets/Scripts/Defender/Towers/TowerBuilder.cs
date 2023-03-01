@@ -95,11 +95,10 @@ namespace Defender.Towers
                 if (tilePlacement != null && tilePlacement.CurrentState == PlacementTileState.Empty)
                 {
                     _assumedTilePlacement = tilePlacement;
-                    var groundBlockCenterPosition = _assumedTilePlacement.transform.GetChild(0).transform.position;
                     _towerGhost.SetState(PlacementTowerState.Available);
-                    _towerGhost.transform.position = groundBlockCenterPosition;
+                    _towerGhost.transform.position = _assumedTilePlacement.CenterPosition;
 
-                    _isTilePlacementEmpty = _assumedTilePlacement.CurrentState != PlacementTileState.Filled;
+                    _isTilePlacementEmpty = true;
                 }
                 else
                 {
