@@ -1,13 +1,18 @@
-﻿namespace Defender.HUD
+﻿using Models;
+using Zenject;
+
+namespace Defender.HUD
 {
     public class CastleHealthBar : Bar
     {
-        private void OnEnable()
+        [Inject] private Castle _castle;
+
+        private void Start()
         {
-            GameManager.Instance.CastleHealthChanged += OnCastleHealthChanged;
+            _castle.HealthChanged += OnHealthChanged;
         }
 
-        private void OnCastleHealthChanged(int value, int maxValue)
+        private void OnHealthChanged(int value, int maxValue)
         {
             OnValueChanged(value, maxValue);
         }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82febd68b4794ad0977c86d50738856f, type: 3}
   m_Name: DefaultAttacker
   m_EditorClassIdentifier: 
-  _damage: 50
+  _damage: 5
   _speed: 10
   _prefab: {fileID: 4224713351061920410, guid: 643ca7385848b2d47acebe2f79ddc9a3, type: 3}

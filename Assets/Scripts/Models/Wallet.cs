@@ -4,13 +4,15 @@ namespace Models
 {
     public class Wallet
     {
-        public int Money { get; private set; }
-        
-        public event Action<int> MoneyChanged; 
+        public event Action<int> MoneyChanged;
 
-        public Wallet(int defaultCountMoney)
+        private const int DefaultCountMoney = 100;
+
+        public int Money { get; private set; }
+
+        public Wallet()
         {
-            Money = defaultCountMoney;
+            Money = DefaultCountMoney;
         }
 
         public bool IsEnoughMoney(int cost)

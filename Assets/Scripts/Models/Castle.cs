@@ -10,20 +10,19 @@ namespace Models
         public event Action Lose;
         public event Action<int, int> HealthChanged;
 
-        private int _maxHealth;  
-        
-        public void Init(int castleMaxHealth)
+        private const int MaxHealth = 100;
+
+        private void Awake()
         {
-            Health = castleMaxHealth;
-            _maxHealth = castleMaxHealth;
+            Health = MaxHealth;
         }
 
         public void TakeDamage(int damage)
         {
             Health -= damage;
-            HealthChanged?.Invoke(Health, _maxHealth);
+            HealthChanged?.Invoke(Health, MaxHealth);
             
-            if (Health < 0)
+            if (Health <= 0)
             {
                 Lose?.Invoke();
             }

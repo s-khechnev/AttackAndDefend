@@ -1,7 +1,9 @@
 using System;
 using Data.Towers;
+using Models;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace Defender.HUD
 {
@@ -11,6 +13,7 @@ namespace Defender.HUD
 
         [SerializeField] private TMP_Text _moneyText;
 
+        [Inject] private Wallet _wallet;
         private BuildTowerButton[] _buildTowerButtons;
 
         private void Awake()
@@ -20,6 +23,16 @@ namespace Defender.HUD
             SubscribeEvents();
         }
 
+        private void Start()
+        {
+            Init();
+        }
+
+        private void Init()
+        {
+            OnMoneyChanged(_wallet.Money);
+        }
+
         private void SubscribeEvents()
         {
             foreach (var button in _buildTowerButtons)
@@ -27,7 +40,7 @@ namespace Defender.HUD
                 button.BuildTowerTapped += OnBuildTowerTapped;
             }
 
-            GameManager.Instance.MoneyChanged += OnMoneyChanged;
+            _wallet.MoneyChanged += OnMoneyChanged;
         }
 
         private void OnMoneyChanged(int money)
