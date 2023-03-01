@@ -13,26 +13,23 @@ namespace Defender.Towers
         private TilePlacement[] _tiles;
         private Camera _mainCamera;
 
-        private Tower _towerGhost;
+        private TowerGhost _towerGhost;
         private TilePlacement _assumedTilePlacement;
         private bool _isTilePlacementEmpty;
 
         private LayerMask _groundLayerMask;
         private const string GroundLayer = "Ground";
 
-        [Inject] private Wallet _wallet; 
+        [Inject] private Wallet _wallet;
+        [Inject] private TowerFactory _towerFactory;
 
         private void Awake()
         {
             _tiles = FindObjectsOfType<TilePlacement>();
-
             _mainCamera = Camera.main;
             
             _groundLayerMask = 1 << LayerMask.NameToLayer(GroundLayer);
-        }
-
-        private void OnEnable()
-        {
+            
             SubscribeEvents();
         }
 
@@ -47,8 +44,7 @@ namespace Defender.Towers
             {
                 ShowTileStates();
 
-                _towerGhost = Instantiate(towerData.Tower, _mainCamera.ScreenPointToRay(Input.mousePosition).direction,
-                    Quaternion.identity);
+                _towerGhost = _towerFactory.GetTowerGhost(towerData);
             }
         }
 
@@ -122,9 +118,11 @@ namespace Defender.Towers
             
             _assumedTilePlacement.SetState(PlacementTileState.Filled);
             HideStateTiles();
-        
-            _towerGhost.HidePlacementState();
-            _towerGhost = null;
+
+            var tower = _towerFactory.Get(_towerGhost.TowerData);
+            tower.transform.position = _towerGhost.transform.position;
+            
+            Destroy(_towerGhost.gameObject);
         }
     
         private void CancelBuilding()
