@@ -90,15 +90,14 @@ namespace Defender.Towers
 
             if (Physics.Raycast(ray, out RaycastHit hit, 50f, _groundLayerMask))
             {
-                var hitObj = hit.collider.gameObject;
-
-                if (hitObj.GetComponent(typeof(TilePlacement)) != null)
+                var tilePlacement = hit.collider.gameObject.GetComponent(typeof(TilePlacement)) as TilePlacement;
+                
+                if (tilePlacement != null && tilePlacement.CurrentState == PlacementTileState.Empty)
                 {
+                    _assumedTilePlacement = tilePlacement;
+                    var groundBlockCenterPosition = _assumedTilePlacement.transform.GetChild(0).transform.position;
                     _towerGhost.SetState(PlacementTowerState.Available);
-
-                    _assumedTilePlacement = hitObj.GetComponent(typeof(TilePlacement)) as TilePlacement;
-                    var groundBlockCenter = _assumedTilePlacement.transform.GetChild(0).transform.position;
-                    _towerGhost.transform.position = groundBlockCenter;
+                    _towerGhost.transform.position = groundBlockCenterPosition;
 
                     _isTilePlacementEmpty = _assumedTilePlacement.CurrentState != PlacementTileState.Filled;
                 }
