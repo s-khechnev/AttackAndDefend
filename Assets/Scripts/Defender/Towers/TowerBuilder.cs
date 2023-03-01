@@ -40,7 +40,7 @@ namespace Defender.Towers
 
         private void OnBuildTowerStart(TowerData towerData)
         {
-            if (_towerGhost == null)
+            if (_towerGhost == null && _wallet.IsEnoughMoney(towerData.Cost))
             {
                 ShowTileStates();
 
@@ -72,7 +72,7 @@ namespace Defender.Towers
 
                 if (Input.GetMouseButton(0))
                 {
-                    if (_isTilePlacementEmpty && _wallet.IsEnoughMoney(_towerGhost.TowerData.Cost))
+                    if (_isTilePlacementEmpty)
                     {
                         PlaceTower();
                     }
