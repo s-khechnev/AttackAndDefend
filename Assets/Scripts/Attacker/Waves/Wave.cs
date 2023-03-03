@@ -1,4 +1,5 @@
 using System;
+using Data.Attackers;
 using UnityEngine;
 
 namespace Attacker.Waves
@@ -6,13 +7,13 @@ namespace Attacker.Waves
     [Serializable]
     public class Wave
     {
-        [SerializeField] private Attacker _attacker;
+        [SerializeField] private AttackerData _attackerData;
 
         [Range(1, 1000)] [SerializeField] private int _countAttackers;
 
         [Range(0.1f, 5f)] [SerializeField] private float _delayBetweenSpawn;
 
-        public Attacker Attacker => _attacker;
+        public AttackerData AttackerData => _attackerData;
         public int CountAttackers => _countAttackers;
         public float DelayBetweenSpawn => _delayBetweenSpawn;
     }

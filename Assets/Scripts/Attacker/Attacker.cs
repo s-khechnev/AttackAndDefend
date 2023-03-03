@@ -1,14 +1,15 @@
 ﻿using Data.Attackers;
 using Models;
 using UnityEngine;
+using Zenject;
 
 namespace Attacker
 {
-    public class Attacker : MonoBehaviour
+    public abstract class Attacker : MonoBehaviour
     {
-        [SerializeField] private AttackerData _attackerData;
-
-        public AttackerData AttackerData => _attackerData;
+        [Inject] protected AttackerFactory Factory;
+        public abstract AttackerType Type { get; }
+        public AttackerData AttackerData => Factory.GetAttackerData(Type);
 
         private void OnTriggerEnter(Collider other)
         {
@@ -18,9 +19,9 @@ namespace Attacker
             }
         }
 
-        private void Attack(Castle castle)
+        protected virtual void Attack(Castle castle)
         {
-            castle.TakeDamage(_attackerData.Damage);
+            castle.TakeDamage(AttackerData.Damage);
         }
     }
 }

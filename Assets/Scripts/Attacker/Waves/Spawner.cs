@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Attacker.Waves
 {
@@ -7,21 +8,18 @@ namespace Attacker.Waves
     {
         [SerializeField] private List<Wave> _waves;
 
+        [Inject] private AttackerFactory _attackerFactory;
+        
         private Wave _currentWave;
         private int _currentWaveIndex;
+        private int _countSpawned;
 
         private float _elapsedTime;
-
-        private int _countSpawned;
 
         private void Start()
         {
             _currentWaveIndex = 0;
             SetWave(_currentWaveIndex);
-
-            _elapsedTime = 0;
-
-            _countSpawned = 0;
         }
 
         private void Update()
@@ -34,20 +32,33 @@ namespace Attacker.Waves
             if (_elapsedTime >= _currentWave.DelayBetweenSpawn)
             {
                 _elapsedTime = 0;
-
-                Instantiate(_currentWave.Attacker, transform.position, Quaternion.identity);
+                
+                var attacker = _attackerFactory.Get(_currentWave.AttackerData);
+                attacker.transform.position = transform.position;
+                
                 _countSpawned += 1;
             }
 
             if (_currentWave.CountAttackers <= _countSpawned)
             {
-                _currentWave = null;
+                if (_currentWaveIndex + 1 < _waves.Count)
+                {
+                    SetWave(_currentWaveIndex + 1);
+                }
+                else
+                {
+                    _currentWave = null;
+                }
             }
         }
 
         private void SetWave(int index)
         {
+            _currentWaveIndex = index;
             _currentWave = _waves[index];
+            
+            _elapsedTime = 0;
+            _countSpawned = 0;
         }
     }
 }

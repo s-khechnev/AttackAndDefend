@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82febd68b4794ad0977c86d50738856f, type: 3}
-  m_Name: DefaultAttacker
+  m_Script: {fileID: 11500000, guid: f40e50c961ce4f8cbb40925fb6044450, type: 3}
+  m_Name: AttackerFactory
   m_EditorClassIdentifier: 
-  _damage: 5
-  _speed: 10
-  _prefab: {fileID: 7734162432440732998, guid: 643ca7385848b2d47acebe2f79ddc9a3, type: 3}
-  _attackerType: 0
+  _commonAttackerData: {fileID: 11400000, guid: f4dea394f837a44428d8a066b1fa9455, type: 2}

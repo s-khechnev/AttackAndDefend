@@ -3,6 +3,7 @@ using Data.Towers;
 using Models;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Defender.HUD
@@ -12,6 +13,7 @@ namespace Defender.HUD
         public event Action<TowerData> BuildTowerTapped;
 
         [SerializeField] private TMP_Text _moneyText;
+        [SerializeField] private Button _nextWaveButton;
 
         [Inject] private Wallet _wallet;
         private BuildTowerButton[] _buildTowerButtons;
@@ -39,8 +41,15 @@ namespace Defender.HUD
             {
                 button.BuildTowerTapped += OnBuildTowerTapped;
             }
+            
+            _nextWaveButton.onClick.AddListener(OnNextWaveTapped);
 
             _wallet.MoneyChanged += OnMoneyChanged;
+        }
+
+        private void OnNextWaveTapped()
+        {
+            
         }
 
         private void OnMoneyChanged(int money)
