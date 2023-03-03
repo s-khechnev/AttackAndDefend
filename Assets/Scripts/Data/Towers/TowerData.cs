@@ -4,7 +4,7 @@ namespace Data.Towers
 {
     public enum TowerType
     {
-        DefaultTower,
+        Common,
     }
     
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Tower")]
@@ -12,12 +12,12 @@ namespace Data.Towers
     {
         [SerializeField] private string _name;
         [SerializeField] private GameObject _towerPrefab;
-        [SerializeField] private TowerType _towerType;
+        [SerializeField] private TowerType _type;
         [SerializeField] private int _cost;
 
         public string Name => _name;
         public GameObject TowerPrefab => _towerPrefab;
-        public TowerType TowerType => _towerType;
+        public TowerType Type => _type;
         public int Cost => _cost;
     }
 }

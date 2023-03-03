@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82febd68b4794ad0977c86d50738856f, type: 3}
-  m_Name: DefaultAttacker
+  m_Name: CommonAttacker
   m_EditorClassIdentifier: 
   _damage: 5
   _speed: 10

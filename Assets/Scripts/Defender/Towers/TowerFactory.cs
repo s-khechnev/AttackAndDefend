@@ -21,11 +21,11 @@ namespace Defender.Towers
 
         public Tower Get(TowerData towerData)
         {
-            switch (towerData.TowerType)
+            switch (towerData.Type)
             {
-                case TowerType.DefaultTower:
+                case TowerType.Common:
                     var pref = _instantiator.InstantiatePrefab(_defaultTowerData.TowerPrefab);
-                    return _instantiator.InstantiateComponent<DefaultTower>(pref);
+                    return _instantiator.InstantiateComponent<CommonTower>(pref);
             }
 
             return null;
@@ -35,7 +35,7 @@ namespace Defender.Towers
         {
             switch (towerType)
             {
-                case TowerType.DefaultTower:
+                case TowerType.Common:
                     return _defaultTowerData;
             }
 
