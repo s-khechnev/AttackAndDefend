@@ -13,8 +13,9 @@ namespace Defender.Towers
 
         public TowerGhost GetTowerGhost(TowerData towerData)
         {
-            var obj = Instantiate(towerData.TowerPrefab);
-            var towerGhost = obj.AddComponent<TowerGhost>();
+            var tower = Instantiate(towerData.TowerPrefab);
+            tower.enabled = false;
+            var towerGhost = tower.gameObject.AddComponent<TowerGhost>();
             towerGhost.TowerData = towerData;
             return towerGhost;
         }
@@ -24,8 +25,7 @@ namespace Defender.Towers
             switch (towerData.Type)
             {
                 case TowerType.Common:
-                    var pref = _instantiator.InstantiatePrefab(_defaultTowerData.TowerPrefab);
-                    return _instantiator.InstantiateComponent<CommonTower>(pref);
+                    return _instantiator.InstantiatePrefab(_defaultTowerData.TowerPrefab).GetComponent<Tower>();
             }
 
             return null;
@@ -47,9 +47,10 @@ namespace Defender.Towers
             Destroy(tower.gameObject);
         }
         
-        public void Reclaim(TowerGhost tower)
+        public void Reclaim(TowerGhost towerGhost)
         {
-            Destroy(tower.gameObject);
+            towerGhost.GetComponent<Tower>().enabled = true;
+            Destroy(towerGhost.gameObject);
         }
     }
 }
