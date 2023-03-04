@@ -1,8 +1,8 @@
 ﻿using Data.Attackers;
 
-namespace Attacker
+namespace Attackers
 {
-    public class CommonAttacker : Attacker
+    public class CommonAttacker : Attackers.Attacker
     {
         public override AttackerType Type => AttackerType.Common;
     }

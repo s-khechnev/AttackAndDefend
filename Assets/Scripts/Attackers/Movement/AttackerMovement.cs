@@ -1,7 +1,7 @@
 using Data.Attackers;
 using UnityEngine;
 
-namespace Attacker.Movement
+namespace Attackers.Movement
 {
     [RequireComponent(typeof(Attacker))]
     public class AttackerMovement : MonoBehaviour

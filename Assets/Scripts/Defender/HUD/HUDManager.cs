@@ -1,5 +1,5 @@
 using System;
-using Attacker.Waves;
+using Attackers.Waves;
 using Data.Towers;
 using Models;
 using TMPro;

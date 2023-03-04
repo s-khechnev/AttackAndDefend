@@ -3,7 +3,7 @@ using Models;
 using UnityEngine;
 using Zenject;
 
-namespace Attacker
+namespace Attackers
 {
     public abstract class Attacker : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Attacker.Movement
+namespace Attackers.Movement
 {
     public class Waypoints : MonoBehaviour
     {

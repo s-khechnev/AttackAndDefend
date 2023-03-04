@@ -2,7 +2,7 @@ using System;
 using Data.Attackers;
 using UnityEngine;
 
-namespace Attacker.Waves
+namespace Attackers.Waves
 {
     [Serializable]
     public class Wave

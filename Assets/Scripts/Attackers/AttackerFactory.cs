@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Attacker
+namespace Attackers
 {
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AttackerFactory")]
     public class AttackerFactory : ScriptableObject
@@ -13,13 +13,13 @@ namespace Attacker
         
         public int CountAttackers { get; private set; }
 
-        public Attacker Get(AttackerData attackerData)
+        public Attackers.Attacker Get(AttackerData attackerData)
         {
-            Attacker newAttacker = null;
+            Attackers.Attacker newAttacker = null;
             switch (attackerData.Type)
             {
                 case AttackerType.Common:
-                    newAttacker = _instantiator.InstantiatePrefab(_commonAttackerData.Prefab).GetComponent<Attacker>();
+                    newAttacker = _instantiator.InstantiatePrefab(_commonAttackerData.Prefab).GetComponent<Attackers.Attacker>();
                     break;
             }
 
@@ -29,7 +29,7 @@ namespace Attacker
             return newAttacker;
         }
 
-        public void Reclaim(Attacker attacker)
+        public void Reclaim(Attackers.Attacker attacker)
         {
             CountAttackers--;
 

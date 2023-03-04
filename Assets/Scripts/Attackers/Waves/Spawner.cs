@@ -5,7 +5,7 @@ using Defender.HUD;
 using UnityEngine;
 using Zenject;
 
-namespace Attacker.Waves
+namespace Attackers.Waves
 {
     public class Spawner : MonoBehaviour
     {
