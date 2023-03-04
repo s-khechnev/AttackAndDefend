@@ -12,8 +12,7 @@ namespace Defender.Towers
     public class TowerGhost : MonoBehaviour
     {
         public TowerData TowerData { get; set; }
-        private PlacementTowerState CurrentState { get; set; }
-        
+
         private Renderer _renderer;
         private readonly Color _availablePlaceColor = Color.green;
         private readonly Color _unavailablePlaceColor = Color.red;
@@ -25,8 +24,6 @@ namespace Defender.Towers
 
         public void SetState(PlacementTowerState newState)
         {
-            CurrentState = newState;
-
             switch (newState)
             {
                 case PlacementTowerState.Available:

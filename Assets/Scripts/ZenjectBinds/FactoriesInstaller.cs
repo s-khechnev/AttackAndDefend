@@ -1,5 +1,4 @@
 ﻿using Attacker;
-using Data.Attackers;
 using Defender.Towers;
 using UnityEngine;
 using Zenject;

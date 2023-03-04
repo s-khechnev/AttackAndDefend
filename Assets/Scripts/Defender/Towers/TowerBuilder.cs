@@ -56,7 +56,7 @@ namespace Defender.Towers
             }
         }
 
-        private void HideStateTiles()
+        private void HideTileStates()
         {
             foreach (var tile in _tiles)
             {
@@ -115,7 +115,7 @@ namespace Defender.Towers
             _wallet.Purchase(_towerGhost.TowerData.Cost);
             
             _assumedTilePlacement.SetState(PlacementTileState.Filled);
-            HideStateTiles();
+            HideTileStates();
 
             var tower = _towerFactory.Get(_towerGhost.TowerData);
             tower.transform.position = _towerGhost.transform.position;
@@ -125,7 +125,7 @@ namespace Defender.Towers
     
         private void CancelBuilding()
         {
-            HideStateTiles();
+            HideTileStates();
             Destroy(_towerGhost.gameObject);
         }
     }

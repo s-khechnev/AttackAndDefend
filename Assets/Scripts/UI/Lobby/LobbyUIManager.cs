@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Data;
-using Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
