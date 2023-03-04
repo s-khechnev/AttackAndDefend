@@ -11,7 +11,7 @@ namespace Attacker.Waves
 
         [Range(1, 1000)] [SerializeField] private int _countAttackers;
 
-        [Range(0.1f, 5f)] [SerializeField] private float _delayBetweenSpawn;
+        [Range(0.01f, 5f)] [SerializeField] private float _delayBetweenSpawn;
 
         public AttackerData AttackerData => _attackerData;
         public int CountAttackers => _countAttackers;

@@ -32,10 +32,5 @@ namespace Attacker.Movement
                     _currentPoint = _waypoints.GetNextPoint(_currentPoint);
             }
         }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            Destroy(gameObject);
-        }
     }
 }

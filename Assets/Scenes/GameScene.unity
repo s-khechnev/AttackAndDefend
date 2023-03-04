@@ -3385,15 +3385,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waves:
-  - _attacker: {fileID: 0}
+  - _attackerData: {fileID: 11400000, guid: f4dea394f837a44428d8a066b1fa9455, type: 2}
     _countAttackers: 1
     _delayBetweenSpawn: 0.1
-  - _attacker: {fileID: 0}
-    _countAttackers: 2
+  - _attackerData: {fileID: 11400000, guid: f4dea394f837a44428d8a066b1fa9455, type: 2}
+    _countAttackers: 3
     _delayBetweenSpawn: 0.1
-  - _attacker: {fileID: 0}
-    _countAttackers: 190
-    _delayBetweenSpawn: 0.1
+  _hudManager: {fileID: 1927442155}
 --- !u!1001 &370240664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7680,7 +7678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _towerFactory: {fileID: 11400000, guid: cb34cae7d0d44714e82eca9145d2cde0, type: 2}
-  _attackerFactory: {fileID: 0}
+  _attackerFactory: {fileID: 11400000, guid: d877841a83f1d2e4bae7a6436c97e1a0, type: 2}
 --- !u!1001 &857851667
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16688,6 +16686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moneyText: {fileID: 1946374335}
   _nextWaveButton: {fileID: 594185052}
+  _spawner: {fileID: 362556354}
 --- !u!1 &1928275516
 GameObject:
   m_ObjectHideFlags: 0

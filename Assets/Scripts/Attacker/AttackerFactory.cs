@@ -11,15 +11,29 @@ namespace Attacker
 
         [Inject] private IInstantiator _instantiator;
         
+        public int CountAttackers { get; private set; }
+
         public Attacker Get(AttackerData attackerData)
         {
+            Attacker newAttacker = null;
             switch (attackerData.Type)
             {
                 case AttackerType.Common:
-                    return _instantiator.InstantiatePrefab(_commonAttackerData.Prefab).GetComponent<Attacker>();
+                    newAttacker = _instantiator.InstantiatePrefab(_commonAttackerData.Prefab).GetComponent<Attacker>();
+                    break;
             }
 
-            return null;
+            if (newAttacker != null)
+                CountAttackers++;
+            
+            return newAttacker;
+        }
+
+        public void Reclaim(Attacker attacker)
+        {
+            CountAttackers--;
+
+            Destroy(attacker.gameObject);
         }
 
         public AttackerData GetAttackerData(AttackerType attackerType)

@@ -22,6 +22,7 @@ namespace Attacker
         protected virtual void Attack(Castle castle)
         {
             castle.TakeDamage(AttackerData.Damage);
+            Factory.Reclaim(this);
         }
     }
 }

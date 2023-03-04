@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using Defender.HUD;
 using UnityEngine;
 using Zenject;
 
@@ -6,59 +9,57 @@ namespace Attacker.Waves
 {
     public class Spawner : MonoBehaviour
     {
+        public event Action WaveEnded;
+        public event Action AllWavesEnded;
+
         [SerializeField] private List<Wave> _waves;
+        [SerializeField] private HUDManager _hudManager;
 
         [Inject] private AttackerFactory _attackerFactory;
-        
+
         private Wave _currentWave;
         private int _currentWaveIndex;
         private int _countSpawned;
 
-        private float _elapsedTime;
-
-        private void Start()
+        private void Awake()
         {
-            _currentWaveIndex = 0;
-            SetWave(_currentWaveIndex);
+            _currentWaveIndex = -1;
+            _hudManager.NextWaveTapped += OnNextWaveTapped;
         }
 
-        private void Update()
+        private void OnNextWaveTapped()
         {
-            if (_currentWave == null)
-                return;
+            StartNextWave();
+        }
 
-            _elapsedTime += Time.deltaTime;
+        private void StartNextWave()
+        {
+            _countSpawned = 0;
+            _currentWaveIndex++;
+            _currentWave = _waves[_currentWaveIndex];
+            StartCoroutine(SpawnCoroutine());
+        }
 
-            if (_elapsedTime >= _currentWave.DelayBetweenSpawn)
+        private IEnumerator SpawnCoroutine()
+        {
+            while (_currentWave.CountAttackers > _countSpawned)
             {
-                _elapsedTime = 0;
-                
                 var attacker = _attackerFactory.Get(_currentWave.AttackerData);
                 attacker.transform.position = transform.position;
-                
-                _countSpawned += 1;
+                _countSpawned++;
+                yield return new WaitForSeconds(_currentWave.DelayBetweenSpawn);
             }
 
-            if (_currentWave.CountAttackers <= _countSpawned)
+            yield return new WaitUntil(() => _attackerFactory.CountAttackers == 0);
+
+            if (_currentWaveIndex + 1 == _waves.Count)
             {
-                if (_currentWaveIndex + 1 < _waves.Count)
-                {
-                    SetWave(_currentWaveIndex + 1);
-                }
-                else
-                {
-                    _currentWave = null;
-                }
+                AllWavesEnded?.Invoke();
             }
-        }
-
-        private void SetWave(int index)
-        {
-            _currentWaveIndex = index;
-            _currentWave = _waves[index];
-            
-            _elapsedTime = 0;
-            _countSpawned = 0;
+            else
+            {
+                WaveEnded?.Invoke();
+            }
         }
     }
 }
