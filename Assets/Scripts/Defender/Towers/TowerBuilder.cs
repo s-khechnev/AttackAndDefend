@@ -120,13 +120,13 @@ namespace Defender.Towers
             var tower = _towerFactory.Get(_towerGhost.TowerData);
             tower.transform.position = _towerGhost.transform.position;
             
-            Destroy(_towerGhost.gameObject);
+            _towerFactory.Reclaim(_towerGhost);
         }
     
         private void CancelBuilding()
         {
             HideTileStates();
-            Destroy(_towerGhost.gameObject);
+            _towerFactory.Reclaim(_towerGhost);
         }
     }
 }

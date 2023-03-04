@@ -41,5 +41,15 @@ namespace Defender.Towers
 
             return null;
         }
+
+        public void Reclaim(Tower tower)
+        {
+            Destroy(tower.gameObject);
+        }
+        
+        public void Reclaim(TowerGhost tower)
+        {
+            Destroy(tower.gameObject);
+        }
     }
 }
