@@ -18,13 +18,13 @@ namespace ZenjectBinds
 
         private void InstallAttackerFactory()
         {
-            Container.Bind<AttackerFactory>().FromInstance(_attackerFactory).AsSingle();
+            Container.Bind<AttackerFactory>().FromNewScriptableObject(_attackerFactory).AsSingle();
             Container.QueueForInject(_attackerFactory);
         }
 
         private void InstallTowerFactory()
         {
-            Container.Bind<TowerFactory>().FromInstance(_towerFactory).AsSingle();
+            Container.Bind<TowerFactory>().FromNewScriptableObject(_towerFactory).AsSingle();
             Container.QueueForInject(_towerFactory);
         }
     }
