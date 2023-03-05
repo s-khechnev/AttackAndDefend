@@ -1,6 +1,6 @@
 using System;
 using Attackers.Waves;
-using Data.Towers;
+using Defender.Towers;
 using Models;
 using TMPro;
 using UnityEngine;
@@ -11,7 +11,7 @@ namespace Defender.HUD
 {
     public class HUDManager : MonoBehaviour
     {
-        public event Action<TowerData> BuildTowerTapped;
+        public event Action<Tower> BuildTowerTapped;
         public event Action NextWaveTapped;
 
         [SerializeField] private TMP_Text _moneyText;
@@ -73,9 +73,9 @@ namespace Defender.HUD
             _moneyText.text = money.ToString();
         }
 
-        private void OnBuildTowerTapped(TowerData towerData)
+        private void OnBuildTowerTapped(Tower tower)
         {
-            BuildTowerTapped?.Invoke(towerData);
+            BuildTowerTapped?.Invoke(tower);
         }
     }
 }

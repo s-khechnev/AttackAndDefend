@@ -1,5 +1,5 @@
 using System;
-using Data.Towers;
+using Defender.Towers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +8,9 @@ namespace Defender.HUD
     [RequireComponent(typeof(Button))]
     public class BuildTowerButton : MonoBehaviour
     {
-        public event Action<TowerData> BuildTowerTapped;
+        public event Action<Tower> BuildTowerTapped;
 
-        [SerializeField] private TowerData _towerData;
+        [SerializeField] private Tower _towerToBuild;
 
         private Button _button;
 
@@ -31,7 +31,7 @@ namespace Defender.HUD
 
         private void OnClick()
         {
-            BuildTowerTapped?.Invoke(_towerData);
+            BuildTowerTapped?.Invoke(_towerToBuild);
         }
     }
 }

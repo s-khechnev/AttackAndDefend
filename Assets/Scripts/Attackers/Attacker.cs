@@ -8,8 +8,10 @@ namespace Attackers
     public abstract class Attacker : MonoBehaviour
     {
         [Inject] protected AttackerFactory Factory;
-        public abstract AttackerType Type { get; }
-        public AttackerData AttackerData => Factory.GetAttackerData(Type);
+
+        [SerializeField] private AttackerData _attackerData;
+
+        public AttackerData AttackerData => _attackerData;
 
         private void OnTriggerEnter(Collider other)
         {

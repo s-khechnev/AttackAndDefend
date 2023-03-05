@@ -6,8 +6,10 @@ namespace Defender.Towers
 {
     public abstract class Tower : MonoBehaviour
     {
+        [SerializeField] private TowerData _towerData;
+        
         [Inject] protected TowerFactory Factory;
-        public abstract TowerType Type { get; }
-        public TowerData TowerData => Factory.GetTowerData(Type);
+
+        public TowerData TowerData => _towerData;
     }
 }

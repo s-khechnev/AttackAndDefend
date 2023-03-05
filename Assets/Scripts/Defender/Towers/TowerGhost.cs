@@ -1,5 +1,4 @@
-﻿using Data.Towers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Defender.Towers
 {
@@ -11,11 +10,12 @@ namespace Defender.Towers
 
     public class TowerGhost : MonoBehaviour
     {
-        public TowerData TowerData { get; set; }
+        public Tower Tower { get; set; }
 
         private Renderer _renderer;
         private readonly Color _availablePlaceColor = Color.green;
         private readonly Color _unavailablePlaceColor = Color.red;
+        private readonly Color _normalColor = Color.white;
 
         private void Awake()
         {
@@ -33,6 +33,11 @@ namespace Defender.Towers
                     _renderer.material.color = _unavailablePlaceColor;
                     break;
             }
+        }
+
+        private void OnDestroy()
+        {
+            _renderer.material.color = _normalColor;
         }
     }
 }

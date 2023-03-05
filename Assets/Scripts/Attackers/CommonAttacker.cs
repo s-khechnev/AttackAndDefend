@@ -1,9 +1,6 @@
-﻿using Data.Attackers;
-
-namespace Attackers
+﻿namespace Attackers
 {
-    public class CommonAttacker : Attackers.Attacker
+    public class CommonAttacker : Attacker
     {
-        public override AttackerType Type => AttackerType.Common;
     }
 }

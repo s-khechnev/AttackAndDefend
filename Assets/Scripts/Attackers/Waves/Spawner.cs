@@ -44,7 +44,7 @@ namespace Attackers.Waves
         {
             while (_currentWave.CountAttackers > _countSpawned)
             {
-                var attacker = _attackerFactory.Get(_currentWave.AttackerData);
+                var attacker = _attackerFactory.Get(_currentWave.Attacker);
                 attacker.transform.position = transform.position;
                 _countSpawned++;
                 yield return new WaitForSeconds(_currentWave.DelayBetweenSpawn);

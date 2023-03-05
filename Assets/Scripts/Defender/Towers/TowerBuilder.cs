@@ -1,5 +1,4 @@
-﻿using Data.Towers;
-using Defender.HUD;
+﻿using Defender.HUD;
 using Models;
 using UnityEngine;
 using Zenject;
@@ -38,13 +37,13 @@ namespace Defender.Towers
             _hudManager.BuildTowerTapped += OnBuildTowerStart;
         }
 
-        private void OnBuildTowerStart(TowerData towerData)
+        private void OnBuildTowerStart(Tower tower)
         {
-            if (_towerGhost == null && _wallet.IsEnoughMoney(towerData.Cost))
+            if (_towerGhost == null && _wallet.IsEnoughMoney(tower.TowerData.Cost))
             {
                 ShowTileStates();
 
-                _towerGhost = _towerFactory.GetTowerGhost(towerData);
+                _towerGhost = _towerFactory.GetTowerGhost(tower);
             }
         }
 
@@ -112,13 +111,10 @@ namespace Defender.Towers
 
         private void PlaceTower()
         {
-            _wallet.Purchase(_towerGhost.TowerData.Cost);
+            _wallet.Purchase(_towerGhost.Tower.TowerData.Cost);
             
             _assumedTilePlacement.SetState(PlacementTileState.Filled);
             HideTileStates();
-
-            var tower = _towerFactory.Get(_towerGhost.TowerData);
-            tower.transform.position = _towerGhost.transform.position;
             
             _towerFactory.Reclaim(_towerGhost);
         }
@@ -126,7 +122,7 @@ namespace Defender.Towers
         private void CancelBuilding()
         {
             HideTileStates();
-            _towerFactory.Reclaim(_towerGhost);
+            _towerFactory.Reclaim(_towerGhost.Tower);
         }
     }
 }
