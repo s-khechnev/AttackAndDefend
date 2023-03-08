@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: CommonAttacker
   m_EditorClassIdentifier: 
   _damage: 5
-  _speed: 48
-  _prefab: {fileID: 7734162432440732998, guid: 643ca7385848b2d47acebe2f79ddc9a3, type: 3}
-  _attackerType: 0
+  _speed: 3
+  _health: 0

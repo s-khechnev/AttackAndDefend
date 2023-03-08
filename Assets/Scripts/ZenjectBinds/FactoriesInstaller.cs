@@ -9,11 +9,19 @@ namespace ZenjectBinds
     {
         [SerializeField] private TowerFactory _towerFactory;
         [SerializeField] private AttackerFactory _attackerFactory;
+        [SerializeField] private WarFactory _warFactory;
 
         public override void InstallBindings()
         {
             InstallAttackerFactory();
             InstallTowerFactory();
+            InstallWarFactory();
+        }
+
+        private void InstallWarFactory()
+        {
+            Container.Bind<WarFactory>().FromNewScriptableObject(_warFactory).AsSingle();
+            Container.QueueForInject(_warFactory);
         }
 
         private void InstallAttackerFactory()

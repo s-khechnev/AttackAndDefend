@@ -13,7 +13,7 @@ namespace Defender.HUD
             _slider = GetComponent<Slider>();
         }
 
-        protected void OnValueChanged(int value, int maxValue)
+        protected void ChangeValue(int value, int maxValue)
         {
             _slider.value = (float)value / maxValue;
         }

@@ -3386,11 +3386,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waves:
   - _attacker: {fileID: 7734162432440732998, guid: 643ca7385848b2d47acebe2f79ddc9a3, type: 3}
-    _countAttackers: 1
-    _delayBetweenSpawn: 0.1
+    _countAttackers: 22
+    _delayBetweenSpawn: 1
   - _attacker: {fileID: 7734162432440732998, guid: 643ca7385848b2d47acebe2f79ddc9a3, type: 3}
-    _countAttackers: 3
-    _delayBetweenSpawn: 0.1
+    _countAttackers: 123
+    _delayBetweenSpawn: 1
   _hudManager: {fileID: 1927442155}
 --- !u!1001 &370240664
 PrefabInstance:
@@ -7679,6 +7679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _towerFactory: {fileID: 11400000, guid: cb34cae7d0d44714e82eca9145d2cde0, type: 2}
   _attackerFactory: {fileID: 11400000, guid: d877841a83f1d2e4bae7a6436c97e1a0, type: 2}
+  _warFactory: {fileID: 11400000, guid: 424e74d532c44aa42b39ce0e59d1828b, type: 2}
 --- !u!1001 &857851667
 PrefabInstance:
   m_ObjectHideFlags: 0

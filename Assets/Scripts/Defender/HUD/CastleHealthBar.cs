@@ -14,7 +14,7 @@ namespace Defender.HUD
 
         private void OnHealthChanged(int value, int maxValue)
         {
-            OnValueChanged(value, maxValue);
+            ChangeValue(value, maxValue);
         }
     }
 }
