@@ -21,7 +21,7 @@ namespace Defender.Towers
 
         private SphereCollider _rangeCollider;
         private Queue<Attacker> _attackersQueue;
-        private float _elapsedTime;
+        private float _elapsedTimeFromShoot;
 
         private float AttackRange => _towerData.AttackRange;
         private float Cooldown => _towerData.Cooldown;
@@ -35,6 +35,8 @@ namespace Defender.Towers
             _rangeCollider.radius = AttackRange;
 
             _attackersQueue = new();
+
+            _elapsedTimeFromShoot = Cooldown;
         }
 
         private void Update()
@@ -44,15 +46,15 @@ namespace Defender.Towers
                 Target = _attackersQueue.Dequeue();
             }
 
+            _elapsedTimeFromShoot += Time.deltaTime;
             if (Target != null)
             {
                 _pivot.LookAt(Target.transform);
-
-                _elapsedTime += Time.deltaTime;
-                if (_elapsedTime >= Cooldown)
+                
+                if (_elapsedTimeFromShoot >= Cooldown)
                 {
                     Shoot();
-                    _elapsedTime = 0;
+                    _elapsedTimeFromShoot = 0;
                 }
             }
         }
