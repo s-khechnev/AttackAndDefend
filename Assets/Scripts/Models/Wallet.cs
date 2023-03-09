@@ -31,5 +31,11 @@ namespace Models
             
             MoneyChanged?.Invoke(Money);
         }
+
+        public void AddMoney(int amount)
+        {
+            Money += amount;
+            MoneyChanged?.Invoke(Money);
+        }
     }
 }

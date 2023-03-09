@@ -8,7 +8,7 @@ namespace Attackers
 {
     public abstract class Attacker : MonoBehaviour
     {
-        public event Action Died;
+        public event Action<Attacker> Died;
         public event Action<int, int> HealthChanged;
 
         [Inject] protected AttackerFactory Factory;
@@ -44,8 +44,7 @@ namespace Attackers
 
             if (Health <= 0)
             {
-                Died?.Invoke();
-                Factory.Reclaim(this);
+                Died?.Invoke(this);
             }
         }
     }
