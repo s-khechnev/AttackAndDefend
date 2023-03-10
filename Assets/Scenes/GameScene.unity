@@ -3385,12 +3385,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waves:
-  - _attacker: {fileID: 7734162432440732998, guid: 643ca7385848b2d47acebe2f79ddc9a3, type: 3}
-    _countAttackers: 22
-    _delayBetweenSpawn: 1
-  - _attacker: {fileID: 7734162432440732998, guid: 643ca7385848b2d47acebe2f79ddc9a3, type: 3}
-    _countAttackers: 123
-    _delayBetweenSpawn: 1
+  - _attackers:
+      m_keys:
+      - {fileID: 7734162432440732998, guid: 643ca7385848b2d47acebe2f79ddc9a3, type: 3}
+      - {fileID: 7734162432440732998, guid: d97714996f3a0494d8ed5c5febf89058, type: 3}
+      m_values: 0a0000000b000000
+    _delayBetweenSpawn: 0.5
   _hudManager: {fileID: 1927442155}
 --- !u!1001 &370240664
 PrefabInstance:

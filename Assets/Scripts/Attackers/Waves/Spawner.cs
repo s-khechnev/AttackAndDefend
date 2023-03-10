@@ -19,7 +19,6 @@ namespace Attackers.Waves
 
         private Wave _currentWave;
         private int _currentWaveIndex;
-        private int _countSpawned;
 
         private void Awake()
         {
@@ -34,7 +33,6 @@ namespace Attackers.Waves
 
         private void StartNextWave()
         {
-            _countSpawned = 0;
             _currentWaveIndex++;
             _currentWave = _waves[_currentWaveIndex];
             StartCoroutine(SpawnCoroutine());
@@ -42,12 +40,14 @@ namespace Attackers.Waves
 
         private IEnumerator SpawnCoroutine()
         {
-            while (_currentWave.CountAttackers > _countSpawned)
+            foreach (var attackerPrefab in _currentWave.Attackers.Keys)       
             {
-                var attacker = _attackerFactory.Get(_currentWave.Attacker);
-                attacker.transform.position = transform.position;
-                _countSpawned++;
-                yield return new WaitForSeconds(_currentWave.DelayBetweenSpawn);
+                for (int i = 0; i < _currentWave.Attackers[attackerPrefab]; i++)
+                {
+                    var attacker = _attackerFactory.Get(attackerPrefab);
+                    attacker.transform.position = transform.position;
+                    yield return new WaitForSeconds(_currentWave.DelayBetweenSpawn);
+                }
             }
 
             yield return new WaitUntil(() => _attackerFactory.CountAttackers == 0);
