@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Defender.HUD
 {
-    public class HUDManager : MonoBehaviour
+    public class DefenderHUD : MonoBehaviour
     {
         public event Action<Tower> BuildTowerTapped;
 

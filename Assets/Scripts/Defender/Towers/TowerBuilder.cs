@@ -7,7 +7,7 @@ namespace Defender.Towers
 {
     public class TowerBuilder : MonoBehaviour
     {
-        [SerializeField] private HUDManager _hudManager;
+        [SerializeField] private DefenderHUD _defenderHUD;
 
         private TilePlacement[] _tiles;
         private Camera _mainCamera;
@@ -34,7 +34,7 @@ namespace Defender.Towers
 
         private void SubscribeEvents()
         {
-            _hudManager.BuildTowerTapped += OnBuildTowerStart;
+            _defenderHUD.BuildTowerTapped += OnBuildTowerStart;
         }
 
         private void OnBuildTowerStart(Tower tower)

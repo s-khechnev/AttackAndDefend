@@ -9,7 +9,7 @@ namespace UI.Lobby
     {
         public static LobbyUIManager Instance { get; private set; }
 
-        public event Action StartGame;
+        public event Action<GameMode> StartTapped;
 
         [SerializeField] private Button _startButton;
 
@@ -48,7 +48,7 @@ namespace UI.Lobby
         private void OnStartClick()
         {
             SceneManager.LoadSceneAsync("GameScene");
-            StartGame?.Invoke();
+            StartTapped?.Invoke(GameMode.Defender);
         }
     }
 }
