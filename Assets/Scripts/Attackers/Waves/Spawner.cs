@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Defender.HUD;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +12,6 @@ namespace Attackers.Waves
         public event Action AllWavesEnded;
 
         [SerializeField] private List<Wave> _waves;
-        [SerializeField] private HUDManager _hudManager;
 
         [Inject] private AttackerFactory _attackerFactory;
 
@@ -23,7 +21,6 @@ namespace Attackers.Waves
         private void Awake()
         {
             _currentWaveIndex = -1;
-            _hudManager.NextWaveTapped += OnNextWaveTapped;
         }
 
         private void OnNextWaveTapped()
@@ -31,7 +28,7 @@ namespace Attackers.Waves
             StartNextWave();
         }
 
-        private void StartNextWave()
+        public void StartNextWave()
         {
             _currentWaveIndex++;
             _currentWave = _waves[_currentWaveIndex];

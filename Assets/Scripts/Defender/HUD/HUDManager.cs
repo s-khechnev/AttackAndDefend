@@ -12,13 +12,13 @@ namespace Defender.HUD
     public class HUDManager : MonoBehaviour
     {
         public event Action<Tower> BuildTowerTapped;
-        public event Action NextWaveTapped;
 
         [SerializeField] private TMP_Text _moneyText;
         [SerializeField] private Button _nextWaveButton;
-        [SerializeField] private Spawner _spawner;
-
+        
+        [Inject] private Spawner _spawner;
         [Inject] private Wallet _wallet;
+        
         private BuildTowerButton[] _buildTowerButtons;
 
         private void Awake()
@@ -65,7 +65,7 @@ namespace Defender.HUD
         private void OnNextWaveTapped()
         {
             _nextWaveButton.gameObject.SetActive(false);
-            NextWaveTapped?.Invoke();
+            _spawner.StartNextWave();
         }
 
         private void OnMoneyChanged(int money)
