@@ -13,12 +13,13 @@ namespace Defender.HUD
     {
         public event Action<Tower> BuildTowerTapped;
 
+        [SerializeField] private TowerUpgrader _towerUpgradePanel;
         [SerializeField] private TMP_Text _moneyText;
         [SerializeField] private Button _nextWaveButton;
-        
+
         [Inject] private Spawner _spawner;
         [Inject] private Wallet _wallet;
-        
+
         private BuildTowerButton[] _buildTowerButtons;
 
         private void Awake()
@@ -35,6 +36,7 @@ namespace Defender.HUD
 
         private void Init()
         {
+            _towerUpgradePanel.gameObject.SetActive(false);
             OnMoneyChanged(_wallet.Money);
         }
 
@@ -76,6 +78,12 @@ namespace Defender.HUD
         private void OnBuildTowerTapped(Tower tower)
         {
             BuildTowerTapped?.Invoke(tower);
+        }
+
+        public void OnTowerTapped(Tower tower)
+        {
+            _towerUpgradePanel.gameObject.SetActive(true);
+            _towerUpgradePanel.Init(tower);
         }
     }
 }

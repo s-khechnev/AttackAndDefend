@@ -4,11 +4,14 @@ using Zenject;
 
 public class GameUI : MonoBehaviour
 {
-    [SerializeField] private DefenderHUD _defenderHUD;
-
-    [Inject] private IInstantiator _instantiator;
+    [Inject] private DefenderHUD _defenderHUD;
 
     private void Awake()
+    {
+        _defenderHUD.gameObject.SetActive(false);
+    }
+
+    private void Start()
     {
         Init();
     }
@@ -25,6 +28,6 @@ public class GameUI : MonoBehaviour
 
     private void InitDefender()
     {
-        _instantiator.InstantiatePrefab(_defenderHUD);
+        _defenderHUD.gameObject.SetActive(true);
     }
 }

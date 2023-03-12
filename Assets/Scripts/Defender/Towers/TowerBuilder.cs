@@ -89,9 +89,7 @@ namespace Defender.Towers
 
             if (Physics.Raycast(ray, out RaycastHit hit, 50f, _groundLayerMask))
             {
-                var tilePlacement = hit.collider.gameObject.GetComponent(typeof(TilePlacement)) as TilePlacement;
-                
-                if (tilePlacement != null && tilePlacement.CurrentState == PlacementTileState.Empty)
+                if (hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement) && tilePlacement.CurrentState == PlacementTileState.Empty)
                 {
                     _assumedTilePlacement = tilePlacement;
                     _towerGhost.SetState(PlacementTowerState.Available);
