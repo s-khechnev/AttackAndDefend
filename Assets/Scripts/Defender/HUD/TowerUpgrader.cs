@@ -1,8 +1,9 @@
-﻿using System;
-using Defender.Towers;
+﻿using Data.Towers;
+using Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Defender.HUD
 {
@@ -13,13 +14,16 @@ namespace Defender.HUD
         [SerializeField] private Button _upgradeRangeButton;
         [SerializeField] private Button _upgradeCooldownButton;
         [SerializeField] private Button _closeButton;
-        
-        private Tower _tower;
-        
-        public void Init(Tower towerToUpgrade)
+
+        [Inject] private Wallet _wallet;
+
+        private TowerData _towerData;
+
+        public void Init(TowerData towerToUpgrade)
         {
-            _tower = towerToUpgrade;
-            _towerName.text = _tower.GetInstanceID().ToString();
+            _towerData = towerToUpgrade;
+
+            _towerName.text = _towerData.Name;
         }
 
         private void OnEnable()
@@ -37,7 +41,7 @@ namespace Defender.HUD
             _upgradeCooldownButton.onClick.RemoveListener(OnUpgradeCooldownButtonClick);
             _closeButton.onClick.RemoveListener(OnCloseButtonClick);
         }
-        
+
         private void OnCloseButtonClick()
         {
             gameObject.SetActive(false);
@@ -45,17 +49,29 @@ namespace Defender.HUD
 
         private void OnUpgradeDamageButtonClick()
         {
-            throw new NotImplementedException();
+            if (!_wallet.IsEnoughMoney(_towerData.Damage.CostUpgrade) || !_towerData.Damage.CanUpgrade)
+                return;
+
+            _wallet.Purchase(_towerData.Damage.CostUpgrade);
+            _towerData.UpgradeDamage();
         }
-        
+
         private void OnUpgradeRangeButtonClick()
         {
-            throw new NotImplementedException();
+            if (!_wallet.IsEnoughMoney(_towerData.Range.CostUpgrade) || !_towerData.Range.CanUpgrade)
+                return;
+
+            _wallet.Purchase(_towerData.Range.CostUpgrade);
+            _towerData.UpgradeRange();
         }
 
         private void OnUpgradeCooldownButtonClick()
         {
-            throw new NotImplementedException();
+            if (!_wallet.IsEnoughMoney(_towerData.Cooldown.CostUpgrade) || !_towerData.Cooldown.CanUpgrade)
+                return;
+
+            _wallet.Purchase(_towerData.Cooldown.CostUpgrade);
+            _towerData.UpgradeCooldown();
         }
     }
 }

@@ -18907,7 +18907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d723bd3e8aa2f499c35143b2d6ea38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerUpgradePanel: {fileID: 2579703487988869046}
+  _towerUpgrader: {fileID: 7878479938599750994}
   _moneyText: {fileID: 525880814211533068}
   _nextWaveButton: {fileID: 525880812817371887}
 --- !u!224 &525880814184216409
@@ -19229,7 +19229,7 @@ GameObject:
   - component: {fileID: 2635355533463099826}
   - component: {fileID: 7878479938599750993}
   - component: {fileID: 2779187121458183668}
-  - component: {fileID: 2579703487988869046}
+  - component: {fileID: 7878479938599750994}
   m_Layer: 5
   m_Name: TowerUpgradePanel
   m_TagString: Untagged
@@ -19449,23 +19449,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2579703487988869046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 670515767274072753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d920ce8714b84ba18c62533a6f89b563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _towerName: {fileID: 1874430987}
-  _upgradeDamageButton: {fileID: 4414815011773824601}
-  _upgradeRangeButton: {fileID: 4043818586480716282}
-  _upgradeCooldownButton: {fileID: 1852664098742850523}
-  _closeButton: {fileID: 1212435577}
 --- !u!224 &2635355533463099826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19836,6 +19819,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670515767274072753}
   m_CullTransparentMesh: 1
+--- !u!114 &7878479938599750994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670515767274072753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011b64eb6f6f4eabbc47a497d93654d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _towerName: {fileID: 1874430987}
+  _upgradeDamageButton: {fileID: 4414815011773824601}
+  _upgradeRangeButton: {fileID: 4043818586480716282}
+  _upgradeCooldownButton: {fileID: 1852664098742850523}
+  _closeButton: {fileID: 1212435577}
 --- !u!222 &7942647805932081898
 CanvasRenderer:
   m_ObjectHideFlags: 0

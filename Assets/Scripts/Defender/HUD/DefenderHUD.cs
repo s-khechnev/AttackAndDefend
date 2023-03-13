@@ -1,5 +1,6 @@
 using System;
 using Attackers.Waves;
+using Data.Towers;
 using Defender.Towers;
 using Models;
 using TMPro;
@@ -13,7 +14,7 @@ namespace Defender.HUD
     {
         public event Action<Tower> BuildTowerTapped;
 
-        [SerializeField] private TowerUpgrader _towerUpgradePanel;
+        [SerializeField] private TowerUpgrader _towerUpgrader;
         [SerializeField] private TMP_Text _moneyText;
         [SerializeField] private Button _nextWaveButton;
 
@@ -24,7 +25,7 @@ namespace Defender.HUD
 
         private void Awake()
         {
-            _buildTowerButtons = FindObjectsOfType<BuildTowerButton>();
+             _buildTowerButtons = FindObjectsOfType<BuildTowerButton>();
 
             SubscribeEvents();
         }
@@ -36,7 +37,7 @@ namespace Defender.HUD
 
         private void Init()
         {
-            _towerUpgradePanel.gameObject.SetActive(false);
+            _towerUpgrader.gameObject.SetActive(false);
             OnMoneyChanged(_wallet.Money);
         }
 
@@ -80,10 +81,10 @@ namespace Defender.HUD
             BuildTowerTapped?.Invoke(tower);
         }
 
-        public void OnTowerTapped(Tower tower)
+        public void OnTowerTapped(TowerData towerData)
         {
-            _towerUpgradePanel.gameObject.SetActive(true);
-            _towerUpgradePanel.Init(tower);
+            _towerUpgrader.gameObject.SetActive(true);
+            _towerUpgrader.Init(towerData);
         }
     }
 }

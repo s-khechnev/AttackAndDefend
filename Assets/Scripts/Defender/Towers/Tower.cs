@@ -8,7 +8,7 @@ namespace Defender.Towers
 {
     public abstract class Tower : MonoBehaviour
     {
-        public Action<Tower> TowerTapped;
+        public Action<TowerData> TowerTapped;
 
         [Inject] protected TowerFactory TowerFactory;
         [Inject] protected WarFactory WarFactory;
@@ -26,9 +26,11 @@ namespace Defender.Towers
 
         private void Awake()
         {
+            _towerData = Instantiate(_towerData);
+
             _targetFinder = GetComponentInChildren<TargetFinder>();
 
-            _elapsedTimeFromShoot = _towerData.Cooldown;
+            _elapsedTimeFromShoot = _towerData.Cooldown.Value;
         }
 
         private void Update()
@@ -39,7 +41,7 @@ namespace Defender.Towers
             {
                 _pivot.LookAt(_targetFinder.Target.transform);
 
-                if (_elapsedTimeFromShoot >= _towerData.Cooldown)
+                if (_elapsedTimeFromShoot >= _towerData.Cooldown.Value)
                 {
                     Shoot(_targetFinder.Target);
                     _elapsedTimeFromShoot = 0;
@@ -50,7 +52,7 @@ namespace Defender.Towers
         private void OnMouseDown()
         {
             if (isActiveAndEnabled)
-                TowerTapped?.Invoke(this);
+                TowerTapped?.Invoke(_towerData);
         }
     }
 }

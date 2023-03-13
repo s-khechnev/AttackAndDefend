@@ -14,5 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: "\u041E\u0431\u044B\u0447\u043D\u0430\u044F \u0431\u0430\u0448\u043D\u044F"
   _cost: 10
-  _attackRange: 4
-  _cooldown: 1
+  _attackRange:
+    _value: 4
+    _costUpgrade: 10
+    _upgradeUnit: 0.5
+    _maxLevel: 10
+  _cooldown:
+    _value: 1
+    _costUpgrade: 10
+    _upgradeUnit: -0.05
+    _maxLevel: 10

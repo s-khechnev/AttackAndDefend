@@ -7,11 +7,13 @@ namespace Defender.Towers
 {
     public class Bullet : MonoBehaviour
     {
-        [SerializeField, Range(1, 10)] private int _damage;
         [SerializeField, Range(1, 50)] private int _speed;
-        
-        public void Launch(Attacker attacker)
+
+        private int _damage;
+
+        public void Launch(Attacker attacker, float damage)
         {
+            _damage = (int)damage;
             StartCoroutine(LaunchCoroutine(attacker));
         }
 
@@ -23,7 +25,7 @@ namespace Defender.Towers
                 transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
                 yield return null;
             }
-            
+
             Destroy(gameObject);
         }
 
