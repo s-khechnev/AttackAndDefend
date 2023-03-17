@@ -24,3 +24,8 @@ MonoBehaviour:
     _costUpgrade: 10
     _upgradeUnit: -0.05
     _maxLevel: 10
+  _damage:
+    _value: 5
+    _costUpgrade: 10
+    _upgradeUnit: 1
+    _maxLevel: 10

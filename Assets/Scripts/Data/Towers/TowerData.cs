@@ -4,46 +4,64 @@ using UnityEngine;
 namespace Data.Towers
 {
     [Serializable]
-    public class TowerAttribute
+    public abstract class TowerAttribute<T>
     {
-        [SerializeField] private float _value;
+        [SerializeField] protected T _value;
         [SerializeField] private int _costUpgrade = 2;
-        [SerializeField] private float _upgradeUnit;
+        [SerializeField] protected T _upgradeUnit;
         [SerializeField] private int _maxLevel;
-        private int _currentLevel;
+        protected int CurrentLevel;
 
-        public float Value => _value;
+        public T Value => _value;
         public int CostUpgrade => _costUpgrade;
-        public bool CanUpgrade => _currentLevel < _maxLevel;
+        public bool CanUpgrade => CurrentLevel < _maxLevel;
 
-        public void Upgrade()
+        public abstract void Upgrade();
+    }
+
+    [Serializable]
+    public class IntTowerAttribute : TowerAttribute<int>
+    {
+        public override void Upgrade()
         {
             if (!CanUpgrade)
                 throw new Exception("Already max level");
-            
+
             _value += _upgradeUnit;
-            _currentLevel++;
+            CurrentLevel++;
         }
     }
-    
+
+    [Serializable]
+    public class FloatTowerAttribute : TowerAttribute<float>
+    {
+        public override void Upgrade()
+        {
+            if (!CanUpgrade)
+                throw new Exception("Already max level");
+
+            _value += _upgradeUnit;
+            CurrentLevel++;
+        }
+    }
+
     [CreateAssetMenu(fileName = "TowerData", menuName = "ScriptableObjects/Tower")]
     public class TowerData : ScriptableObject
     {
-        public event Action TowerRangeChanged; 
+        public event Action TowerRangeChanged;
 
         [SerializeField] private string _name;
         [SerializeField] private int _cost;
-        
-        [SerializeField] private TowerAttribute _attackRange;
-        [SerializeField] private TowerAttribute _cooldown;
-        [SerializeField] private TowerAttribute _damage;
+        [SerializeField] private FloatTowerAttribute _attackRange;
+        [SerializeField] private FloatTowerAttribute _cooldown;
+        [SerializeField] private IntTowerAttribute _damage;
 
         public string Name => _name;
         public int Cost => _cost;
 
-        public TowerAttribute Range => _attackRange;
-        public TowerAttribute Cooldown => _cooldown;
-        public TowerAttribute Damage => _damage;
+        public FloatTowerAttribute Range => _attackRange;
+        public FloatTowerAttribute Cooldown => _cooldown;
+        public IntTowerAttribute Damage => _damage;
 
         public void UpgradeRange()
         {

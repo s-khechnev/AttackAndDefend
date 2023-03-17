@@ -11,9 +11,9 @@ namespace Defender.Towers
 
         private int _damage;
 
-        public void Launch(Attacker attacker, float damage)
+        public void Launch(Attacker attacker, int damage)
         {
-            _damage = (int)damage;
+            _damage = damage;
             StartCoroutine(LaunchCoroutine(attacker));
         }
 
