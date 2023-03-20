@@ -10,21 +10,21 @@ namespace Defender.Towers
     public class TargetFinder : MonoBehaviour
     {
         public Attacker Target { get; private set; }
-        
+
         private SphereCollider _rangeCollider;
         private TowerData _towerData;
         private float _attackRange;
-        
+
         private Queue<Attacker> _attackersQueue;
-        
+
         private void Awake()
         {
             _towerData = transform.parent.GetComponent<Tower>().TowerData;
             _towerData.TowerRangeChanged += OnTowerRangeChanged;
-            
+
             _rangeCollider = GetComponent<SphereCollider>();
             InitRange();
-            
+
             _attackersQueue = new();
         }
 
@@ -46,7 +46,7 @@ namespace Defender.Towers
                 Target = _attackersQueue.Dequeue();
             }
         }
-        
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.TryGetComponent(out Attacker attacker))
@@ -61,7 +61,7 @@ namespace Defender.Towers
             {
                 if (Target == attacker)
                     Target = null;
-                else
+                else if (_attackersQueue.Count != 0)
                     _attackersQueue.Dequeue();
             }
         }

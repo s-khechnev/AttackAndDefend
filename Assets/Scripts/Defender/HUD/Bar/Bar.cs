@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Defender.HUD
+namespace Defender.HUD.Bar
 {
     [RequireComponent(typeof(Slider))]
     public abstract class Bar : MonoBehaviour

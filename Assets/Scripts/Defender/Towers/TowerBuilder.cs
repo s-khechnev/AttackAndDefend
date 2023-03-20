@@ -7,8 +7,6 @@ namespace Defender.Towers
 {
     public class TowerBuilder : MonoBehaviour
     {
-        [SerializeField] private DefenderHUD _defenderHUD;
-
         private TilePlacement[] _tiles;
         private Camera _mainCamera;
 
@@ -28,16 +26,9 @@ namespace Defender.Towers
             _mainCamera = Camera.main;
             
             _groundLayerMask = 1 << LayerMask.NameToLayer(GroundLayer);
-            
-            SubscribeEvents();
         }
 
-        private void SubscribeEvents()
-        {
-            _defenderHUD.BuildTowerTapped += OnBuildTowerStart;
-        }
-
-        private void OnBuildTowerStart(Tower tower)
+        public void StartBuildTower(Tower tower)
         {
             if (_towerGhost == null && _wallet.IsEnoughMoney(tower.TowerData.Cost))
             {
@@ -85,7 +76,7 @@ namespace Defender.Towers
 
         private void Building()
         {
-            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 50f, _groundLayerMask))
             {

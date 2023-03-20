@@ -1,5 +1,4 @@
-﻿using System;
-using Models;
+﻿using Models;
 using UnityEngine;
 using Zenject;
 
@@ -9,11 +8,11 @@ namespace Attackers
     public class AttackerFactory : ScriptableObject
     {
         public int CountAttackers { get; private set; }
-        
+
         [Inject] private IInstantiator _instantiator;
         [Inject] private Wallet _wallet;
 
-        private const string AttackerLayerName = "Attacker"; 
+        private const string AttackerLayerName = "Attacker";
 
         public Attacker Get(Attacker attacker)
         {

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UI.Lobby;
+﻿using UI.Lobby;
 using UnityEngine;
 
 public enum GameMode
@@ -11,16 +10,16 @@ public enum GameMode
 public class GameManager : MonoBehaviour
 {
     public GameMode GameMode { get; private set; }
-    
+
     public static GameManager Instance { get; private set; }
-    
+
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
             Destroy(gameObject);
-        
+
         DontDestroyOnLoad(this);
     }
 

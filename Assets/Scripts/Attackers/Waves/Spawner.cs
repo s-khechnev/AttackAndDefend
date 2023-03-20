@@ -18,14 +18,11 @@ namespace Attackers.Waves
         private Wave _currentWave;
         private int _currentWaveIndex;
 
+        public bool IsWavesEnded => _currentWaveIndex + 1 == _waves.Count;
+
         private void Awake()
         {
             _currentWaveIndex = -1;
-        }
-
-        private void OnNextWaveTapped()
-        {
-            StartNextWave();
         }
 
         public void StartNextWave()
@@ -37,7 +34,7 @@ namespace Attackers.Waves
 
         private IEnumerator SpawnCoroutine()
         {
-            foreach (var attackerPrefab in _currentWave.Attackers.Keys)       
+            foreach (var attackerPrefab in _currentWave.Attackers.Keys)
             {
                 for (int i = 0; i < _currentWave.Attackers[attackerPrefab]; i++)
                 {

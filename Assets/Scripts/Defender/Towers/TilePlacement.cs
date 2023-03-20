@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Defender.HUD
+namespace Defender.Towers
 {
     public enum PlacementTileState
     {

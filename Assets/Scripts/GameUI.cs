@@ -1,17 +1,15 @@
-﻿using Defender.HUD;
+﻿using System;
+using Defender.HUD;
 using UnityEngine;
 using Zenject;
 
 public class GameUI : MonoBehaviour
 {
-    [Inject] private DefenderHUD _defenderHUD;
+    [SerializeField] private DefenderGUIManager _defenderGUIManager;
+
+    [Inject] private IInstantiator _instantiator;
 
     private void Awake()
-    {
-        _defenderHUD.gameObject.SetActive(false);
-    }
-
-    private void Start()
     {
         Init();
     }
@@ -21,13 +19,25 @@ public class GameUI : MonoBehaviour
 #if UNITY_EDITOR
         InitDefender();
 #else
-        if (GameManager.Instance.GameMode == GameMode.Defender)
-            InitDefender();
+        switch (GameManager.Instance.GameMode)
+        {
+            case GameMode.Defender:
+                InitDefender();
+                break;
+            case GameMode.Attacker:
+                InitAttacker();
+                break;
+        }
 #endif
     }
 
     private void InitDefender()
     {
-        _defenderHUD.gameObject.SetActive(true);
+        _instantiator.InstantiatePrefab(_defenderGUIManager, transform);
+    }
+
+    private void InitAttacker()
+    {
+        throw new NotImplementedException();
     }
 }

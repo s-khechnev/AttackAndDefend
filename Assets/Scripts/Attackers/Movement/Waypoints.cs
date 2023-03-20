@@ -13,6 +13,7 @@ namespace Attackers.Movement
             {
                 return transform.GetChild(currentPoint.GetSiblingIndex() + 1);
             }
+
             return null;
         }
     }

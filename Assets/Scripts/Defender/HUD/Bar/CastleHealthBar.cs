@@ -1,7 +1,7 @@
 ﻿using Models;
 using Zenject;
 
-namespace Defender.HUD
+namespace Defender.HUD.Bar
 {
     public class CastleHealthBar : Bar
     {
