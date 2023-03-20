@@ -4,18 +4,29 @@ namespace Defender.HUD.Bar
 {
     public class TowerAttributeBar : Bar
     {
-        private ILevelChanger _levelChanger;
+        private ILevelChanger _towerAttribute;
 
-        public void Init(ILevelChanger levelChanger)
+        public void Init(ILevelChanger towerAttribute)
         {
-            _levelChanger = levelChanger;
-            _levelChanger.LevelChanged += OnLevelChanged;
-            OnLevelChanged(_levelChanger.CurrentLevel, _levelChanger.MaxLevel);
+            _towerAttribute = towerAttribute;
+            _towerAttribute.LevelChanged += OnLevelChanged;
+            OnLevelChanged(_towerAttribute.CurrentLevel, _towerAttribute.MaxLevel);
         }
 
         private void OnLevelChanged(int level, int maxLevel)
         {
             ChangeValue(level, maxLevel);
+        }
+
+        private void OnEnable()
+        {
+            if (_towerAttribute != null)
+                _towerAttribute.LevelChanged += OnLevelChanged;
+        }
+
+        private void OnDisable()
+        {
+            _towerAttribute.LevelChanged -= OnLevelChanged;
         }
     }
 }
