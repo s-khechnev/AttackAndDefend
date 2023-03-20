@@ -1,9 +1,9 @@
 ﻿using System;
-using Defender.HUD.Command;
+using Defender.HUD.Commands;
 using Defender.Towers;
 using UnityEngine;
 
-namespace Defender.HUD.Menu
+namespace Defender.HUD.Menus
 {
     [Serializable]
     public class TowerBuildMenu : GUIMenuBase

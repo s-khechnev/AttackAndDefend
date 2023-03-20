@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-namespace Defender.HUD.Command
+namespace Defender.HUD.Commands
 {
     public interface ICommand
     {

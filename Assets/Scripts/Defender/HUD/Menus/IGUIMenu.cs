@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Defender.HUD.Menu
+namespace Defender.HUD.Menus
 {
     public interface IGUIMenu
     {

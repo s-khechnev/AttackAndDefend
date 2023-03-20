@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Data.Attackers
+namespace Attackers
 {
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Attacker")]
     public class AttackerData : ScriptableObject

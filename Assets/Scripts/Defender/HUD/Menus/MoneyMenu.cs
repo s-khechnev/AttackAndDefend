@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-namespace Defender.HUD.Menu
+namespace Defender.HUD.Menus
 {
     [Serializable]
     public class MoneyMenu : GUIMenuBase

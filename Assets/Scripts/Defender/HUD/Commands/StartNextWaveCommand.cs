@@ -1,8 +1,8 @@
 ﻿using Attackers.Waves;
-using Defender.HUD.Menu;
+using Defender.HUD.Menus;
 using UnityEngine.UI;
 
-namespace Defender.HUD.Command
+namespace Defender.HUD.Commands
 {
     public class StartNextWaveCommand : CommandBase
     {

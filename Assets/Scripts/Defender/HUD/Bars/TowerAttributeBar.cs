@@ -1,6 +1,6 @@
 ﻿using Data.Towers;
 
-namespace Defender.HUD.Bar
+namespace Defender.HUD.Bars
 {
     public class TowerAttributeBar : Bar
     {

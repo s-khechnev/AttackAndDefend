@@ -1,11 +1,11 @@
 ﻿using System;
 using Attackers.Waves;
-using Defender.HUD.Command;
+using Defender.HUD.Commands;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Defender.HUD.Menu
+namespace Defender.HUD.Menus
 {
     [Serializable]
     public class WaveMenu : GUIMenuBase

@@ -1,4 +1,3 @@
-using Data.Attackers;
 using UnityEngine;
 
 namespace Attackers.Movement

@@ -1,8 +1,8 @@
 ﻿using System;
-using Defender.HUD.Bar;
+using Defender.HUD.Bars;
 using UnityEngine;
 
-namespace Defender.HUD.Menu
+namespace Defender.HUD.Menus
 {
     [Serializable]
     public class CastleMenu : GUIMenuBase

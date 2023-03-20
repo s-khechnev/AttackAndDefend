@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Data.Towers;
-using Defender.HUD.Bar;
-using Defender.HUD.Command;
+using Defender.HUD.Bars;
+using Defender.HUD.Commands;
 using Defender.Towers;
 using Models;
 using TMPro;
@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Defender.HUD.Menu
+namespace Defender.HUD.Menus
 {
     [Serializable]
     public class TowerUpgradeMenu : GUIMenuBase

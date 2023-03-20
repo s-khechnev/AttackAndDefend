@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Defender.HUD.Command;
+using Defender.HUD.Commands;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Defender.HUD.Menu
+namespace Defender.HUD.Menus
 {
     public abstract class GUIMenuBase : IGUIMenu
     {

@@ -1,4 +1,4 @@
-using Defender.HUD.Menu;
+using Defender.HUD.Menus;
 using UnityEngine;
 using Zenject;
 

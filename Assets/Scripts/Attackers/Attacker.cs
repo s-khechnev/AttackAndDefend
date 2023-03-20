@@ -1,5 +1,4 @@
 ﻿using System;
-using Data.Attackers;
 using Models;
 using UnityEngine;
 using Zenject;

@@ -1,7 +1,7 @@
 ﻿using Data.Towers;
-using Defender.HUD.Menu;
+using Defender.HUD.Menus;
 
-namespace Defender.HUD.Command
+namespace Defender.HUD.Commands
 {
     public abstract class TowerUpgradeCommand : CommandBase
     {

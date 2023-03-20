@@ -1,8 +1,8 @@
-﻿using Defender.HUD.Menu;
+﻿using Defender.HUD.Menus;
 using Defender.Towers;
 using UnityEngine.UI;
 
-namespace Defender.HUD.Command
+namespace Defender.HUD.Commands
 {
     public class BuildTowerCommand : CommandBase
     {

@@ -1,8 +1,8 @@
-﻿using Defender.HUD.Menu;
+﻿using Defender.HUD.Menus;
 using Models;
 using UnityEngine.UI;
 
-namespace Defender.HUD.Command
+namespace Defender.HUD.Commands
 {
     public class UpgradeDamageCommand : TowerUpgradeCommand
     {
