@@ -1,11 +1,9 @@
-﻿using System;
-using Defender.HUD.Menu;
+﻿using Defender.HUD.Menu;
 using Models;
 using UnityEngine.UI;
 
 namespace Defender.HUD.Command
 {
-    [Serializable]
     public class UpgradeRangeCommand : TowerUpgradeCommand
     {
         private Wallet _wallet;

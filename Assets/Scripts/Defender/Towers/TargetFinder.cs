@@ -20,23 +20,23 @@ namespace Defender.Towers
         private void Awake()
         {
             _towerData = transform.parent.GetComponent<Tower>().TowerData;
-            _towerData.TowerRangeChanged += OnTowerRangeChanged;
+            _towerData.RangeValueChanged += OnRangeValueChanged;
 
             _rangeCollider = GetComponent<SphereCollider>();
-            InitRange();
+            InitRange(_towerData.Range.Value);
 
             _attackersQueue = new();
         }
 
-        private void InitRange()
+        private void InitRange(float range)
         {
-            _attackRange = _towerData.Range.Value;
+            _attackRange = range;
             _rangeCollider.radius = _attackRange;
         }
 
-        private void OnTowerRangeChanged()
+        private void OnRangeValueChanged(float range)
         {
-            InitRange();
+            InitRange(range);
         }
 
         private void Update()

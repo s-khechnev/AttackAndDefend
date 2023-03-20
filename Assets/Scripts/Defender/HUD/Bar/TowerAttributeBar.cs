@@ -2,18 +2,18 @@
 
 namespace Defender.HUD.Bar
 {
-    public class RangeBar<T> : Bar
+    public class TowerAttributeBar : Bar
     {
-        private TowerData _towerData;
-        private TowerAttribute<float> _range;
-        
-        public void Init(TowerData towerData)
+        private ILevelChanger _levelChanger;
+
+        public void Init(ILevelChanger levelChanger)
         {
-            _towerData = towerData;
-            _range.LevelChanged += OnRangeLevelChanged;
+            _levelChanger = levelChanger;
+            _levelChanger.LevelChanged += OnLevelChanged;
+            OnLevelChanged(_levelChanger.CurrentLevel, _levelChanger.MaxLevel);
         }
 
-        private void OnRangeLevelChanged(int level, int maxLevel)
+        private void OnLevelChanged(int level, int maxLevel)
         {
             ChangeValue(level, maxLevel);
         }

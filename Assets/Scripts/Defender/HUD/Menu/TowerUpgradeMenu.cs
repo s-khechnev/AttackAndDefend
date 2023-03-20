@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Data.Towers;
+using Defender.HUD.Bar;
 using Defender.HUD.Command;
 using Defender.Towers;
 using Models;
@@ -20,6 +21,10 @@ namespace Defender.HUD.Menu
         [SerializeField] private Button _upgradeRangeButton;
         [SerializeField] private Button _upgradeCooldownButton;
         [SerializeField] private Button _closeButton;
+
+        [SerializeField] private TowerAttributeBar _damageUpgradeBar;
+        [SerializeField] private TowerAttributeBar _rangeUpgradeBar;
+        [SerializeField] private TowerAttributeBar _cooldownUpgradeBar;
 
         [Inject] private Wallet _wallet;
         [Inject] private TowerFactory _towerFactory;
@@ -46,7 +51,7 @@ namespace Defender.HUD.Menu
             AssociateButton(_closeButton, new CloseUpgradeCommand(this));
 
             _towerFactory.TowerTapped += OnTowerTapped;
-            
+
             Hide();
         }
 
@@ -63,6 +68,12 @@ namespace Defender.HUD.Menu
 
             _towerData = towerData;
             _towerUpgradeCommands.ForEach(command => command.SetTowerData(towerData));
+
+            _towerName.text = towerData.Name;
+            
+            _damageUpgradeBar.Init(towerData.Damage);
+            _rangeUpgradeBar.Init(towerData.Range);
+            _cooldownUpgradeBar.Init(towerData.Cooldown);
         }
     }
 }
