@@ -14,8 +14,9 @@ namespace Defender.Towers
     public abstract class TowerAttribute<T> : ILevelChanger
     {
         public event Action<int, int> LevelChanged;
+        public event Action<T> ValueChanged;
 
-        [SerializeField] protected T _value;
+        [SerializeField] private T _value;
         [SerializeField] private int _costUpgrade = 2;
         [SerializeField] protected T _upgradeUnit;
         [SerializeField] private int _maxLevel;
@@ -31,8 +32,17 @@ namespace Defender.Towers
                 LevelChanged?.Invoke(_currentLevel, _maxLevel);
             }
         }
-        
-        public T Value => _value;
+
+        public T Value
+        {
+            get => _value;
+            protected set
+            {
+                _value = value;
+                ValueChanged?.Invoke(_value);
+            }
+        }
+
         public int CostUpgrade => _costUpgrade;
         public bool CanUpgrade => CurrentLevel < _maxLevel;
         public int MaxLevel => _maxLevel;
@@ -48,7 +58,7 @@ namespace Defender.Towers
             if (!CanUpgrade)
                 throw new Exception("Already max level");
 
-            _value += _upgradeUnit;
+            Value += _upgradeUnit;
             CurrentLevel++;
         }
     }
@@ -61,7 +71,7 @@ namespace Defender.Towers
             if (!CanUpgrade)
                 throw new Exception("Already max level");
 
-            _value += _upgradeUnit;
+            Value += _upgradeUnit;
             CurrentLevel++;
         }
     }
@@ -69,8 +79,6 @@ namespace Defender.Towers
     [CreateAssetMenu(fileName = "TowerData", menuName = "ScriptableObjects/Tower")]
     public class TowerData : ScriptableObject
     {
-        public event Action<float> RangeValueChanged;
-
         [SerializeField] private string _name;
         [SerializeField] private int _cost;
         [SerializeField] private FloatTowerAttribute _attackRange;
@@ -87,7 +95,6 @@ namespace Defender.Towers
         public void UpgradeRange()
         {
             _attackRange.Upgrade();
-            RangeValueChanged?.Invoke(Range.Value);
         }
 
         public void UpgradeCooldown()

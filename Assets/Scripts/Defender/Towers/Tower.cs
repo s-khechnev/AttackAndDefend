@@ -28,7 +28,7 @@ namespace Defender.Towers
         private void Awake()
         {
             _towerData = Instantiate(_towerData);
-            _towerData.RangeValueChanged += OnRangeValueChanged;
+            _towerData.Range.ValueChanged += OnRangeValueChanged;
 
             _targetFinder = GetComponentInChildren<TargetFinder>();
             _rangeViewer = GetComponentInChildren<RangeViewer>();
