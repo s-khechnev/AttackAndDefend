@@ -16,9 +16,7 @@ namespace Defender.HUD.Commands
         }
 
         public override bool CanExecute(Button button)
-        {
-            return true;
-        }
+            => DefenderGUIManager.GameState == DefenderGameState.Normal;
 
         public override void Execute(Button button)
         {

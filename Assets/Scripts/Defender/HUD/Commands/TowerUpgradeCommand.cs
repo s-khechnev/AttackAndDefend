@@ -1,5 +1,5 @@
-﻿using Data.Towers;
-using Defender.HUD.Menus;
+﻿using Defender.HUD.Menus;
+using Defender.Towers;
 
 namespace Defender.HUD.Commands
 {

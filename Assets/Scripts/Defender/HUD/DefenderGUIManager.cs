@@ -4,6 +4,13 @@ using Zenject;
 
 namespace Defender.HUD
 {
+    public enum DefenderGameState
+    {
+        Normal,
+        Pause,
+        Building
+    }
+
     public class DefenderGUIManager : MonoBehaviour
     {
         [SerializeField] private WaveMenu _waveMenu;
@@ -14,8 +21,12 @@ namespace Defender.HUD
 
         [Inject] private DiContainer _diContainer;
 
+        public static DefenderGameState GameState { get; private set; }
+
         private void Awake()
         {
+            GameState = DefenderGameState.Normal;
+
             InitWaveMenu();
             InitTowerBuildMenu();
             InitTowerUpgradeMenu();
@@ -50,6 +61,11 @@ namespace Defender.HUD
         {
             _diContainer.Inject(_castleMenu);
             _castleMenu.Init();
+        }
+
+        public static void SetState(DefenderGameState newState)
+        {
+            GameState = newState;
         }
     }
 }

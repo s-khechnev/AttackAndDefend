@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Attackers;
-using Data.Towers;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,31 +11,19 @@ namespace Defender.Towers
         public Attacker Target { get; private set; }
 
         private SphereCollider _rangeCollider;
-        private TowerData _towerData;
         private float _attackRange;
-
         private Queue<Attacker> _attackersQueue;
 
         private void Awake()
         {
-            _towerData = transform.parent.GetComponent<Tower>().TowerData;
-            _towerData.RangeValueChanged += OnRangeValueChanged;
-
             _rangeCollider = GetComponent<SphereCollider>();
-            InitRange(_towerData.Range.Value);
-
             _attackersQueue = new();
         }
 
-        private void InitRange(float range)
+        public void InitRange(float range)
         {
             _attackRange = range;
-            _rangeCollider.radius = _attackRange;
-        }
-
-        private void OnRangeValueChanged(float range)
-        {
-            InitRange(range);
+            _rangeCollider.radius = range;
         }
 
         private void Update()

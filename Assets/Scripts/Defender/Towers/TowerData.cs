@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Data.Towers
+namespace Defender.Towers
 {
     public interface ILevelChanger
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using Data.Towers;
 using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
@@ -9,7 +8,7 @@ namespace Defender.Towers
     [CreateAssetMenu(fileName = "TowerFactory", menuName = "ScriptableObjects/TowerFactory")]
     public class TowerFactory : ScriptableObject
     {
-        public event Action<TowerData> TowerTapped;
+        public event Action<TowerData, RangeViewer> TowerTapped;
         
         [Inject] private IInstantiator _instantiator;
 
@@ -25,9 +24,9 @@ namespace Defender.Towers
             return towerGhost;
         }
 
-        private void OnTowerTapped(TowerData towerData)
+        private void OnTowerTapped(TowerData towerData, RangeViewer rangeViewer)
         {
-            TowerTapped?.Invoke(towerData);
+            TowerTapped?.Invoke(towerData, rangeViewer);
         }
 
         public void Reclaim(Tower tower)

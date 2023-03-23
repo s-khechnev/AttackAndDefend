@@ -12,14 +12,22 @@ namespace Defender.Towers
     {
         public Tower Tower { get; set; }
 
-        private Renderer _renderer;
+        private RangeViewer _rangeViewer;
+        
+        private Renderer[] _renderers;
         private readonly Color _availablePlaceColor = Color.green;
         private readonly Color _unavailablePlaceColor = Color.red;
         private readonly Color _normalColor = Color.white;
 
         private void Awake()
         {
-            _renderer = GetComponentInChildren<Renderer>();
+            _renderers = GetComponentsInChildren<Renderer>();
+            _rangeViewer = GetComponentInChildren<RangeViewer>();
+        }
+
+        private void Start()
+        {
+            _rangeViewer.DrawCircle(Tower.TowerData.Range.Value);
         }
 
         public void SetState(PlacementTowerState newState)
@@ -27,17 +35,26 @@ namespace Defender.Towers
             switch (newState)
             {
                 case PlacementTowerState.Available:
-                    _renderer.material.color = _availablePlaceColor;
+                    SetColor(_availablePlaceColor);
                     break;
                 case PlacementTowerState.Unavailable:
-                    _renderer.material.color = _unavailablePlaceColor;
+                    SetColor(_unavailablePlaceColor);
                     break;
             }
         }
 
         private void OnDestroy()
         {
-            _renderer.material.color = _normalColor;
+            _rangeViewer.Hide();
+            SetColor(_normalColor);
+        }
+
+        private void SetColor(Color color)
+        {
+            foreach (var rend in _renderers)
+            {
+                rend.material.color = color;
+            }
         }
     }
 }

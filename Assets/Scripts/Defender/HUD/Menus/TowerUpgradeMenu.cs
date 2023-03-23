@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Data.Towers;
 using Defender.HUD.Bars;
 using Defender.HUD.Commands;
 using Defender.Towers;
@@ -30,7 +29,9 @@ namespace Defender.HUD.Menus
         [Inject] private TowerFactory _towerFactory;
 
         private List<TowerUpgradeCommand> _towerUpgradeCommands;
-        private TowerData _towerData;
+
+        private TowerData _currentTowerData;
+        private RangeViewer _currentRangeViewer;
 
         public override void Init()
         {
@@ -55,25 +56,47 @@ namespace Defender.HUD.Menus
             Hide();
         }
 
-        private void OnTowerTapped(TowerData towerData)
+        private void OnTowerTapped(TowerData towerDataToUpgrade, RangeViewer rangeViewer)
         {
+            if (_currentTowerData == towerDataToUpgrade || DefenderGUIManager.GameState == DefenderGameState.Building)
+                return;
+
+            if (IsShown(Instance))
+                _currentRangeViewer.Hide();
+
+            _currentTowerData = towerDataToUpgrade;
+            _currentRangeViewer = rangeViewer;
+
             Show();
-            SetTowerData(towerData);
+            rangeViewer.Show();
+            SetTowerData(towerDataToUpgrade);
         }
 
         private void SetTowerData(TowerData towerData)
         {
-            if (_towerData == towerData)
-                return;
-
-            _towerData = towerData;
             _towerUpgradeCommands.ForEach(command => command.SetTowerData(towerData));
 
             _towerName.text = towerData.Name;
-            
+
             _damageUpgradeBar.Init(towerData.Damage);
             _rangeUpgradeBar.Init(towerData.Range);
             _cooldownUpgradeBar.Init(towerData.Cooldown);
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+
+            if (_currentTowerData == null || _currentRangeViewer == null) return;
+
+            _currentRangeViewer.Hide();
+            _currentRangeViewer.Hide();
+            _currentTowerData = null;
+        }
+
+        public override bool IsShown(GameObject guiItem)
+        {
+            return guiItem.activeSelf;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Defender.Towers
         {
             _tiles = FindObjectsOfType<TilePlacement>();
             _mainCamera = Camera.main;
-            
+
             _groundLayerMask = 1 << LayerMask.NameToLayer(GroundLayer);
         }
 
@@ -32,6 +32,8 @@ namespace Defender.Towers
         {
             if (_towerGhost == null && _wallet.IsEnoughMoney(tower.TowerData.Cost))
             {
+                DefenderGUIManager.SetState(DefenderGameState.Building);
+
                 ShowTileStates();
 
                 _towerGhost = _towerFactory.GetTowerGhost(tower);
@@ -80,7 +82,8 @@ namespace Defender.Towers
 
             if (Physics.Raycast(ray, out RaycastHit hit, 50f, _groundLayerMask))
             {
-                if (hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement) && tilePlacement.CurrentState == PlacementTileState.Empty)
+                if (hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement) &&
+                    tilePlacement.CurrentState == PlacementTileState.Empty)
                 {
                     _assumedTilePlacement = tilePlacement;
                     _towerGhost.SetState(PlacementTowerState.Available);
@@ -91,7 +94,7 @@ namespace Defender.Towers
                 else
                 {
                     _towerGhost.transform.position = hit.point;
-                
+
                     _towerGhost.SetState(PlacementTowerState.Unavailable);
                     _isTilePlacementEmpty = false;
                 }
@@ -101,17 +104,19 @@ namespace Defender.Towers
         private void PlaceTower()
         {
             _wallet.Purchase(_towerGhost.Tower.TowerData.Cost);
-            
+
             _assumedTilePlacement.SetState(PlacementTileState.Filled);
             HideTileStates();
-            
+
             _towerFactory.Reclaim(_towerGhost);
+            DefenderGUIManager.SetState(DefenderGameState.Normal);
         }
-    
+
         private void CancelBuilding()
         {
             HideTileStates();
             _towerFactory.Reclaim(_towerGhost.Tower);
+            DefenderGUIManager.SetState(DefenderGameState.Normal);
         }
     }
 }
