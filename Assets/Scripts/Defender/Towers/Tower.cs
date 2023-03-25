@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Defender.Towers
 {
-    [SelectionBase]
+    [SelectionBase, RequireComponent(typeof(BoxCollider))]
     public abstract class Tower : MonoBehaviour
     {
         public Action<TowerData, RangeViewer> TowerTapped;

@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 2544854100976898023}
   - component: {fileID: 3298687509031185548}
   - component: {fileID: 1251020094664088421}
-  - component: {fileID: 8747471636322863545}
+  - component: {fileID: 8378837066819060118}
   m_Layer: 2
   m_Name: TargetFinder
   m_TagString: Untagged
@@ -520,7 +520,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8747471636322863545
+--- !u!114 &8378837066819060118
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -529,6 +529,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8877267927283854868}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21faf58b079e4c2385dff9f1503bc147, type: 3}
+  m_Script: {fileID: 11500000, guid: b12ec045f516450986ceefdb31262a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Attackers.Movement;
 using Models;
 using UnityEngine;
 using Zenject;
@@ -14,11 +15,15 @@ namespace Attackers
 
         [SerializeField] private AttackerData _attackerData;
 
+        private AttackerMovement _mover;
+        
         public AttackerData AttackerData => _attackerData;
         public int Health { get; private set; }
+        public float DistanceToCastle => _mover.DistanceToCastle;
 
         private void Awake()
         {
+            _mover = GetComponent<AttackerMovement>();
             Health = _attackerData.Health;
         }
 

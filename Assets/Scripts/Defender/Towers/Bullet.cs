@@ -10,11 +10,13 @@ namespace Defender.Towers
         [SerializeField, Range(1, 50)] private int _speed;
 
         private int _damage;
+        private Attacker _target;
 
-        public void Launch(Attacker attacker, int damage)
+        public void Launch(Attacker target, int damage)
         {
+            _target = target;
             _damage = damage;
-            StartCoroutine(LaunchCoroutine(attacker));
+            StartCoroutine(LaunchCoroutine(target));
         }
 
         private IEnumerator LaunchCoroutine(Attacker target)
@@ -33,6 +35,9 @@ namespace Defender.Towers
         {
             if (other.TryGetComponent(out Attacker attacker))
             {
+                if (attacker != _target)
+                    return;
+                    
                 attacker.TakeDamage(_damage);
                 Destroy(gameObject);
             }

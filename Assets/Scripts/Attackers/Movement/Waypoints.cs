@@ -4,6 +4,13 @@ namespace Attackers.Movement
 {
     public class Waypoints : MonoBehaviour
     {
+        public float DistanceToCastle { get; private set; }
+
+        private void Awake()
+        {
+            DistanceToCastle = GetDistanceToCastle();
+        }
+
         public Transform GetNextPoint(Transform currentPoint)
         {
             if (currentPoint == null)
@@ -15,6 +22,17 @@ namespace Attackers.Movement
             }
 
             return null;
+        }
+
+        private float GetDistanceToCastle()
+        {
+            var result = 0f;
+            for (var i = 1; i < transform.childCount; i++)
+            {
+                result += Vector3.Distance(transform.GetChild(i - 1).position, transform.GetChild(i).position);
+            }
+
+            return result;
         }
     }
 }

@@ -1,44 +1,59 @@
 ﻿using System.Collections.Generic;
 using Attackers;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Defender.Towers
 {
     [RequireComponent(typeof(SphereCollider))]
-    public class TargetFinder : MonoBehaviour
+    public abstract class TargetFinder : MonoBehaviour
     {
-        public Attacker Target { get; private set; }
+        public Attacker Target
+        {
+            get => _target;
+            protected set
+            {
+                if (value != null)
+                    value.Died += OnTargetDied;
+                if (_target != null)
+                    _target.Died -= OnTargetDied;
+
+                _target = value;
+            }
+        }
+
+        private Attacker _target;
+        protected List<Attacker> AttackersInRange;
 
         private SphereCollider _rangeCollider;
         private float _attackRange;
-        private Queue<Attacker> _attackersQueue;
+        
+        protected abstract void FindTarget();
+        protected abstract void OnNewAttackerInRange(Attacker newAttacker);
 
         private void Awake()
         {
             _rangeCollider = GetComponent<SphereCollider>();
-            _attackersQueue = new();
+            AttackersInRange = new();
         }
-
+        
         public void InitRange(float range)
         {
             _attackRange = range;
             _rangeCollider.radius = range;
         }
 
-        private void Update()
+        private void OnTargetDied(Attacker target)
         {
-            if (_attackersQueue.Count != 0 && (Target == null || Target.IsDestroyed()))
-            {
-                Target = _attackersQueue.Dequeue();
-            }
+            AttackersInRange.Remove(target);
+            FindTarget();
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out Attacker attacker))
+            if (other.gameObject.TryGetComponent(out Attacker newAttacker))
             {
-                _attackersQueue.Enqueue(attacker);
+                AttackersInRange.Add(newAttacker);
+                OnNewAttackerInRange(newAttacker);
             }
         }
 
@@ -46,10 +61,10 @@ namespace Defender.Towers
         {
             if (other.gameObject.TryGetComponent(out Attacker attacker))
             {
+                AttackersInRange.Remove(attacker);
+
                 if (Target == attacker)
-                    Target = null;
-                else if (_attackersQueue.Count != 0)
-                    _attackersQueue.Dequeue();
+                    FindTarget();
             }
         }
 
