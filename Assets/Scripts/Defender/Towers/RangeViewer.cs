@@ -2,27 +2,28 @@
 
 namespace Defender.Towers
 {
-    [RequireComponent(typeof(LineRenderer))]
-    public class RangeViewer : MonoBehaviour
+    public class RangeViewer
     {
-        [SerializeField] private Material _circleMaterial;
-
         private const int NumSegments = 300;
-        private LineRenderer _lineRenderer;
+        private const float OffsetY = .1f;
 
-        private void Awake()
+        private readonly LineRenderer _lineRenderer;
+
+        public RangeViewer(LineRenderer lineRenderer, Material circleMaterial)
         {
-            _lineRenderer = GetComponent<LineRenderer>();
-            InitLineRenderer();
+            _lineRenderer = lineRenderer;
+
+            InitLineRenderer(circleMaterial);
         }
 
-        private void InitLineRenderer()
+        private void InitLineRenderer(Material circleMaterial)
         {
-            _lineRenderer.material = _circleMaterial;
+            _lineRenderer.material = circleMaterial;
             _lineRenderer.startWidth = 0.1f;
             _lineRenderer.endWidth = 0.1f;
             _lineRenderer.positionCount = NumSegments + 1;
             _lineRenderer.useWorldSpace = false;
+            _lineRenderer.loop = true;
         }
 
         public void DrawCircle(float radius)
@@ -34,7 +35,7 @@ namespace Defender.Towers
             {
                 var x = radius * Mathf.Cos(theta);
                 var z = radius * Mathf.Sin(theta);
-                var pos = new Vector3(x, 0, z);
+                var pos = new Vector3(x, OffsetY, z);
                 _lineRenderer.SetPosition(i, pos);
                 theta += deltaTheta;
             }

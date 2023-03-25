@@ -31,7 +31,7 @@ namespace Defender.HUD.Menus
         private List<TowerUpgradeCommand> _towerUpgradeCommands;
 
         private TowerData _currentTowerData;
-        private RangeViewer _currentRangeViewer;
+        private TowerView _currentTowerView;
 
         public override void Init()
         {
@@ -56,19 +56,21 @@ namespace Defender.HUD.Menus
             Hide();
         }
 
-        private void OnTowerTapped(TowerData towerDataToUpgrade, RangeViewer rangeViewer)
+        private void OnTowerTapped(TowerView towerView)
         {
+            var towerDataToUpgrade = towerView.Tower.TowerData;
+
             if (_currentTowerData == towerDataToUpgrade || DefenderGUIManager.GameState == DefenderGameState.Building)
                 return;
 
             if (IsShown(Instance))
-                _currentRangeViewer.Hide();
+                _currentTowerView.HideState();
 
             _currentTowerData = towerDataToUpgrade;
-            _currentRangeViewer = rangeViewer;
+            _currentTowerView = towerView;
 
             Show();
-            rangeViewer.Show();
+            towerView.ShowState();
             SetTowerData(towerDataToUpgrade);
         }
 
@@ -87,10 +89,9 @@ namespace Defender.HUD.Menus
         {
             base.Hide();
 
-            if (_currentTowerData == null || _currentRangeViewer == null) return;
+            if (_currentTowerData == null || _currentTowerView == null) return;
 
-            _currentRangeViewer.Hide();
-            _currentRangeViewer.Hide();
+            _currentTowerView.HideState();
             _currentTowerData = null;
         }
 

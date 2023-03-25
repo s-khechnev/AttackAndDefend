@@ -1,5 +1,4 @@
 ﻿using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -8,36 +7,29 @@ namespace Defender.Towers
     [CreateAssetMenu(fileName = "TowerFactory", menuName = "ScriptableObjects/TowerFactory")]
     public class TowerFactory : ScriptableObject
     {
-        public event Action<TowerData, RangeViewer> TowerTapped;
-        
+        public event Action<TowerView> TowerTapped;
+
         [Inject] private IInstantiator _instantiator;
 
-        public TowerGhost GetTowerGhost(Tower towerToGhost)
+        public TowerView GetTowerView(Tower towerPrefab)
         {
-            var tower = _instantiator.InstantiatePrefab(towerToGhost).GetComponent<Tower>();
-            var towerGhost = tower.AddComponent<TowerGhost>();
+            var tower = _instantiator.InstantiatePrefabForComponent<Tower>(towerPrefab);
+            tower.enabled = false;
 
-            tower.TowerTapped += OnTowerTapped;
-            
-            towerGhost.Tower = tower;
-            towerGhost.Tower.enabled = false;
-            return towerGhost;
+            var towerView = tower.GetComponent<TowerView>();
+            towerView.TowerTapped += OnTowerTapped;
+
+            return towerView;
         }
 
-        private void OnTowerTapped(TowerData towerData, RangeViewer rangeViewer)
+        private void OnTowerTapped(TowerView towerView)
         {
-            TowerTapped?.Invoke(towerData, rangeViewer);
+            TowerTapped?.Invoke(towerView);
         }
 
         public void Reclaim(Tower tower)
         {
             Destroy(tower.gameObject);
-        }
-
-        public void Reclaim(TowerGhost towerGhost)
-        {
-            towerGhost.Tower.enabled = true;
-            Destroy(towerGhost);
         }
     }
 }

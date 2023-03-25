@@ -5,33 +5,27 @@ namespace Defender.Towers
     public enum PlacementTowerState
     {
         Available,
-        Unavailable
+        Unavailable,
     }
 
-    public class TowerGhost : MonoBehaviour
+    public class TowerGhost
     {
-        public Tower Tower { get; set; }
-
-        private RangeViewer _rangeViewer;
-        
-        private Renderer[] _renderers;
+        private readonly Renderer[] _renderers;
         private readonly Color _availablePlaceColor = Color.green;
         private readonly Color _unavailablePlaceColor = Color.red;
         private readonly Color _normalColor = Color.white;
 
-        private void Awake()
-        {
-            _renderers = GetComponentsInChildren<Renderer>();
-            _rangeViewer = GetComponentInChildren<RangeViewer>();
-        }
+        private PlacementTowerState _currentState;
 
-        private void Start()
+        public TowerGhost(Renderer[] renderers)
         {
-            _rangeViewer.DrawCircle(Tower.TowerData.Range.Value);
+            _renderers = renderers;
         }
 
         public void SetState(PlacementTowerState newState)
         {
+            _currentState = newState;
+            
             switch (newState)
             {
                 case PlacementTowerState.Available:
@@ -43,18 +37,22 @@ namespace Defender.Towers
             }
         }
 
-        private void OnDestroy()
-        {
-            _rangeViewer.Hide();
-            SetColor(_normalColor);
-        }
-
         private void SetColor(Color color)
         {
             foreach (var rend in _renderers)
             {
                 rend.material.color = color;
             }
+        }
+
+        public void Hide()
+        {
+            SetColor(_normalColor);
+        }
+
+        public void Show()
+        {
+            SetState(_currentState);
         }
     }
 }

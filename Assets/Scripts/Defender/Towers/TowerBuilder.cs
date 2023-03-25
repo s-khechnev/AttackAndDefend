@@ -1,5 +1,5 @@
-﻿using Defender.HUD;
-using Models;
+﻿using System;
+using Defender.HUD;
 using UnityEngine;
 using Zenject;
 
@@ -7,17 +7,18 @@ namespace Defender.Towers
 {
     public class TowerBuilder : MonoBehaviour
     {
+        public event Action<TowerView> TowerPlaced;
+
         private TilePlacement[] _tiles;
         private Camera _mainCamera;
 
-        private TowerGhost _towerGhost;
+        private TowerView _buildingTowerView;
         private TilePlacement _assumedTilePlacement;
         private bool _isTilePlacementEmpty;
 
         private LayerMask _groundLayerMask;
         private const string GroundLayer = "Ground";
 
-        [Inject] private Wallet _wallet;
         [Inject] private TowerFactory _towerFactory;
 
         private void Awake()
@@ -30,13 +31,13 @@ namespace Defender.Towers
 
         public void StartBuildTower(Tower tower)
         {
-            if (_towerGhost == null && _wallet.IsEnoughMoney(tower.TowerData.Cost))
+            if (_buildingTowerView == null)
             {
                 DefenderGUIManager.SetState(DefenderGameState.Building);
 
                 ShowTileStates();
 
-                _towerGhost = _towerFactory.GetTowerGhost(tower);
+                _buildingTowerView = _towerFactory.GetTowerView(tower);
             }
         }
 
@@ -58,7 +59,7 @@ namespace Defender.Towers
 
         private void Update()
         {
-            if (_towerGhost != null)
+            if (_buildingTowerView != null)
             {
                 Building();
 
@@ -86,16 +87,16 @@ namespace Defender.Towers
                     tilePlacement.CurrentState == PlacementTileState.Empty)
                 {
                     _assumedTilePlacement = tilePlacement;
-                    _towerGhost.SetState(PlacementTowerState.Available);
-                    _towerGhost.transform.position = _assumedTilePlacement.CenterPosition;
+                    _buildingTowerView.SetPlacementState(PlacementTowerState.Available);
+                    _buildingTowerView.transform.position = _assumedTilePlacement.CenterPosition;
 
                     _isTilePlacementEmpty = true;
                 }
                 else
                 {
-                    _towerGhost.transform.position = hit.point;
+                    _buildingTowerView.transform.position = hit.point;
 
-                    _towerGhost.SetState(PlacementTowerState.Unavailable);
+                    _buildingTowerView.SetPlacementState(PlacementTowerState.Unavailable);
                     _isTilePlacementEmpty = false;
                 }
             }
@@ -103,19 +104,22 @@ namespace Defender.Towers
 
         private void PlaceTower()
         {
-            _wallet.Purchase(_towerGhost.Tower.TowerData.Cost);
+            TowerPlaced?.Invoke(_buildingTowerView);
 
             _assumedTilePlacement.SetState(PlacementTileState.Filled);
             HideTileStates();
 
-            _towerFactory.Reclaim(_towerGhost);
+            _buildingTowerView.Tower.enabled = true;
+            _buildingTowerView.HideState();
+            _buildingTowerView = null;
+
             DefenderGUIManager.SetState(DefenderGameState.Normal);
         }
 
         private void CancelBuilding()
         {
             HideTileStates();
-            _towerFactory.Reclaim(_towerGhost.Tower);
+            _towerFactory.Reclaim(_buildingTowerView.Tower);
             DefenderGUIManager.SetState(DefenderGameState.Normal);
         }
     }

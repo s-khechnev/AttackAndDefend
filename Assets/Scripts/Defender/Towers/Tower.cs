@@ -1,5 +1,4 @@
-﻿using System;
-using Attackers;
+﻿using Attackers;
 using UnityEngine;
 using Zenject;
 
@@ -8,8 +7,6 @@ namespace Defender.Towers
     [SelectionBase, RequireComponent(typeof(BoxCollider))]
     public abstract class Tower : MonoBehaviour
     {
-        public Action<TowerData, RangeViewer> TowerTapped;
-
         [Inject] protected TowerFactory TowerFactory;
         [Inject] protected WarFactory WarFactory;
 
@@ -19,7 +16,6 @@ namespace Defender.Towers
 
         private float _elapsedTimeFromShoot;
         private TargetFinder _targetFinder;
-        private RangeViewer _rangeViewer;
 
         public TowerData TowerData => _towerData;
 
@@ -31,7 +27,6 @@ namespace Defender.Towers
             _towerData.Range.ValueChanged += OnRangeValueChanged;
 
             _targetFinder = GetComponentInChildren<TargetFinder>();
-            _rangeViewer = GetComponentInChildren<RangeViewer>();
 
             _elapsedTimeFromShoot = _towerData.Cooldown.Value;
         }
@@ -57,16 +52,9 @@ namespace Defender.Towers
             }
         }
 
-        private void OnMouseDown()
-        {
-            if (isActiveAndEnabled)
-                TowerTapped?.Invoke(_towerData, _rangeViewer);
-        }
-
         private void OnRangeValueChanged(float newRange)
         {
             _targetFinder.InitRange(newRange);
-            _rangeViewer.DrawCircle(newRange);
         }
     }
 }

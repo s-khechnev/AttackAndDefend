@@ -1,5 +1,6 @@
 ﻿using Defender.HUD.Menus;
 using Defender.Towers;
+using Models;
 using UnityEngine.UI;
 
 namespace Defender.HUD.Commands
@@ -8,15 +9,18 @@ namespace Defender.HUD.Commands
     {
         private TowerBuilder _towerBuilder;
         private Tower _towerToBuild;
+        private Wallet _wallet;
 
-        public BuildTowerCommand(GUIMenuBase panel, TowerBuilder towerBuilder, Tower tower) : base(panel)
+        public BuildTowerCommand(GUIMenuBase panel, TowerBuilder towerBuilder, Tower tower, Wallet wallet) : base(panel)
         {
             _towerBuilder = towerBuilder;
             _towerToBuild = tower;
+            _wallet = wallet;
         }
 
         public override bool CanExecute(Button button)
-            => DefenderGUIManager.GameState == DefenderGameState.Normal;
+            => _wallet.IsEnoughMoney(_towerToBuild.TowerData.Cost) &&
+               DefenderGUIManager.GameState == DefenderGameState.Normal;
 
         public override void Execute(Button button)
         {

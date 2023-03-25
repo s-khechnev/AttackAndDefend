@@ -42,6 +42,7 @@ namespace Defender.HUD
 
         private void InitTowerBuildMenu()
         {
+            _diContainer.Inject(_towerBuildMenu);
             _towerBuildMenu.Init();
         }
 
