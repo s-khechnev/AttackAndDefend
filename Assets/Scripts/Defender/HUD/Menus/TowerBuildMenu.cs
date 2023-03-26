@@ -23,10 +23,10 @@ namespace Defender.HUD.Menus
                 AssociateButton(button, buildTowerCommand);
             }
 
-            _towerBuilder.TowerPlaced += OnTowerPlaced;
+            _towerBuilder.TowerBuilt += OnTowerBuilt;
         }
 
-        private void OnTowerPlaced(TowerView placedTowerView)
+        private void OnTowerBuilt(TowerView placedTowerView)
         {
             _wallet.Purchase(placedTowerView.Tower.TowerData.Cost);
         }

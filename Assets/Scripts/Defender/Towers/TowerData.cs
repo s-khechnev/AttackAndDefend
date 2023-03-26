@@ -81,12 +81,14 @@ namespace Defender.Towers
     {
         [SerializeField] private string _name;
         [SerializeField] private int _cost;
+        [SerializeField] private int _costToRelocate;
         [SerializeField] private FloatTowerAttribute _attackRange;
         [SerializeField] private FloatTowerAttribute _cooldown;
         [SerializeField] private IntTowerAttribute _damage;
 
         public string Name => _name;
         public int Cost => _cost;
+        public int CostToRelocate => _costToRelocate;
 
         public FloatTowerAttribute Range => _attackRange;
         public FloatTowerAttribute Cooldown => _cooldown;

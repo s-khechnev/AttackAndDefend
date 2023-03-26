@@ -7,7 +7,8 @@ namespace Defender.Towers
 {
     public class TowerBuilder : MonoBehaviour
     {
-        public event Action<TowerView> TowerPlaced;
+        public event Action<TowerView> TowerBuilt;
+        public event Action<TowerView> TowerRelocated;
 
         private TilePlacement[] _tiles;
         private Camera _mainCamera;
@@ -20,6 +21,9 @@ namespace Defender.Towers
         private const string GroundLayer = "Ground";
 
         [Inject] private TowerFactory _towerFactory;
+
+        private bool _isRelocating = false;
+        private TilePlacement _tileBeforeMoving;
 
         private void Awake()
         {
@@ -104,14 +108,23 @@ namespace Defender.Towers
 
         private void PlaceTower()
         {
-            TowerPlaced?.Invoke(_buildingTowerView);
+            if (!_isRelocating)
+            {
+                TowerBuilt?.Invoke(_buildingTowerView);
+                _buildingTowerView.HideState();
+            }
+            else
+            {
+                TowerRelocated?.Invoke(_buildingTowerView);
+            }
 
             _assumedTilePlacement.SetState(PlacementTileState.Filled);
             HideTileStates();
 
             _buildingTowerView.Tower.enabled = true;
-            _buildingTowerView.HideState();
             _buildingTowerView = null;
+
+            _isRelocating = false;
 
             DefenderGUIManager.SetState(DefenderGameState.Normal);
         }
@@ -119,8 +132,43 @@ namespace Defender.Towers
         private void CancelBuilding()
         {
             HideTileStates();
-            _towerFactory.Reclaim(_buildingTowerView.Tower);
             DefenderGUIManager.SetState(DefenderGameState.Normal);
+
+            if (!_isRelocating)
+                _towerFactory.Reclaim(_buildingTowerView.Tower);
+            else
+            {
+                _isRelocating = false;
+
+                _buildingTowerView.SetPlacementState(PlacementTowerState.Available);
+                _buildingTowerView.transform.position = _tileBeforeMoving.CenterPosition;
+                _buildingTowerView.Tower.enabled = true;
+                _buildingTowerView = null;
+
+                _tileBeforeMoving.SetState(PlacementTileState.Filled);
+            }
+        }
+
+        public void RelocateTower(TowerView towerView)
+        {
+            if (_buildingTowerView == null)
+            {
+                if (Physics.Raycast(towerView.transform.position, Vector3.down, out var hit, 5f, _groundLayerMask))
+                {
+                    if (hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement))
+                    {
+                        _isRelocating = true;
+
+                        _tileBeforeMoving = tilePlacement;
+                        tilePlacement.SetState(PlacementTileState.Empty);
+                        ShowTileStates();
+
+                        towerView.Tower.enabled = false;
+
+                        _buildingTowerView = towerView;
+                    }
+                }
+            }
         }
     }
 }

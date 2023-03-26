@@ -15,7 +15,7 @@ namespace Defender.HUD
     {
         [SerializeField] private WaveMenu _waveMenu;
         [SerializeField] private TowerBuildMenu _towerBuildMenu;
-        [SerializeField] private TowerUpgradeMenu _towerUpgradeMenu;
+        [SerializeField] private TowerInfoMenu _towerInfoMenu;
         [SerializeField] private MoneyMenu _moneyMenu;
         [SerializeField] private CastleMenu _castleMenu;
 
@@ -29,7 +29,7 @@ namespace Defender.HUD
 
             InitWaveMenu();
             InitTowerBuildMenu();
-            InitTowerUpgradeMenu();
+            InitTowerInfoMenu();
             InitMoneyMenu();
             InitCastleMenu();
         }
@@ -45,11 +45,11 @@ namespace Defender.HUD
             _diContainer.Inject(_towerBuildMenu);
             _towerBuildMenu.Init();
         }
-
-        private void InitTowerUpgradeMenu()
+        
+        private void InitTowerInfoMenu()
         {
-            _diContainer.Inject(_towerUpgradeMenu);
-            _towerUpgradeMenu.Init();
+            _diContainer.Inject(_towerInfoMenu);
+            _towerInfoMenu.Init();
         }
 
         private void InitMoneyMenu()

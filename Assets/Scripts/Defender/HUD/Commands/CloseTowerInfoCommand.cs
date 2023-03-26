@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 namespace Defender.HUD.Commands
 {
-    public class CloseUpgradeCommand : CommandBase
+    public class CloseTowerInfoCommand : CommandBase
     {
-        public CloseUpgradeCommand(GUIMenuBase panel) : base(panel)
+        public CloseTowerInfoCommand(GUIMenuBase panel) : base(panel)
         {
         }
 
