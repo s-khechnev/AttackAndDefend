@@ -20,13 +20,22 @@ namespace Defender.Towers
         private Color _realColor;
         private Renderer _tileRenderer;
 
-        public Vector3 CenterPosition => transform.GetChild(0).transform.position;
+        public Vector3 CenterPosition { get; private set; }
 
         private void Awake()
         {
             _tileRenderer = GetComponent<Renderer>();
 
+            InitTileCenter();
+
             SetState(PlacementTileState.Empty);
+        }
+
+        private void InitTileCenter()
+        {
+            var bounds = _tileRenderer.bounds;
+            var center = bounds.center;
+            CenterPosition = center + Vector3.up * bounds.size.y / 2;
         }
 
         public void ShowState()

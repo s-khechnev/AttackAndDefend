@@ -26,7 +26,7 @@ namespace Defender.Towers
         public int CurrentLevel
         {
             get => _currentLevel;
-            set
+            protected set
             {
                 _currentLevel = value;
                 LevelChanged?.Invoke(_currentLevel, _maxLevel);

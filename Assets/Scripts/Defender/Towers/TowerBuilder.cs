@@ -135,7 +135,9 @@ namespace Defender.Towers
             DefenderGUIManager.SetState(DefenderGameState.Normal);
 
             if (!_isRelocating)
+            {
                 _towerFactory.Reclaim(_buildingTowerView.Tower);
+            }
             else
             {
                 _isRelocating = false;
@@ -151,24 +153,19 @@ namespace Defender.Towers
 
         public void RelocateTower(TowerView towerView)
         {
-            if (_buildingTowerView == null)
-            {
-                if (Physics.Raycast(towerView.transform.position, Vector3.down, out var hit, 5f, _groundLayerMask))
-                {
-                    if (hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement))
-                    {
-                        _isRelocating = true;
+            if (_buildingTowerView != null) return;
+            if (!Physics.Raycast(towerView.transform.position, Vector3.down, out var hit, 5f, _groundLayerMask)) return;
+            if (!hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement)) return;
 
-                        _tileBeforeMoving = tilePlacement;
-                        tilePlacement.SetState(PlacementTileState.Empty);
-                        ShowTileStates();
+            DefenderGUIManager.SetState(DefenderGameState.Building);
+            _isRelocating = true;
 
-                        towerView.Tower.enabled = false;
+            _tileBeforeMoving = tilePlacement;
+            tilePlacement.SetState(PlacementTileState.Empty);
+            ShowTileStates();
 
-                        _buildingTowerView = towerView;
-                    }
-                }
-            }
+            towerView.Tower.enabled = false;
+            _buildingTowerView = towerView;
         }
     }
 }
