@@ -9,14 +9,14 @@ namespace Attackers
     public abstract class Attacker : MonoBehaviour
     {
         public event Action<Attacker> Died;
-        public event Action<int, int> HealthChanged;
+        public event Action<Attacker, int, int> HealthChanged;
 
         [Inject] protected AttackerFactory Factory;
 
         [SerializeField] private AttackerData _attackerData;
 
         private AttackerMovement _mover;
-        
+
         public AttackerData AttackerData => _attackerData;
         public int Health { get; private set; }
         public float DistanceToCastle => _mover.DistanceToCastle;
@@ -44,7 +44,7 @@ namespace Attackers
         public void TakeDamage(int damage)
         {
             Health -= damage;
-            HealthChanged?.Invoke(Health, _attackerData.Health);
+            HealthChanged?.Invoke(this, Health, _attackerData.Health);
 
             if (Health <= 0)
             {

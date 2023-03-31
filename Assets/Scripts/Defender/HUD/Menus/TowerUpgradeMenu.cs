@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Defender.HUD.Bars;
 using Defender.HUD.Commands;
 using Defender.Towers;
@@ -22,31 +21,38 @@ namespace Defender.HUD.Menus
         [SerializeField] private TowerAttributeBar _rangeUpgradeBar;
         [SerializeField] private TowerAttributeBar _cooldownUpgradeBar;
 
+        [Inject] private TowerFactory _towerFactory;
         [Inject] private Wallet _wallet;
 
-        private List<TowerUpgradeCommand> _towerUpgradeCommands;
+        private UpgradeAttributeCommand _upgradeDamageCommand;
+        private UpgradeAttributeCommand _upgradeRangeCommand;
+        private UpgradeAttributeCommand _upgradeCooldownCommand;
 
         public override void Init()
         {
             Instance = _panel;
 
-            var upgradeDamageCommand = new UpgradeDamageCommand(this, _wallet);
-            var upgradeRangeCommand = new UpgradeRangeCommand(this, _wallet);
-            var upgradeCooldownCommand = new UpgradeCooldownCommand(this, _wallet);
+            _upgradeDamageCommand = new UpgradeAttributeCommand(this, _wallet);
+            _upgradeRangeCommand = new UpgradeAttributeCommand(this, _wallet);
+            _upgradeCooldownCommand = new UpgradeAttributeCommand(this, _wallet);
 
-            _towerUpgradeCommands = new();
-            _towerUpgradeCommands.Add(upgradeDamageCommand);
-            _towerUpgradeCommands.Add(upgradeRangeCommand);
-            _towerUpgradeCommands.Add(upgradeCooldownCommand);
+            AssociateButton(_upgradeDamageButton, _upgradeDamageCommand);
+            AssociateButton(_upgradeRangeButton, _upgradeRangeCommand);
+            AssociateButton(_upgradeCooldownButton, _upgradeCooldownCommand);
 
-            AssociateButton(_upgradeDamageButton, upgradeDamageCommand);
-            AssociateButton(_upgradeRangeButton, upgradeRangeCommand);
-            AssociateButton(_upgradeCooldownButton, upgradeCooldownCommand);
+            _towerFactory.TowerTapped += OnTowerTapped;
         }
 
-        public void SetTowerData(TowerData towerData)
+        private void OnTowerTapped(Tower tower)
         {
-            _towerUpgradeCommands.ForEach(command => command.SetTowerData(towerData));
+            SetAttributes(tower.TowerData);   
+        }
+
+        private void SetAttributes(TowerData towerData)
+        {
+            _upgradeDamageCommand.SetAttribute(towerData.Damage);
+            _upgradeRangeCommand.SetAttribute(towerData.Range);
+            _upgradeCooldownCommand.SetAttribute(towerData.Cooldown);
 
             _damageUpgradeBar.Init(towerData.Damage);
             _rangeUpgradeBar.Init(towerData.Range);

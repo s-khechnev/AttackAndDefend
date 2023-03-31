@@ -22,13 +22,6 @@ namespace Defender.HUD.Menus
                 var buildTowerCommand = new BuildTowerCommand(this, _towerBuilder, button.TowerToBuild, _wallet);
                 AssociateButton(button, buildTowerCommand);
             }
-
-            _towerBuilder.TowerBuilt += OnTowerBuilt;
-        }
-
-        private void OnTowerBuilt(TowerView placedTowerView)
-        {
-            _wallet.Purchase(placedTowerView.Tower.TowerData.Cost);
         }
     }
 }

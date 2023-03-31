@@ -5,9 +5,9 @@ namespace Defender.HUD.Commands
 {
     public abstract class CommandBase : ICommand
     {
-        protected GUIMenuBase Panel;
+        protected readonly GUIMenuBase Panel;
 
-        public CommandBase(GUIMenuBase panel)
+        protected CommandBase(GUIMenuBase panel)
         {
             Panel = panel;
         }

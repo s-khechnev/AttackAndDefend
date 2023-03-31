@@ -7,17 +7,16 @@ namespace Defender.Towers
     [SelectionBase, RequireComponent(typeof(BoxCollider))]
     public abstract class Tower : MonoBehaviour
     {
-        [Inject] protected TowerFactory TowerFactory;
         [Inject] protected WarFactory WarFactory;
 
         [SerializeField] protected Transform _launchPoint;
         [SerializeField] private TowerData _towerData;
-        [SerializeField] private Transform _pivot;
 
         private float _elapsedTimeFromShoot;
-        private TargetFinder _targetFinder;
 
         public TowerData TowerData => _towerData;
+        public TowerView TowerView { get; private set; }
+        public TargetFinder TargetFinder { get; private set; }
 
         protected abstract void Shoot(Attacker target);
 
@@ -26,7 +25,9 @@ namespace Defender.Towers
             _towerData = Instantiate(_towerData);
             _towerData.Range.ValueChanged += OnRangeValueChanged;
 
-            _targetFinder = GetComponentInChildren<TargetFinder>();
+            TargetFinder = GetComponentInChildren<TargetFinder>();
+
+            TowerView = GetComponent<TowerView>();
 
             _elapsedTimeFromShoot = _towerData.Cooldown.Value;
         }
@@ -40,21 +41,20 @@ namespace Defender.Towers
         {
             _elapsedTimeFromShoot += Time.deltaTime;
 
-            if (_targetFinder.Target != null)
+            if (TargetFinder.Target == null) return;
+            
+            TowerView.LookAt(TargetFinder.Target.transform);
+            
+            if (_elapsedTimeFromShoot >= _towerData.Cooldown.Value)
             {
-                _pivot.LookAt(_targetFinder.Target.transform);
-
-                if (_elapsedTimeFromShoot >= _towerData.Cooldown.Value)
-                {
-                    Shoot(_targetFinder.Target);
-                    _elapsedTimeFromShoot = 0;
-                }
+                Shoot(TargetFinder.Target);
+                _elapsedTimeFromShoot = 0;
             }
         }
 
         private void OnRangeValueChanged(float newRange)
         {
-            _targetFinder.InitRange(newRange);
+            TargetFinder.InitRange(newRange);
         }
     }
 }

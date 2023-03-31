@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 5
   _speed: 3
-  _health: 0
+  _health: 10
   _reward: 10

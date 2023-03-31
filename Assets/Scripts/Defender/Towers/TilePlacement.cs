@@ -15,8 +15,8 @@ namespace Defender.Towers
 
         private readonly Color _filledColor = new Color(1f, 0.34f, 0.27f);
         private readonly Color _emptyColor = new Color(0.38f, 1f, 0.27f);
-
         private readonly Color _normalColor = Color.white;
+        
         private Color _realColor;
         private Renderer _tileRenderer;
 
@@ -33,9 +33,9 @@ namespace Defender.Towers
 
         private void InitTileCenter()
         {
-            var bounds = _tileRenderer.bounds;
-            var center = bounds.center;
-            CenterPosition = center + Vector3.up * bounds.size.y / 2;
+            var center = _tileRenderer.bounds.center;
+            center.y = 0;
+            CenterPosition = center;
         }
 
         public void ShowState()

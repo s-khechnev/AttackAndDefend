@@ -1,4 +1,5 @@
 ﻿using System;
+using Defender.HUD;
 using UnityEngine;
 
 namespace Defender.Towers
@@ -6,9 +7,11 @@ namespace Defender.Towers
     [RequireComponent(typeof(Tower), typeof(LineRenderer))]
     public class TowerView : MonoBehaviour
     {
-        public event Action<TowerView> TowerTapped;
+        public event Action<Tower> TowerTapped;
 
         [SerializeField] private Material _circleRangeMaterial;
+
+        [SerializeField] private Transform _pivot;
 
         private TowerGhost _towerGhost;
         private RangeViewer _rangeViewer;
@@ -34,6 +37,15 @@ namespace Defender.Towers
             _rangeViewer.DrawCircle(newRange);
         }
 
+        private void OnMouseDown()
+        {
+            if (!isActiveAndEnabled || DefenderGUIManager.GameState == DefenderGameState.Building)
+                return;
+            
+            ShowState();
+            TowerTapped?.Invoke(Tower);
+        }
+
         public void SetPlacementState(PlacementTowerState state)
         {
             _towerGhost.SetState(state);
@@ -45,16 +57,15 @@ namespace Defender.Towers
             _rangeViewer.Hide();
         }
 
-        public void ShowState()
+        private void ShowState()
         {
             _towerGhost.Show();
             _rangeViewer.Show();
         }
 
-        private void OnMouseDown()
+        public void LookAt(Transform targetTransform)
         {
-            if (isActiveAndEnabled)
-                TowerTapped?.Invoke(this);
+            _pivot.LookAt(targetTransform);
         }
     }
 }

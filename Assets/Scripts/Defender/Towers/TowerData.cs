@@ -10,8 +10,15 @@ namespace Defender.Towers
         public int MaxLevel { get; }
     }
 
+    public interface IUpgradable
+    {
+        public void Upgrade();
+        public int CostUpgrade { get; }
+        public bool CanUpgrade { get; }
+    }
+
     [Serializable]
-    public abstract class TowerAttribute<T> : ILevelChanger
+    public abstract class TowerAttribute<T> : ILevelChanger, IUpgradable
     {
         public event Action<int, int> LevelChanged;
         public event Action<T> ValueChanged;
@@ -93,20 +100,5 @@ namespace Defender.Towers
         public FloatTowerAttribute Range => _attackRange;
         public FloatTowerAttribute Cooldown => _cooldown;
         public IntTowerAttribute Damage => _damage;
-
-        public void UpgradeRange()
-        {
-            _attackRange.Upgrade();
-        }
-
-        public void UpgradeCooldown()
-        {
-            _cooldown.Upgrade();
-        }
-
-        public void UpgradeDamage()
-        {
-            _damage.Upgrade();
-        }
     }
 }

@@ -13,14 +13,13 @@ namespace Defender.HUD.Menus
     public class TowerInfoMenu : GUIMenuBase
     {
         [SerializeField] private GameObject _panel;
-        [SerializeField] private TowerUpgradeMenu _towerUpgradeMenu;
         [SerializeField] private Button _closeMenuButton;
+        [SerializeField] private Button _changeTargetSelectorButton;
+        [SerializeField] private TMP_Text _targetSelectorDescription;
         [SerializeField] private Button _relocateTowerButton;
         [SerializeField] private TMP_Text _towerName;
 
         [SerializeField] private TowerBuilder _towerBuilder;
-
-        [Inject] private DiContainer _diContainer;
 
         [Inject] private TowerFactory _towerFactory;
         [Inject] private Wallet _wallet;
@@ -29,55 +28,46 @@ namespace Defender.HUD.Menus
         private TowerView _currentTowerView;
 
         private RelocateTowerCommand _relocateTowerCommand;
-        
+        private ChangeTargetSelectorCommand _changeTargetSelectorCommand;
+
         public override void Init()
         {
-            _diContainer.Inject(_towerUpgradeMenu);
-            _towerUpgradeMenu.Init();
-
             Instance = _panel;
             
-            AssociateButton(_closeMenuButton, new CloseTowerInfoCommand(this));
-
             _relocateTowerCommand = new RelocateTowerCommand(this, _towerBuilder, _wallet);
             AssociateButton(_relocateTowerButton, _relocateTowerCommand);
-
-            _towerFactory.TowerTapped += OnTowerTapped;
-            _towerBuilder.TowerRelocated += OnTowerRelocated;
             
+            _changeTargetSelectorCommand = new ChangeTargetSelectorCommand(this, _targetSelectorDescription);
+            AssociateButton(_changeTargetSelectorButton, _changeTargetSelectorCommand);
+            
+            AssociateButton(_closeMenuButton, new CloseTowerInfoCommand(this));
+            
+            _towerFactory.TowerTapped += OnTowerTapped;
+
             Hide();
         }
 
-        private void OnTowerTapped(TowerView towerView)
+        private void OnTowerTapped(Tower tower)
         {
-            var towerDataToUpgrade = towerView.Tower.TowerData;
-
-            if (_currentTowerData == towerDataToUpgrade || DefenderGUIManager.GameState == DefenderGameState.Building)
+            if (_currentTowerData == tower.TowerData)
                 return;
 
             if (IsShown(Instance))
                 _currentTowerView.HideState();
 
-            Show();
-            towerView.ShowState();
-            
-            _currentTowerData = towerDataToUpgrade;
-            _currentTowerView = towerView;
-            
-            _relocateTowerCommand.SetTowerView(towerView);
-            SetTowerData(towerDataToUpgrade);
-        }
+            _currentTowerData = tower.TowerData;
+            _currentTowerView = tower.TowerView;
 
-        private void OnTowerRelocated(TowerView towerView)
-        {
-            _wallet.Purchase(towerView.Tower.TowerData.CostToRelocate);
+            SetTowerData(tower.TowerData);
+            _relocateTowerCommand.SetTowerView(tower.TowerView);
+            _changeTargetSelectorCommand.SetTargetFinder(tower.TargetFinder);
+
+            Show();
         }
 
         private void SetTowerData(TowerData towerData)
         {
             _towerName.text = towerData.Name;
-            
-            _towerUpgradeMenu.SetTowerData(towerData);
         }
         
         public override void Hide()

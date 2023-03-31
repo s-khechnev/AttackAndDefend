@@ -7,9 +7,9 @@ namespace Defender.HUD.Commands
 {
     public class BuildTowerCommand : CommandBase
     {
-        private TowerBuilder _towerBuilder;
-        private Tower _towerToBuild;
-        private Wallet _wallet;
+        private readonly TowerBuilder _towerBuilder;
+        private readonly Tower _towerToBuild;
+        private readonly Wallet _wallet;
 
         public BuildTowerCommand(GUIMenuBase panel, TowerBuilder towerBuilder, Tower tower, Wallet wallet) : base(panel)
         {

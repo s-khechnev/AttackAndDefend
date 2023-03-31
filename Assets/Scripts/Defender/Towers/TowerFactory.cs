@@ -7,7 +7,7 @@ namespace Defender.Towers
     [CreateAssetMenu(fileName = "TowerFactory", menuName = "ScriptableObjects/TowerFactory")]
     public class TowerFactory : ScriptableObject
     {
-        public event Action<TowerView> TowerTapped;
+        public event Action<Tower> TowerTapped;
 
         [Inject] private IInstantiator _instantiator;
 
@@ -22,9 +22,9 @@ namespace Defender.Towers
             return towerView;
         }
 
-        private void OnTowerTapped(TowerView towerView)
+        private void OnTowerTapped(Tower tower)
         {
-            TowerTapped?.Invoke(towerView);
+            TowerTapped?.Invoke(tower);
         }
 
         public void Reclaim(Tower tower)

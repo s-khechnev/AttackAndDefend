@@ -7,9 +7,10 @@ namespace Defender.HUD.Commands
 {
     public class RelocateTowerCommand : CommandBase
     {
-        private TowerBuilder _towerBuilder;
+        private readonly TowerBuilder _towerBuilder;
+        private readonly Wallet _wallet;
+        
         private TowerView _towerView;
-        private Wallet _wallet;
 
         public RelocateTowerCommand(GUIMenuBase panel, TowerBuilder towerBuilder, Wallet wallet) : base(panel)
         {
