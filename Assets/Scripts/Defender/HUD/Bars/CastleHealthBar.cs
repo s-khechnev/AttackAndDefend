@@ -5,7 +5,13 @@ namespace Defender.HUD.Bars
 {
     public class CastleHealthBar : Bar
     {
-        [Inject] private Castle _castle;
+        private Castle _castle;
+
+        [Inject]
+        private void Construct(Castle castle)
+        {
+            _castle = castle;
+        }
 
         private void Start()
         {

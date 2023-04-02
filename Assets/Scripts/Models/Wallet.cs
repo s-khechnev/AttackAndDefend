@@ -1,4 +1,6 @@
 ﻿using System;
+using Attackers;
+using Zenject;
 
 namespace Models
 {
@@ -6,13 +8,34 @@ namespace Models
     {
         public event Action<int> MoneyChanged;
 
+        public int Money
+        {
+            get => _money;
+            private set
+            {
+                if (_money == value)
+                    return;
+                
+                _money = value;
+                MoneyChanged?.Invoke(_money);
+            }
+        }
+        
+        private int _money;
+        
         private const int DefaultCountMoney = 100;
 
-        public int Money { get; private set; }
-
-        public Wallet()
+        [Inject]
+        public Wallet(IAttackerFactory attackerFactory)
         {
             Money = DefaultCountMoney;
+            
+            attackerFactory.AttackerDied += OnAttackerDied;
+        }
+
+        private void OnAttackerDied(Attacker died)
+        {
+            AddMoney(died.AttackerData.Reward);
         }
 
         public bool IsEnoughMoney(int cost)
@@ -23,19 +46,14 @@ namespace Models
         public void Purchase(int cost)
         {
             if (Money < cost)
-            {
                 throw new Exception("Not enough money for purchase");
-            }
             
             Money -= cost;
-            
-            MoneyChanged?.Invoke(Money);
         }
 
-        public void AddMoney(int amount)
+        private void AddMoney(int amount)
         {
             Money += amount;
-            MoneyChanged?.Invoke(Money);
         }
     }
 }

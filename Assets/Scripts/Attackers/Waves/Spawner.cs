@@ -10,15 +10,21 @@ namespace Attackers.Waves
     {
         public event Action WaveEnded;
         public event Action AllWavesEnded;
-
+        
         [SerializeField] private List<Wave> _waves;
-
-        [Inject] private AttackerFactory _attackerFactory;
-
+        
         private Wave _currentWave;
         private int _currentWaveIndex;
 
+        private IAttackerFactory _attackerFactory;
+        
         public bool IsWavesEnded => _currentWaveIndex + 1 == _waves.Count;
+
+        [Inject]
+        private void Construct(IAttackerFactory attackerFactory)
+        {
+            _attackerFactory = attackerFactory;
+        }
 
         private void Awake()
         {
@@ -36,24 +42,19 @@ namespace Attackers.Waves
         {
             foreach (var attackerPrefab in _currentWave.Attackers.Keys)
             {
-                for (int i = 0; i < _currentWave.Attackers[attackerPrefab]; i++)
+                for (var i = 0; i < _currentWave.Attackers[attackerPrefab]; i++)
                 {
-                    var attacker = _attackerFactory.Get(attackerPrefab);
-                    attacker.transform.position = transform.position;
+                    _attackerFactory.Create(attackerPrefab, transform.position);
                     yield return new WaitForSeconds(_currentWave.DelayBetweenSpawn);
                 }
             }
 
             yield return new WaitUntil(() => _attackerFactory.CountAttackers == 0);
 
-            if (_currentWaveIndex + 1 == _waves.Count)
-            {
+            if (IsWavesEnded)
                 AllWavesEnded?.Invoke();
-            }
             else
-            {
                 WaveEnded?.Invoke();
-            }
         }
     }
 }

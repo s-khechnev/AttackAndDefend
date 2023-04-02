@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 namespace Attackers.Movement
 {
@@ -7,35 +8,40 @@ namespace Attackers.Movement
     {
         private AttackerData _attackerData;
 
-        private Waypoints _waypoints;
         private Transform _currentPoint;
+        private Route _route;
 
         public float DistanceToCastle { get; private set; }
+
+        [Inject]
+        private void Construct(Route route)
+        {
+            _route = route;
+
+            DistanceToCastle = _route.DistanceToCastle;
+            _currentPoint = _route.GetNextPoint(_currentPoint);
+        }
 
         private void Awake()
         {
             _attackerData = GetComponent<Attacker>().AttackerData;
+        }
 
-            _waypoints = FindObjectOfType<Waypoints>();
-            DistanceToCastle = _waypoints.DistanceToCastle;
-            _currentPoint = _waypoints.GetNextPoint(_currentPoint);
+        private void Start()
+        {
             transform.position = _currentPoint.position;
         }
 
         private void Update()
         {
-            if (_currentPoint != null)
-            {
-                var stepDistance = _attackerData.Speed * Time.deltaTime;
+            if (_currentPoint == null) return;
 
-                transform.position =
-                    Vector3.MoveTowards(transform.position, _currentPoint.position, stepDistance);
+            var stepDistance = _attackerData.Speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, _currentPoint.position, stepDistance);
+            DistanceToCastle -= stepDistance;
 
-                DistanceToCastle -= stepDistance;
-
-                if (transform.position == _currentPoint.transform.position)
-                    _currentPoint = _waypoints.GetNextPoint(_currentPoint);
-            }
+            if (transform.position == _currentPoint.transform.position)
+                _currentPoint = _route.GetNextPoint(_currentPoint);
         }
     }
 }

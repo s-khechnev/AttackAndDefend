@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Attackers.Movement
 {
-    public class Waypoints : MonoBehaviour
+    public class Route : MonoBehaviour
     {
         public float DistanceToCastle { get; private set; }
 
@@ -16,23 +16,21 @@ namespace Attackers.Movement
             if (currentPoint == null)
                 return transform.GetChild(0);
 
-            if (currentPoint.GetSiblingIndex() < transform.childCount - 1)
-            {
-                return transform.GetChild(currentPoint.GetSiblingIndex() + 1);
-            }
-
-            return null;
+            return currentPoint.GetSiblingIndex() < transform.childCount - 1
+                ? transform.GetChild(currentPoint.GetSiblingIndex() + 1)
+                : null;
         }
 
         private float GetDistanceToCastle()
         {
-            var result = 0f;
+            var distanceToCastle = 0f;
             for (var i = 1; i < transform.childCount; i++)
             {
-                result += Vector3.Distance(transform.GetChild(i - 1).position, transform.GetChild(i).position);
+                distanceToCastle +=
+                    Vector3.Distance(transform.GetChild(i - 1).position, transform.GetChild(i).position);
             }
 
-            return result;
+            return distanceToCastle;
         }
     }
 }

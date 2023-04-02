@@ -11,8 +11,14 @@ namespace Defender.HUD.Menus
     public class WaveMenu : GUIMenuBase
     {
         [SerializeField] private Button _startNextWaveButton;
+        
+        private Spawner _spawner;
 
-        [Inject] private Spawner _spawner;
+        [Inject]
+        private void Construct(Spawner spawner)
+        {
+            _spawner = spawner;
+        }
 
         public override void Init()
         {

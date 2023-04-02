@@ -7,7 +7,13 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] private DefenderGUIManager _defenderGUIManager;
 
-    [Inject] private IInstantiator _instantiator;
+    private IInstantiator _instantiator;
+
+    [Inject]
+    private void Construct(IInstantiator instantiator)
+    {
+        _instantiator = instantiator;
+    }
 
     private void Awake()
     {

@@ -10,16 +10,21 @@ namespace Attackers
     {
         public event Action<Attacker> Died;
         public event Action<Attacker, int, int> HealthChanged;
-
-        [Inject] protected AttackerFactory Factory;
-
+        
         [SerializeField] private AttackerData _attackerData;
-
+        
         private AttackerMovement _mover;
-
-        public AttackerData AttackerData => _attackerData;
+        private IAttackerFactory _attackerFactory;
+        
         public int Health { get; private set; }
+        public AttackerData AttackerData => _attackerData;
         public float DistanceToCastle => _mover.DistanceToCastle;
+
+        [Inject]
+        private void Construct(IAttackerFactory attackerFactory)
+        {
+            _attackerFactory = attackerFactory;
+        }
 
         private void Awake()
         {
@@ -38,7 +43,7 @@ namespace Attackers
         protected virtual void Attack(Castle castle)
         {
             castle.TakeDamage(AttackerData.Damage);
-            Factory.Reclaim(this);
+            _attackerFactory.Destroy(this);
         }
 
         public void TakeDamage(int damage)

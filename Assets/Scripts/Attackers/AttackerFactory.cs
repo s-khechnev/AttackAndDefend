@@ -1,38 +1,49 @@
-﻿using Models;
+﻿using System;
 using UnityEngine;
 using Zenject;
 
 namespace Attackers
 {
-    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AttackerFactory")]
-    public class AttackerFactory : ScriptableObject
+    public class AttackerFactory : IAttackerFactory
     {
-        public int CountAttackers { get; private set; }
+        public event Action<Attacker> AttackerDied;
 
-        [Inject] private IInstantiator _instantiator;
-        [Inject] private Wallet _wallet;
+        public int CountAttackers { get; private set; }
 
         private const string AttackerLayerName = "Attacker";
 
-        public Attacker Get(Attacker attacker)
+        private readonly IInstantiator _instantiator;
+
+        [Inject]
+        public AttackerFactory(IInstantiator instantiator)
         {
-            var newAttacker = _instantiator.InstantiatePrefab(attacker).GetComponent<Attacker>();
-            newAttacker.Died += OnAttackerDied;
-            newAttacker.gameObject.layer = LayerMask.NameToLayer(AttackerLayerName);
+            _instantiator = instantiator;
+        }
+
+        public Attacker Create(Attacker prefab, Vector3 position)
+        {
+            var attacker =
+                _instantiator.InstantiatePrefabForComponent<Attacker>(prefab, position, Quaternion.identity,
+                    null);
+
+            attacker.gameObject.layer = LayerMask.NameToLayer(AttackerLayerName);
+            attacker.Died += OnAttackerDied;
+
             CountAttackers++;
-            return newAttacker;
+
+            return attacker;
         }
 
-        private void OnAttackerDied(Attacker attacker)
-        {
-            _wallet.AddMoney(attacker.AttackerData.Reward);
-            Reclaim(attacker);
-        }
-
-        public void Reclaim(Attacker attacker)
+        public void Destroy(Attacker gameObjectToDestroy)
         {
             CountAttackers--;
-            Destroy(attacker.gameObject);
+            UnityEngine.Object.Destroy(gameObjectToDestroy.gameObject);
+        }
+
+        private void OnAttackerDied(Attacker died)
+        {
+            Destroy(died);
+            AttackerDied?.Invoke(died);
         }
     }
 }

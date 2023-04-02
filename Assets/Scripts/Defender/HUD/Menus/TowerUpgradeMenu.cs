@@ -2,6 +2,7 @@
 using Defender.HUD.Bars;
 using Defender.HUD.Commands;
 using Defender.Towers;
+using Defender.Towers.Factories;
 using Models;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,12 +22,19 @@ namespace Defender.HUD.Menus
         [SerializeField] private TowerAttributeBar _rangeUpgradeBar;
         [SerializeField] private TowerAttributeBar _cooldownUpgradeBar;
 
-        [Inject] private TowerFactory _towerFactory;
-        [Inject] private Wallet _wallet;
-
         private UpgradeAttributeCommand _upgradeDamageCommand;
         private UpgradeAttributeCommand _upgradeRangeCommand;
         private UpgradeAttributeCommand _upgradeCooldownCommand;
+        
+        private ITowerViewFactory _towerFactory;
+        private Wallet _wallet;
+        
+        [Inject]
+        private void Construct(ITowerViewFactory towerViewFactory, Wallet wallet)
+        {
+            _towerFactory = towerViewFactory;
+            _wallet = wallet;
+        }
 
         public override void Init()
         {

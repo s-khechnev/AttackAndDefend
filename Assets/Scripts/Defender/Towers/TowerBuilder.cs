@@ -1,4 +1,5 @@
 ﻿using Defender.HUD;
+using Defender.Towers.Factories;
 using Models;
 using UnityEngine;
 using Zenject;
@@ -11,7 +12,7 @@ namespace Defender.Towers
         private Camera _mainCamera;
 
         private TowerView _buildingTowerView;
-        private TilePlacement _assumedTilePlacement;
+        private TilePlacement _assumedTowerPlacement;
         private bool _isTilePlacementEmpty;
 
         private LayerMask _groundLayerMask;
@@ -20,11 +21,18 @@ namespace Defender.Towers
 
         private const int MouseLeftButton = 0;
 
-        [Inject] private TowerFactory _towerFactory;
-        [Inject] private Wallet _wallet;
-
         private bool _isRelocating;
         private TilePlacement _tileBeforeMoving;
+
+        private global::Factories.IFactory<TowerView> _towerViewFactory;
+        private Wallet _wallet;
+
+        [Inject]
+        private void Construct(ITowerViewFactory towerViewFactory, Wallet wallet)
+        {
+            _towerViewFactory = towerViewFactory;
+            _wallet = wallet;
+        }
 
         private void Awake()
         {
@@ -34,16 +42,15 @@ namespace Defender.Towers
             _groundLayerMask = 1 << LayerMask.NameToLayer(GroundLayer);
         }
 
-        public void StartBuildTower(Tower tower)
+        public void StartBuildTower(TowerView towerView)
         {
-            if (_buildingTowerView == null)
-            {
-                DefenderGUIManager.SetState(DefenderGameState.Building);
-
-                ShowTileStates();
-
-                _buildingTowerView = _towerFactory.GetTowerView(tower);
-            }
+            if (_buildingTowerView != null) return;
+            
+            DefenderGUIManager.SetState(DefenderGameState.Building);
+            
+            ShowTileStates();
+            
+            _buildingTowerView = _towerViewFactory.Create(towerView, Vector3.zero);
         }
 
         private void ShowTileStates()
@@ -65,8 +72,8 @@ namespace Defender.Towers
         private void Update()
         {
             if (_buildingTowerView == null) return;
-            
-            Building();
+
+            MoveTower();
             if (Input.GetMouseButton(MouseLeftButton))
             {
                 if (_isTilePlacementEmpty)
@@ -76,27 +83,27 @@ namespace Defender.Towers
             }
         }
 
-        private void Building()
+        private void MoveTower()
         {
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (!Physics.Raycast(ray, out var hit, MaxRaycastDistance, _groundLayerMask)) return;
-            
+
             if (hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement) &&
                 tilePlacement.CurrentState == PlacementTileState.Empty)
             {
-                _assumedTilePlacement = tilePlacement;
-                _buildingTowerView.SetPlacementState(PlacementTowerState.Available);
-                _buildingTowerView.transform.position = _assumedTilePlacement.CenterPosition;
-
+                _assumedTowerPlacement = tilePlacement;
                 _isTilePlacementEmpty = true;
+
+                _buildingTowerView.SetPlacementState(PlacementTowerState.Available);
+                _buildingTowerView.transform.position = _assumedTowerPlacement.CenterPosition;
             }
             else
             {
-                _buildingTowerView.transform.position = hit.point;
-
-                _buildingTowerView.SetPlacementState(PlacementTowerState.Unavailable);
                 _isTilePlacementEmpty = false;
+
+                _buildingTowerView.transform.position = hit.point;
+                _buildingTowerView.SetPlacementState(PlacementTowerState.Unavailable);
             }
         }
 
@@ -112,7 +119,7 @@ namespace Defender.Towers
                 _wallet.Purchase(_buildingTowerView.Tower.TowerData.CostToRelocate);
             }
 
-            _assumedTilePlacement.SetState(PlacementTileState.Filled);
+            _assumedTowerPlacement.SetState(PlacementTileState.Filled);
             HideTileStates();
 
             _buildingTowerView.Tower.enabled = true;
@@ -130,7 +137,7 @@ namespace Defender.Towers
 
             if (!_isRelocating)
             {
-                _towerFactory.Reclaim(_buildingTowerView.Tower);
+                _towerViewFactory.Destroy(_buildingTowerView);
             }
             else
             {
@@ -148,7 +155,8 @@ namespace Defender.Towers
         public void RelocateTower(TowerView towerView)
         {
             if (_buildingTowerView != null) return;
-            if (!Physics.Raycast(towerView.transform.position, Vector3.down, out var hit, MaxRaycastDistance, _groundLayerMask)) return;
+            if (!Physics.Raycast(towerView.transform.position, Vector3.down, out var hit, MaxRaycastDistance,
+                    _groundLayerMask)) return;
             if (!hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement)) return;
 
             DefenderGUIManager.SetState(DefenderGameState.Building);

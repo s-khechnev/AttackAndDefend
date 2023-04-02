@@ -11,7 +11,6 @@ namespace ZenjectBinds
         public override void InstallBindings()
         {
             Container.Bind<Spawner>().FromInstance(_spawner).AsSingle();
-            Container.QueueForInject(_spawner);
         }
     }
 }

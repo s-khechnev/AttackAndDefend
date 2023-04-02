@@ -52,15 +52,12 @@ namespace Defender.Towers
         {
             CurrentState = newState;
 
-            switch (newState)
+            _realColor = newState switch
             {
-                case PlacementTileState.Filled:
-                    _realColor = _filledColor;
-                    break;
-                case PlacementTileState.Empty:
-                    _realColor = _emptyColor;
-                    break;
-            }
+                PlacementTileState.Filled => _filledColor,
+                PlacementTileState.Empty => _emptyColor,
+                _ => _realColor
+            };
         }
     }
 }

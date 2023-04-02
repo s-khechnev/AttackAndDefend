@@ -6,7 +6,7 @@ namespace Defender.Towers
     {
         protected override void Shoot(Attacker target)
         {
-            var bullet = WarFactory.GetBullet(_launchPoint.position);
+            var bullet = WarFactory.GetBullet(TowerData.Bullet, _launchPoint.position);
             bullet.Launch(target, TowerData.Damage.Value);
         }
     }

@@ -21,9 +21,13 @@ namespace Defender.HUD
         [SerializeField] private MoneyMenu _moneyMenu;
         [SerializeField] private CastleMenu _castleMenu;
 
-        [Inject] private DiContainer _diContainer;
+        private DiContainer _diContainer;
 
-        private List<GUIMenuBase> _menus;
+        [Inject]
+        private void Construct(DiContainer diContainer)
+        {
+            _diContainer = diContainer;
+        }
 
         public static DefenderGameState GameState { get; private set; }
 
@@ -36,10 +40,10 @@ namespace Defender.HUD
 
         private void InitMenus()
         {
-            _menus = new List<GUIMenuBase>
+            var menus = new List<GUIMenuBase>
                 { _waveMenu, _towerBuildMenu, _towerInfoMenu, _towerUpgradeMenu, _moneyMenu, _castleMenu };
 
-            foreach (var menu in _menus)
+            foreach (var menu in menus)
             {
                 _diContainer.Inject(menu);
                 menu.Init();

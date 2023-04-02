@@ -1,4 +1,5 @@
 ﻿using Attackers;
+using Defender.Towers.Factories;
 using UnityEngine;
 using Zenject;
 
@@ -7,8 +8,6 @@ namespace Defender.Towers
     [SelectionBase, RequireComponent(typeof(BoxCollider))]
     public abstract class Tower : MonoBehaviour
     {
-        [Inject] protected WarFactory WarFactory;
-
         [SerializeField] protected Transform _launchPoint;
         [SerializeField] private TowerData _towerData;
 
@@ -19,6 +18,14 @@ namespace Defender.Towers
         public TargetFinder TargetFinder { get; private set; }
 
         protected abstract void Shoot(Attacker target);
+
+        protected IWarFactory WarFactory;
+
+        [Inject]
+        private void Construct(IWarFactory warFactory)
+        {
+            WarFactory = warFactory;
+        }
 
         private void Awake()
         {
@@ -42,9 +49,9 @@ namespace Defender.Towers
             _elapsedTimeFromShoot += Time.deltaTime;
 
             if (TargetFinder.Target == null) return;
-            
+
             TowerView.LookAt(TargetFinder.Target.transform);
-            
+
             if (_elapsedTimeFromShoot >= _towerData.Cooldown.Value)
             {
                 Shoot(TargetFinder.Target);

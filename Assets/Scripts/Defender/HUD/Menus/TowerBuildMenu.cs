@@ -13,13 +13,19 @@ namespace Defender.HUD.Menus
         [SerializeField] private BuildTowerButton[] _buildTowerButtons;
         [SerializeField] private TowerBuilder _towerBuilder;
 
-        [Inject] private Wallet _wallet;
+        private Wallet _wallet;
+
+        [Inject]
+        private void Construct(Wallet wallet)
+        {
+            _wallet = wallet;
+        }
 
         public override void Init()
         {
             foreach (var button in _buildTowerButtons)
             {
-                var buildTowerCommand = new BuildTowerCommand(this, _towerBuilder, button.TowerToBuild, _wallet);
+                var buildTowerCommand = new BuildTowerCommand(this, _towerBuilder, button, _wallet);
                 AssociateButton(button, buildTowerCommand);
             }
         }

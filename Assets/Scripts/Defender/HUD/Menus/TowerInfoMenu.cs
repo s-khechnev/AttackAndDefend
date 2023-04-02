@@ -1,6 +1,7 @@
 ﻿using System;
 using Defender.HUD.Commands;
 using Defender.Towers;
+using Defender.Towers.Factories;
 using Models;
 using TMPro;
 using UnityEngine;
@@ -21,15 +22,22 @@ namespace Defender.HUD.Menus
 
         [SerializeField] private TowerBuilder _towerBuilder;
 
-        [Inject] private TowerFactory _towerFactory;
-        [Inject] private Wallet _wallet;
-        
         private TowerData _currentTowerData;
         private TowerView _currentTowerView;
 
         private RelocateTowerCommand _relocateTowerCommand;
         private ChangeTargetSelectorCommand _changeTargetSelectorCommand;
 
+        private ITowerViewFactory _towerFactory;
+        private Wallet _wallet;
+        
+        [Inject]
+        private void Construct(ITowerViewFactory towerViewFactory, Wallet wallet)
+        {
+            _towerFactory = towerViewFactory;
+            _wallet = wallet;
+        }
+        
         public override void Init()
         {
             Instance = _panel;
@@ -59,7 +67,7 @@ namespace Defender.HUD.Menus
             _currentTowerView = tower.TowerView;
 
             SetTowerData(tower.TowerData);
-            _relocateTowerCommand.SetTowerView(tower.TowerView);
+            _relocateTowerCommand.SetTower(tower);
             _changeTargetSelectorCommand.SetTargetFinder(tower.TargetFinder);
 
             Show();

@@ -11,7 +11,13 @@ namespace Defender.HUD.Menus
     {
         [SerializeField] private TMP_Text _moneyText;
 
-        [Inject] private Wallet _wallet;
+        private Wallet _wallet;
+        
+        [Inject]
+        private void Construct(Wallet wallet)
+        {
+            _wallet = wallet;
+        }
 
         public override void Init()
         {
