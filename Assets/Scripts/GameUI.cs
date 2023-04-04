@@ -5,6 +5,7 @@ using Zenject;
 
 public class GameUI : MonoBehaviour
 {
+    [SerializeField] private Camera _uiCamera;
     [SerializeField] private DefenderGUIManager _defenderGUIManager;
 
     private IInstantiator _instantiator;
@@ -22,24 +23,13 @@ public class GameUI : MonoBehaviour
 
     private void Init()
     {
-#if UNITY_EDITOR
         InitDefender();
-#else
-        switch (GameManager.Instance.GameMode)
-        {
-            case GameMode.Defender:
-                InitDefender();
-                break;
-            case GameMode.Attacker:
-                InitAttacker();
-                break;
-        }
-#endif
     }
 
     private void InitDefender()
     {
-        _instantiator.InstantiatePrefab(_defenderGUIManager, transform);
+        var defenderGUIManager = _instantiator.InstantiatePrefabForComponent<DefenderGUIManager>(_defenderGUIManager, transform);
+        defenderGUIManager.InitCamera(_uiCamera);
     }
 
     private void InitAttacker()

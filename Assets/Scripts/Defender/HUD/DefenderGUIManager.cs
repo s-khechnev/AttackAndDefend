@@ -12,6 +12,7 @@ namespace Defender.HUD
         Building
     }
 
+    [RequireComponent(typeof(Canvas))]
     public class DefenderGUIManager : MonoBehaviour
     {
         [SerializeField] private WaveMenu _waveMenu;
@@ -21,6 +22,8 @@ namespace Defender.HUD
         [SerializeField] private MoneyMenu _moneyMenu;
         [SerializeField] private CastleMenu _castleMenu;
 
+        private Canvas _canvas;
+        
         private DiContainer _diContainer;
 
         [Inject]
@@ -36,6 +39,8 @@ namespace Defender.HUD
             GameState = DefenderGameState.Normal;
 
             InitMenus();
+
+            _canvas = GetComponent<Canvas>();
         }
 
         private void InitMenus()
@@ -53,6 +58,12 @@ namespace Defender.HUD
         public static void SetState(DefenderGameState newState)
         {
             GameState = newState;
+        }
+
+        public void InitCamera(Camera uiCamera)
+        {
+            _canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            _canvas.worldCamera = uiCamera;
         }
     }
 }
