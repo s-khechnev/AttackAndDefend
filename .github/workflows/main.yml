@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branch: [ "master" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        unity-version:
+          - 2021.3.11f1
+        target-platform:
+          - StandaloneWindows64
+          - StandaloneLinux64
+    runs-on: ubuntu-latest
+    name: Build for ${{ matrix.target-platform }} for version unity - ${{ matrix.unity-version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache Library
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ matrix.unity-version }}-${{ matrix.target-platform }}-${{ hashFiles('Packages/packages-lock.json') }}
+
+      - name: Build
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: ${{ matrix.target-platform }}
+          unityVersion: ${{ matrix.unity-version }}
+
+      - name: Upload build in artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.target-platform }}-${{ matrix.unity-version }}
+          path: build/${{ matrix.target-platform }}
