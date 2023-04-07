@@ -6,18 +6,24 @@ using Zenject;
 
 namespace Attackers.Waves
 {
+    public enum WaveState
+    {
+        InProgress,
+        Pause
+    }
+
     public class Spawner : MonoBehaviour
     {
         public event Action WaveEnded;
         public event Action AllWavesEnded;
-        
+
         [SerializeField] private List<Wave> _waves;
-        
-        private Wave _currentWave;
         private int _currentWaveIndex;
 
         private IAttackerFactory _attackerFactory;
-        
+
+        public static WaveState WaveState { get; private set; }
+
         public bool IsWavesEnded => _currentWaveIndex + 1 == _waves.Count;
 
         [Inject]
@@ -28,28 +34,32 @@ namespace Attackers.Waves
 
         private void Awake()
         {
+            WaveState = WaveState.Pause;
             _currentWaveIndex = -1;
         }
 
         public void StartNextWave()
         {
+            WaveState = WaveState.InProgress;
+
             _currentWaveIndex++;
-            _currentWave = _waves[_currentWaveIndex];
-            StartCoroutine(SpawnCoroutine());
+            StartCoroutine(SpawnCoroutine(_waves[_currentWaveIndex]));
         }
 
-        private IEnumerator SpawnCoroutine()
+        private IEnumerator SpawnCoroutine(Wave wave)
         {
-            foreach (var attackerPrefab in _currentWave.Attackers.Keys)
+            foreach (var attackerPrefab in wave.Attackers.Keys)
             {
-                for (var i = 0; i < _currentWave.Attackers[attackerPrefab]; i++)
+                for (var i = 0; i < wave.Attackers[attackerPrefab]; i++)
                 {
                     _attackerFactory.Create(attackerPrefab, transform.position);
-                    yield return new WaitForSeconds(_currentWave.DelayBetweenSpawn);
+                    yield return new WaitForSeconds(wave.DelayBetweenSpawn);
                 }
             }
 
             yield return new WaitUntil(() => _attackerFactory.CountAttackers == 0);
+
+            WaveState = WaveState.Pause;
 
             if (IsWavesEnded)
                 AllWavesEnded?.Invoke();

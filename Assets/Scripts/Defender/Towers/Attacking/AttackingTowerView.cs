@@ -1,14 +1,11 @@
-﻿using System;
-using Defender.HUD;
+﻿using Defender.Towers.Base;
 using UnityEngine;
 
-namespace Defender.Towers
+namespace Defender.Towers.Attacking
 {
-    [RequireComponent(typeof(Tower), typeof(LineRenderer))]
-    public class TowerView : MonoBehaviour
+    [RequireComponent(typeof(AttackingTower), typeof(LineRenderer))]
+    public class AttackingTowerView : MonoBehaviour, ITowerView
     {
-        public event Action<Tower> TowerTapped;
-
         [SerializeField] private Material _circleRangeMaterial;
 
         [SerializeField] private Transform _pivot;
@@ -16,34 +13,15 @@ namespace Defender.Towers
         private TowerGhost _towerGhost;
         private RangeViewer _rangeViewer;
 
-        public Tower Tower { get; private set; }
-
         private void Awake()
         {
-            Tower = GetComponent<Tower>();
             _towerGhost = new TowerGhost(GetComponentsInChildren<Renderer>());
             _rangeViewer = new RangeViewer(GetComponent<LineRenderer>(), _circleRangeMaterial);
-
-            Tower.TowerData.Range.ValueChanged += OnRangeValueChanged;
         }
 
-        private void Start()
-        {
-            OnRangeValueChanged(Tower.TowerData.Range.Value);
-        }
-
-        private void OnRangeValueChanged(float newRange)
+        public void SetRange(float newRange)
         {
             _rangeViewer.DrawCircle(newRange);
-        }
-
-        private void OnMouseDown()
-        {
-            if (!isActiveAndEnabled || DefenderGUIManager.GameState == DefenderGameState.Building)
-                return;
-            
-            ShowState();
-            TowerTapped?.Invoke(Tower);
         }
 
         public void SetPlacementState(PlacementTowerState state)
@@ -57,7 +35,7 @@ namespace Defender.Towers
             _rangeViewer.Hide();
         }
 
-        private void ShowState()
+        public void ShowState()
         {
             _towerGhost.Show();
             _rangeViewer.Show();

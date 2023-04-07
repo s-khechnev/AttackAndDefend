@@ -1,5 +1,6 @@
 ﻿using Defender.HUD.Menus;
 using Defender.Towers;
+using Defender.Towers.Base;
 using Models;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ namespace Defender.HUD.Commands
         private readonly TowerBuilder _towerBuilder;
         private readonly Wallet _wallet;
         
-        private Tower _tower;
+        private BaseTower _towerToRelocate;
 
         public RelocateTowerCommand(GUIMenuBase panel, TowerBuilder towerBuilder, Wallet wallet) : base(panel)
         {
@@ -18,18 +19,18 @@ namespace Defender.HUD.Commands
             _wallet = wallet;
         }
 
-        public void SetTower(Tower tower)
+        public void SetTower(BaseTower tower)
         {
-            _tower = tower;
+            _towerToRelocate = tower;
         }
 
         public override bool CanExecute(Button button)
-            => _wallet.IsEnoughMoney(_tower.TowerData.Cost) &&
+            => _wallet.IsEnoughMoney(_towerToRelocate.BaseTowerData.Cost) &&
                DefenderGUIManager.GameState == DefenderGameState.Normal;
 
         public override void Execute(Button button)
         {
-            _towerBuilder.RelocateTower(_tower.TowerView);
+            _towerBuilder.RelocateTower(_towerToRelocate);
         }
     }
 }

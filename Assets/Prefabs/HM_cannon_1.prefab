@@ -128,8 +128,8 @@ GameObject:
   - component: {fileID: 4009342628254603107}
   - component: {fileID: 2081283937123505109}
   - component: {fileID: 4845450755677174052}
-  - component: {fileID: 3786305820047181453}
   - component: {fileID: 6305916739207077242}
+  - component: {fileID: 3769729139424791156}
   m_Layer: 7
   m_Name: HM_cannon_1
   m_TagString: Untagged
@@ -282,20 +282,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 1
---- !u!114 &3786305820047181453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1674050128692650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c22d5a805d5a4e7b94f5e5d77d482bec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _launchPoint: {fileID: 398882135250030014}
-  _towerData: {fileID: 11400000, guid: af685af887b2542449d1801a218b2a94, type: 2}
 --- !u!114 &6305916739207077242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +296,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _circleRangeMaterial: {fileID: 2100000, guid: bc60a8ad9b53e3445b965653878d3b04, type: 2}
   _pivot: {fileID: 60768712172554858}
+--- !u!114 &3769729139424791156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674050128692650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a62dab11294884adc3624d94ab5343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _towerData: {fileID: 11400000, guid: 3990b8195d4d7a8418db1d22c765b428, type: 2}
+  _launchPoint: {fileID: 398882135250030014}
 --- !u!1 &5052028970549076172
 GameObject:
   m_ObjectHideFlags: 0

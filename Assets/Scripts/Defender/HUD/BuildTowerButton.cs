@@ -1,4 +1,4 @@
-using Defender.Towers;
+using Defender.Towers.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,14 +6,8 @@ namespace Defender.HUD
 {
     public class BuildTowerButton : Button
     {
-        [SerializeField] private Tower _tower;
+        [SerializeField] private BaseTower _tower;
 
-        public Tower Tower => _tower;
-        public TowerView TowerView { get; private set; }
-
-        protected override void Awake()
-        {
-            TowerView = _tower.GetComponent<TowerView>();
-        }
+        public BaseTower Tower => _tower;
     }
 }

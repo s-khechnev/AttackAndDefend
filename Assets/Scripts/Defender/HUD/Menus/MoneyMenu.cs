@@ -1,25 +1,23 @@
-﻿using System;
-using Models;
+﻿using Models;
 using TMPro;
 using UnityEngine;
 using Zenject;
 
 namespace Defender.HUD.Menus
 {
-    [Serializable]
     public class MoneyMenu : GUIMenuBase
     {
         [SerializeField] private TMP_Text _moneyText;
 
         private Wallet _wallet;
-        
+
         [Inject]
         private void Construct(Wallet wallet)
         {
             _wallet = wallet;
         }
 
-        public override void Init()
+        private void Awake()
         {
             _wallet.MoneyChanged += OnMoneyChanged;
 

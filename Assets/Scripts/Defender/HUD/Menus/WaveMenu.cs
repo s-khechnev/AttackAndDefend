@@ -1,5 +1,4 @@
-﻿using System;
-using Attackers.Waves;
+﻿using Attackers.Waves;
 using Defender.HUD.Commands;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +6,6 @@ using Zenject;
 
 namespace Defender.HUD.Menus
 {
-    [Serializable]
     public class WaveMenu : GUIMenuBase
     {
         [SerializeField] private Button _startNextWaveButton;
@@ -20,7 +18,7 @@ namespace Defender.HUD.Menus
             _spawner = spawner;
         }
 
-        public override void Init()
+        private void Awake()
         {
             Instance = _startNextWaveButton.gameObject;
 

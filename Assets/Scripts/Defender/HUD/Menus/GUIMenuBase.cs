@@ -5,22 +5,19 @@ using UnityEngine.UI;
 
 namespace Defender.HUD.Menus
 {
-    public abstract class GUIMenuBase : IGUIMenu
+    public abstract class GUIMenuBase : MonoBehaviour, IGUIMenu
     {
         protected GameObject Instance;
         protected Dictionary<Button, ICommand> Associations = new();
-        protected List<Button> ActiveButtons;
-
-        public abstract void Init();
 
         public virtual void Show()
         {
-            Instance.gameObject.SetActive(true);
+            Instance.SetActive(true);
         }
 
         public virtual void Hide()
         {
-            Instance.gameObject.SetActive(false);
+            Instance.SetActive(false);
         }
 
         public virtual bool CanShow(GameObject guiItem)
@@ -30,7 +27,7 @@ namespace Defender.HUD.Menus
 
         public virtual bool IsShown(GameObject guiItem)
         {
-            return true;
+            return guiItem.activeSelf;
         }
 
         public virtual bool IsAvailable(GameObject guiItem)
@@ -63,16 +60,16 @@ namespace Defender.HUD.Menus
 
         protected virtual void AssociateButton(Button button, ICommand command)
         {
-            Associate(button, command);
+            AddAssociation(button, command);
             button.onClick.AddListener(() => ButtonClick(button));
         }
 
-        protected virtual void Associate(Button button, ICommand command)
+        private void AddAssociation(Button button, ICommand command)
         {
             Associations.Add(button, command);
         }
 
-        protected virtual void RemoveAssociation(Button button)
+        private void RemoveAssociation(Button button)
         {
             if (Associations.ContainsKey(button))
                 Associations.Remove(button);

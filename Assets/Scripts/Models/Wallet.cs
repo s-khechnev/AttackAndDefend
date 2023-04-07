@@ -15,21 +15,21 @@ namespace Models
             {
                 if (_money == value)
                     return;
-                
+
                 _money = value;
                 MoneyChanged?.Invoke(_money);
             }
         }
-        
+
         private int _money;
-        
+
         private const int DefaultCountMoney = 100;
 
         [Inject]
         public Wallet(IAttackerFactory attackerFactory)
         {
             Money = DefaultCountMoney;
-            
+
             attackerFactory.AttackerDied += OnAttackerDied;
         }
 
@@ -47,11 +47,11 @@ namespace Models
         {
             if (Money < cost)
                 throw new Exception("Not enough money for purchase");
-            
-            Money -= cost;
+
+            AddMoney(-cost);
         }
 
-        private void AddMoney(int amount)
+        public void AddMoney(int amount)
         {
             Money += amount;
         }

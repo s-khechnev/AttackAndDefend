@@ -18,7 +18,6 @@ namespace Defender.Towers
         private ITargetSelector CurrentSelector => _currentSelectorNode.Value;
 
         private SphereCollider _rangeCollider;
-        private float _attackRange;
 
         private void Awake()
         {
@@ -48,9 +47,8 @@ namespace Defender.Towers
             Target = CurrentSelector.GetTarget(_attackersInRange);
         }
 
-        public void InitRange(float range)
+        public void SetRange(float range)
         {
-            _attackRange = range;
             _rangeCollider.radius = range;
         }
 
@@ -95,11 +93,6 @@ namespace Defender.Towers
                 if (Target == attacker)
                     Target = CurrentSelector.GetTarget(_attackersInRange);
             }
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawWireSphere(transform.position, _attackRange);
         }
     }
 }

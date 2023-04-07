@@ -1,5 +1,4 @@
-﻿using System;
-using Defender.HUD.Commands;
+﻿using Defender.HUD.Commands;
 using Defender.Towers;
 using Models;
 using UnityEngine;
@@ -7,11 +6,11 @@ using Zenject;
 
 namespace Defender.HUD.Menus
 {
-    [Serializable]
     public class TowerBuildMenu : GUIMenuBase
     {
-        [SerializeField] private BuildTowerButton[] _buildTowerButtons;
         [SerializeField] private TowerBuilder _towerBuilder;
+        
+        private BuildTowerButton[] _buildTowerButtons;
 
         private Wallet _wallet;
 
@@ -21,11 +20,13 @@ namespace Defender.HUD.Menus
             _wallet = wallet;
         }
 
-        public override void Init()
+        private void Awake()
         {
+            _buildTowerButtons = FindObjectsOfType<BuildTowerButton>();
+            
             foreach (var button in _buildTowerButtons)
             {
-                var buildTowerCommand = new BuildTowerCommand(this, _towerBuilder, button, _wallet);
+                var buildTowerCommand = new BuildTowerCommand(this, _towerBuilder, button.Tower, _wallet);
                 AssociateButton(button, buildTowerCommand);
             }
         }

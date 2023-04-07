@@ -1,6 +1,9 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Defender.HUD.Commands;
 using Defender.Towers;
+using Defender.Towers.Attacking;
+using Defender.Towers.Base;
 using Defender.Towers.Factories;
 using Models;
 using TMPro;
@@ -10,87 +13,116 @@ using Zenject;
 
 namespace Defender.HUD.Menus
 {
-    [Serializable]
     public class TowerInfoMenu : GUIMenuBase
     {
         [SerializeField] private GameObject _panel;
         [SerializeField] private Button _closeMenuButton;
         [SerializeField] private Button _changeTargetSelectorButton;
-        [SerializeField] private TMP_Text _targetSelectorDescription;
+        [SerializeField] private TMP_Text _targetSelectorView;
         [SerializeField] private Button _relocateTowerButton;
         [SerializeField] private TMP_Text _towerName;
 
+        [SerializeField] private Transform _attributeContainer;
+
         [SerializeField] private TowerBuilder _towerBuilder;
 
-        private TowerData _currentTowerData;
-        private TowerView _currentTowerView;
+        private BaseTower _currentTower;
 
         private RelocateTowerCommand _relocateTowerCommand;
         private ChangeTargetSelectorCommand _changeTargetSelectorCommand;
 
-        private ITowerViewFactory _towerFactory;
+        private ITowerFactory _towerFactory;
         private Wallet _wallet;
-        
+
         [Inject]
-        private void Construct(ITowerViewFactory towerViewFactory, Wallet wallet)
+        private void Construct(ITowerFactory towerFactory, Wallet wallet)
         {
-            _towerFactory = towerViewFactory;
+            _towerFactory = towerFactory;
             _wallet = wallet;
         }
-        
-        public override void Init()
+
+        private void Awake()
         {
             Instance = _panel;
-            
-            _relocateTowerCommand = new RelocateTowerCommand(this, _towerBuilder, _wallet);
-            AssociateButton(_relocateTowerButton, _relocateTowerCommand);
-            
-            _changeTargetSelectorCommand = new ChangeTargetSelectorCommand(this, _targetSelectorDescription);
-            AssociateButton(_changeTargetSelectorButton, _changeTargetSelectorCommand);
-            
-            AssociateButton(_closeMenuButton, new CloseTowerInfoCommand(this));
-            
-            _towerFactory.TowerTapped += OnTowerTapped;
 
+            InitButtons();
+
+            _towerFactory.TowerTapped += OnTowerTapped;
+        }
+
+        private void Start()
+        {
             Hide();
         }
 
-        private void OnTowerTapped(Tower tower)
+        private void InitButtons()
         {
-            if (_currentTowerData == tower.TowerData)
+            _relocateTowerCommand = new RelocateTowerCommand(this, _towerBuilder, _wallet);
+            AssociateButton(_relocateTowerButton, _relocateTowerCommand);
+
+            _changeTargetSelectorCommand = new ChangeTargetSelectorCommand(this, _targetSelectorView);
+            AssociateButton(_changeTargetSelectorButton, _changeTargetSelectorCommand);
+
+            AssociateButton(_closeMenuButton, new CloseTowerInfoCommand(this));
+        }
+
+        private void OnTowerTapped(BaseTower tower)
+        {
+            if (_currentTower == tower)
                 return;
 
             if (IsShown(Instance))
-                _currentTowerView.HideState();
+                _currentTower.TowerView.HideState();
+            else
+                Show();
 
-            _currentTowerData = tower.TowerData;
-            _currentTowerView = tower.TowerView;
+            _currentTower = tower;
 
-            SetTowerData(tower.TowerData);
+            SetTowerData(tower.BaseTowerData);
             _relocateTowerCommand.SetTower(tower);
-            _changeTargetSelectorCommand.SetTargetFinder(tower.TargetFinder);
 
-            Show();
+            if (tower is AttackingTower attackingTower)
+            {
+                _changeTargetSelectorButton.gameObject.SetActive(true);
+                _changeTargetSelectorCommand.SetTargetFinder(attackingTower.TargetFinder);
+            }
+            else
+            {
+                _changeTargetSelectorButton.gameObject.SetActive(false);
+            }
         }
 
-        private void SetTowerData(TowerData towerData)
+        private void SetTowerData(BaseTowerData baseTowerData)
         {
-            _towerName.text = towerData.Name;
+            _towerName.text = baseTowerData.Name;
+
+            StartCoroutine(ReinitAttributes(baseTowerData.Attributes));
         }
-        
+
+        private IEnumerator ReinitAttributes(IReadOnlyList<Attribute> attributes)
+        {
+            for (var i = 0; i < _attributeContainer.childCount; i++)
+            {
+                _attributeContainer.GetChild(i).gameObject.SetActive(false);
+            }
+
+            for (var i = 0; i < attributes.Count; i++)
+            {
+                var attributeView = _attributeContainer.GetChild(i).GetComponent<AttributeUpgradeView>();
+                attributeView.gameObject.SetActive(true);
+                attributeView.Init(attributes[i]);
+                yield return null;
+            }
+        }
+
         public override void Hide()
         {
             base.Hide();
 
-            if (_currentTowerData == null || _currentTowerView == null) return;
+            if (_currentTower == null) return;
 
-            _currentTowerView.HideState();
-            _currentTowerData = null;
-        }
-
-        public override bool IsShown(GameObject guiItem)
-        {
-            return guiItem.activeSelf;
+            _currentTower.TowerView.HideState();
+            _currentTower = null;
         }
     }
 }

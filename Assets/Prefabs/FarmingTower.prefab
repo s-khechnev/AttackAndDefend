@@ -13,10 +13,11 @@ GameObject:
   - component: {fileID: 3861882372845608712}
   - component: {fileID: 3829527388449374250}
   - component: {fileID: 3089586016414615287}
-  - component: {fileID: 1032592786243619662}
-  m_Layer: 0
-  m_Name: Castle
-  m_TagString: Castle
+  - component: {fileID: 567863040448995070}
+  - component: {fileID: 4451043954746531627}
+  m_Layer: 7
+  m_Name: FarmingTower
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,9 +29,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3875922104456465534}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.823486, y: 1.87, z: -8.216867}
-  m_LocalScale: {x: 1.824096, y: 1.824096, z: 1.824096}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -115,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1032592786243619662
+--- !u!114 &567863040448995070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,6 +125,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3875922104456465534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db74ac2605f2441ab5cbeee425f3a9b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 80eb160528474f6ea0220a2158e2db34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _towerData: {fileID: 11400000, guid: e9ec478d52c485640959c0e45e9c5b21, type: 2}
+--- !u!114 &4451043954746531627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3875922104456465534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71f85da41cd463589473a095fecf102, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

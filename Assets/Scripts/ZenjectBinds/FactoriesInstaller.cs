@@ -1,5 +1,4 @@
 ﻿using Attackers;
-using Defender.Towers;
 using Defender.Towers.Factories;
 using Zenject;
 
@@ -26,7 +25,7 @@ namespace ZenjectBinds
 
         private void InstallTowerFactory()
         {
-            Container.Bind<ITowerViewFactory>().To<TowerViewFactory>().FromNew().AsSingle();
+            Container.Bind<ITowerFactory>().To<TowerFactory>().FromNew().AsSingle();
         }
     }
 }
