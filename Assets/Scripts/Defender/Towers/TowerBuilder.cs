@@ -14,7 +14,7 @@ namespace Defender.Towers
 
         private BaseTower _buildingTower;
         private TilePlacement _assumedTowerPlacement;
-        private bool _isTilePlacementEmpty;
+        private bool _isAssumedTileEmpty;
 
         private LayerMask _groundLayerMask;
         private const string GroundLayer = "Ground";
@@ -78,7 +78,7 @@ namespace Defender.Towers
             MoveTower();
             if (Input.GetMouseButton(MouseLeftButton))
             {
-                if (_isTilePlacementEmpty)
+                if (_isAssumedTileEmpty)
                     PlaceTower();
                 else
                     CancelBuilding();
@@ -95,14 +95,14 @@ namespace Defender.Towers
                 tilePlacement.CurrentState == PlacementTileState.Empty)
             {
                 _assumedTowerPlacement = tilePlacement;
-                _isTilePlacementEmpty = true;
+                _isAssumedTileEmpty = true;
 
-                _buildingTower.TowerView.SetPlacementState(PlacementTowerState.Available);
                 _buildingTower.transform.position = _assumedTowerPlacement.CenterPosition;
+                _buildingTower.TowerView.SetPlacementState(PlacementTowerState.Available);
             }
             else
             {
-                _isTilePlacementEmpty = false;
+                _isAssumedTileEmpty = false;
 
                 _buildingTower.transform.position = hit.point;
                 _buildingTower.TowerView.SetPlacementState(PlacementTowerState.Unavailable);
@@ -111,14 +111,20 @@ namespace Defender.Towers
 
         private void PlaceTower()
         {
-            if (!_isRelocating)
+            if (_isRelocating)
             {
-                _wallet.Purchase(_buildingTower.BaseTowerData.Cost);
-                _buildingTower.TowerView.HideState();
+                if (_assumedTowerPlacement == _tileBeforeMoving)
+                {
+                    CancelBuilding();
+                    return;
+                }
+
+                _wallet.Purchase(_buildingTower.BaseTowerData.CostToRelocate);
             }
             else
             {
-                _wallet.Purchase(_buildingTower.BaseTowerData.CostToRelocate);
+                _wallet.Purchase(_buildingTower.BaseTowerData.Cost);
+                _buildingTower.TowerView.HideState();
             }
 
             _assumedTowerPlacement.SetState(PlacementTileState.Filled);
