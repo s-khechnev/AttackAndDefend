@@ -13,9 +13,6 @@ namespace UI.Lobby
 
         [SerializeField] private Button _startButton;
 
-        [SerializeField] private PlayerItemView _playerView;
-        [SerializeField] private PlayerItemView _botView;
-
         private void Awake()
         {
             if (Instance == null)
@@ -24,31 +21,15 @@ namespace UI.Lobby
                 Destroy(gameObject);
         }
 
-        private void Start()
-        {
-            InitPlayersView();
-        }
-
-        private void InitPlayersView()
-        {
-            //_playerView.Render(GameManager.Instance.Player);
-            //_botView.Render(GameManager.Instance.Bot);
-        }
-
         private void OnEnable()
         {
             _startButton.onClick.AddListener(OnStartClick);
         }
 
-        private void OnDisable()
-        {
-            _startButton.onClick.RemoveListener(OnStartClick);
-        }
-
         private void OnStartClick()
         {
-            SceneManager.LoadSceneAsync("GameScene");
             StartTapped?.Invoke(GameMode.Defender);
+            SceneManager.LoadScene("GameScene");
         }
     }
 }

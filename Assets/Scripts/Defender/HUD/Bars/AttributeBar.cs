@@ -8,8 +8,10 @@ namespace Defender.HUD.Bars
 
         public void Init(ILevelChanger attribute)
         {
+            if (_attribute != null)
+                _attribute.LevelChanged -= OnLevelChanged;
+            
             _attribute = attribute;
-
             _attribute.LevelChanged += OnLevelChanged;
             OnLevelChanged(_attribute.CurrentLevel, _attribute.MaxLevel);
         }

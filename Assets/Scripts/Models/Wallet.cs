@@ -1,6 +1,4 @@
 ﻿using System;
-using Attackers;
-using Zenject;
 
 namespace Models
 {
@@ -24,18 +22,10 @@ namespace Models
         private int _money;
 
         private const int DefaultCountMoney = 100;
-
-        [Inject]
-        public Wallet(IAttackerFactory attackerFactory)
+        
+        public Wallet()
         {
             Money = DefaultCountMoney;
-
-            attackerFactory.AttackerDied += OnAttackerDied;
-        }
-
-        private void OnAttackerDied(Attacker died)
-        {
-            AddMoney(died.AttackerData.Reward);
         }
 
         public bool IsEnoughMoney(int cost)

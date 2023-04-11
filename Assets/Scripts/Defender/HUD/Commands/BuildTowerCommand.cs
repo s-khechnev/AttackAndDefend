@@ -22,7 +22,7 @@ namespace Defender.HUD.Commands
 
         public override bool CanExecute(Button button)
             => _wallet.IsEnoughMoney(_towerToBuild.BaseTowerData.Cost) &&
-               DefenderGUIManager.GameState == DefenderGameState.Normal;
+               DefenderGameManager.GameState == DefenderGameState.Normal;
 
         public override void Execute(Button button)
         {

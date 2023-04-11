@@ -53,8 +53,13 @@ namespace Attackers
 
             if (Health <= 0)
             {
-                Died?.Invoke(this);
+                _attackerFactory.Destroy(this);
             }
+        }
+
+        private void OnDestroy()
+        {
+            Died?.Invoke(this);
         }
     }
 }

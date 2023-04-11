@@ -14,7 +14,7 @@ namespace Defender.Towers.Base
 
         private void OnMouseDown()
         {
-            if (!isActiveAndEnabled || DefenderGUIManager.GameState == DefenderGameState.Building)
+            if (!isActiveAndEnabled || DefenderGameManager.GameState == DefenderGameState.Building)
                 return;
 
             TowerView.ShowState();

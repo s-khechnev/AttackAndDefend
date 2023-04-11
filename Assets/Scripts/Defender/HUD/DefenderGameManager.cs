@@ -1,4 +1,7 @@
+using Attackers;
+using Models;
 using UnityEngine;
+using Zenject;
 
 namespace Defender.HUD
 {
@@ -10,11 +13,17 @@ namespace Defender.HUD
     }
 
     [RequireComponent(typeof(Canvas))]
-    public class DefenderGUIManager : MonoBehaviour
+    public class DefenderGameManager : MonoBehaviour
     {
         private Canvas _canvas;
 
         public static DefenderGameState GameState { get; private set; }
+
+        [Inject]
+        private void Construct(Wallet wallet, IAttackerFactory attackerFactory)
+        {
+            attackerFactory.AttackerDied += (died) => wallet.AddMoney(died.AttackerData.Reward);
+        }
 
         private void Awake()
         {

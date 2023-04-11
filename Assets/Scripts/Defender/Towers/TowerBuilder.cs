@@ -47,7 +47,7 @@ namespace Defender.Towers
         {
             if (_buildingTower != null) return;
 
-            DefenderGUIManager.SetState(DefenderGameState.Building);
+            DefenderGameManager.SetState(DefenderGameState.Building);
 
             ShowTileStates();
 
@@ -135,13 +135,13 @@ namespace Defender.Towers
 
             _isRelocating = false;
 
-            DefenderGUIManager.SetState(DefenderGameState.Normal);
+            DefenderGameManager.SetState(DefenderGameState.Normal);
         }
 
         private void CancelBuilding()
         {
             HideTileStates();
-            DefenderGUIManager.SetState(DefenderGameState.Normal);
+            DefenderGameManager.SetState(DefenderGameState.Normal);
 
             if (!_isRelocating)
             {
@@ -167,7 +167,7 @@ namespace Defender.Towers
                     MaxRaycastDistance, _groundLayerMask)) return;
             if (!hit.collider.gameObject.TryGetComponent(out TilePlacement tilePlacement)) return;
 
-            DefenderGUIManager.SetState(DefenderGameState.Building);
+            DefenderGameManager.SetState(DefenderGameState.Building);
             _isRelocating = true;
 
             _tileBeforeMoving = tilePlacement;

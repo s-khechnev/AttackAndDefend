@@ -34,15 +34,14 @@ namespace Attackers
             return attacker;
         }
 
-        public void Destroy(Attacker gameObjectToDestroy)
+        public void Destroy(Attacker attackerToDestroy)
         {
             CountAttackers--;
-            UnityEngine.Object.Destroy(gameObjectToDestroy.gameObject);
+            UnityEngine.Object.Destroy(attackerToDestroy.gameObject);
         }
 
         private void OnAttackerDied(Attacker died)
         {
-            Destroy(died);
             AttackerDied?.Invoke(died);
         }
     }

@@ -90,16 +90,17 @@ namespace Defender.HUD.Menus
             {
                 _changeTargetSelectorButton.gameObject.SetActive(false);
             }
+            
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform) transform);
         }
 
         private void SetTowerData(BaseTowerData baseTowerData)
         {
             _towerName.text = baseTowerData.Name;
-
-            StartCoroutine(ReinitAttributes(baseTowerData.Attributes));
+            ReinitAttributes(baseTowerData.Attributes);
         }
 
-        private IEnumerator ReinitAttributes(IReadOnlyList<Attribute> attributes)
+        private void ReinitAttributes(IReadOnlyList<Attribute> attributes)
         {
             for (var i = 0; i < _attributeContainer.childCount; i++)
             {
@@ -111,7 +112,6 @@ namespace Defender.HUD.Menus
                 var attributeView = _attributeContainer.GetChild(i).GetComponent<AttributeUpgradeView>();
                 attributeView.gameObject.SetActive(true);
                 attributeView.Init(attributes[i]);
-                yield return null;
             }
         }
 

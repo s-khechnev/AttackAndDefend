@@ -15970,7 +15970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiCamera: {fileID: 1559325571}
-  _defenderGUIManager: {fileID: 8060868542295493476, guid: a4efb1a17ad39604eb06131814f725c4, type: 3}
+  _defenderGameManager: {fileID: 8060868542295493476, guid: a4efb1a17ad39604eb06131814f725c4, type: 3}
 --- !u!1001 &1919694173
 PrefabInstance:
   m_ObjectHideFlags: 0
