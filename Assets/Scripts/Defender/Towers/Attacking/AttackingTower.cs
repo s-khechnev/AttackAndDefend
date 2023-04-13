@@ -9,13 +9,24 @@ namespace Defender.Towers.Attacking
     public class AttackingTower : BaseTower
     {
         [SerializeField] private AttackingTowerData _towerData;
+        
+        /// <summary>
+        /// The position of the point from which the shot will be fired
+        /// </summary>
         [SerializeField] protected Transform _launchPoint;
 
+        /// <summary>
+        /// Time elapsed since the previous shoot
+        /// </summary>
         private float _elapsedTimeFromShoot;
+        
         private IWarFactory _warFactory;
 
         private AttackingTowerView _towerView;
 
+        /// <summary>
+        /// Component that give the target
+        /// </summary>
         public TargetFinder TargetFinder { get; private set; }
 
         public override BaseTowerData BaseTowerData => _towerData;

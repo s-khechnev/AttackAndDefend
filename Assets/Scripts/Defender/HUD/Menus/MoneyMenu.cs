@@ -9,6 +9,9 @@ namespace Defender.HUD.Menus
     {
         [SerializeField] private TMP_Text _moneyText;
 
+        /// <summary>
+        /// The wallet which balance that is currently displayed
+        /// </summary>
         private Wallet _wallet;
 
         [Inject]

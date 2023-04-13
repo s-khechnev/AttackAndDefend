@@ -5,6 +5,9 @@ namespace Defender.HUD.Bars
 {
     public class CastleHealthBar : Bar
     {
+        /// <summary>
+        /// The castle that is currently displayed
+        /// </summary>
         private Castle _castle;
 
         [Inject]

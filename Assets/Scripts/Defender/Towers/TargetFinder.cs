@@ -6,11 +6,14 @@ using UnityEngine;
 
 namespace Defender.Towers
 {
+    /// <summary>
+    /// Component for detect target
+    /// </summary>
     [RequireComponent(typeof(SphereCollider))]
     public class TargetFinder : MonoBehaviour
     {
         public Attacker Target { get; private set; }
-
+        
         private List<Attacker> _attackersInRange;
 
         private LinkedListNode<ITargetSelector> _currentSelectorNode;

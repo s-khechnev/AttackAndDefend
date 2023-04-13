@@ -7,6 +7,9 @@ using Zenject;
 
 namespace Defender.Towers
 {
+    /// <summary>
+    /// Component responsible for the construction and relocation of towers
+    /// </summary>
     public class TowerBuilder : MonoBehaviour
     {
         private TilePlacement[] _tiles;
@@ -43,6 +46,10 @@ namespace Defender.Towers
             _groundLayerMask = 1 << LayerMask.NameToLayer(GroundLayer);
         }
 
+        /// <summary>
+        /// Start build the tower
+        /// </summary>
+        /// <param name="towerToBuild">tower to build</param>
         public void StartBuildTower(BaseTower towerToBuild)
         {
             if (_buildingTower != null) return;
@@ -85,6 +92,9 @@ namespace Defender.Towers
             }
         }
 
+        /// <summary>
+        /// Move the tower behind the mouse cursor and set the placement state
+        /// </summary>
         private void MoveTower()
         {
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -109,6 +119,9 @@ namespace Defender.Towers
             }
         }
 
+        /// <summary>
+        /// Place tower to assumed tile
+        /// </summary>
         private void PlaceTower()
         {
             if (_isRelocating)
@@ -138,6 +151,9 @@ namespace Defender.Towers
             DefenderGameManager.SetState(DefenderGameState.Normal);
         }
 
+        /// <summary>
+        /// Cancel building of the tower
+        /// </summary>
         private void CancelBuilding()
         {
             HideTileStates();
@@ -160,6 +176,10 @@ namespace Defender.Towers
             }
         }
 
+        /// <summary>
+        /// Start relocate tower
+        /// </summary>
+        /// <param name="towerToRelocate">tower to relocate</param>
         public void RelocateTower(BaseTower towerToRelocate)
         {
             if (_buildingTower != null) return;

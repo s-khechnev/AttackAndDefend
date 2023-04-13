@@ -12,6 +12,11 @@ namespace Defender.Towers
         private int _damage;
         private Attacker _target;
 
+        /// <summary>
+        /// Launch the bullet to target
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="damage"></param>
         public void Launch(Attacker target, int damage)
         {
             _target = target;

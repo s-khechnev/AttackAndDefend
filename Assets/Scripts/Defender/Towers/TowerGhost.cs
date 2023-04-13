@@ -8,6 +8,9 @@ namespace Defender.Towers
         Unavailable,
     }
 
+    /// <summary>
+    /// Component for display placement state of the tower
+    /// </summary>
     public class TowerGhost
     {
         private readonly Renderer[] _renderers;

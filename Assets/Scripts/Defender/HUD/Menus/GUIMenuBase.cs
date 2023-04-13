@@ -7,6 +7,9 @@ namespace Defender.HUD.Menus
 {
     public abstract class GUIMenuBase : MonoBehaviour, IGUIMenu
     {
+        /// <summary>
+        /// The instance of menu
+        /// </summary>
         protected GameObject Instance;
         protected Dictionary<Button, ICommand> Associations = new();
 
@@ -58,6 +61,11 @@ namespace Defender.HUD.Menus
             }
         }
 
+        /// <summary>
+        /// Associate the button with command
+        /// </summary>
+        /// <param name="button"></param>
+        /// <param name="command"></param>
         protected virtual void AssociateButton(Button button, ICommand command)
         {
             AddAssociation(button, command);

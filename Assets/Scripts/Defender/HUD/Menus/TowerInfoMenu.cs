@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Defender.HUD.Commands;
 using Defender.Towers;
 using Defender.Towers.Attacking;
@@ -54,7 +53,7 @@ namespace Defender.HUD.Menus
         {
             Hide();
         }
-
+        
         private void InitButtons()
         {
             _relocateTowerCommand = new RelocateTowerCommand(this, _towerBuilder, _wallet);
@@ -66,6 +65,10 @@ namespace Defender.HUD.Menus
             AssociateButton(_closeMenuButton, new CloseTowerInfoCommand(this));
         }
 
+        /// <summary>
+        /// Handler for the TowerTapped event 
+        /// </summary>
+        /// <param name="tower">tapped tower</param>
         private void OnTowerTapped(BaseTower tower)
         {
             if (_currentTower == tower)

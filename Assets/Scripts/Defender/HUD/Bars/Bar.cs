@@ -13,6 +13,11 @@ namespace Defender.HUD.Bars
             _slider = GetComponent<Slider>();
         }
 
+        /// <summary>
+        /// Change the filling of the bar
+        /// </summary>
+        /// <param name="value">current value</param>
+        /// <param name="maxValue">max value</param>
         protected void ChangeValue(int value, int maxValue)
         {
             _slider.value = (float)value / maxValue;

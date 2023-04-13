@@ -5,6 +5,9 @@ namespace Defender.HUD.Commands
 {
     public abstract class CommandBase : ICommand
     {
+        /// <summary>
+        /// The menu which contains button which associate with that command
+        /// </summary>
         protected readonly GUIMenuBase Panel;
 
         protected CommandBase(GUIMenuBase panel)

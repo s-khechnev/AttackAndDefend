@@ -8,6 +8,9 @@ namespace Defender.Towers
         Empty,
     }
 
+    /// <summary>
+    /// Component that allows place a tower on a gameObject that contains it
+    /// </summary>
     [RequireComponent(typeof(Renderer))]
     public class TilePlacement : MonoBehaviour
     {
@@ -20,6 +23,9 @@ namespace Defender.Towers
         private Color _realColor;
         private Renderer _tileRenderer;
 
+        /// <summary>
+        /// Position for placing tower
+        /// </summary>
         public Vector3 CenterPosition { get; private set; }
 
         private void Awake()

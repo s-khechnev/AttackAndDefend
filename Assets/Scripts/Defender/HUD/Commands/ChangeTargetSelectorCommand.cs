@@ -16,6 +16,10 @@ namespace Defender.HUD.Commands
             _selectorDescription = selectorDescription;
         }
         
+        /// <summary>
+        /// Set the TargetFinder to display
+        /// </summary>
+        /// <param name="targetFinder">target finder to display</param>
         public void SetTargetFinder(TargetFinder targetFinder)
         {
             _targetFinder = targetFinder;

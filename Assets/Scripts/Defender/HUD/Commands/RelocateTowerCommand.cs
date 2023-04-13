@@ -19,6 +19,10 @@ namespace Defender.HUD.Commands
             _wallet = wallet;
         }
 
+        /// <summary>
+        /// Set the tower which need relocate
+        /// </summary>
+        /// <param name="tower">tower to relocate</param>
         public void SetTower(BaseTower tower)
         {
             _towerToRelocate = tower;

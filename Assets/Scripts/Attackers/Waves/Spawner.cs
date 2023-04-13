@@ -12,6 +12,9 @@ namespace Attackers.Waves
         Pause
     }
 
+    /// <summary>
+    /// The component responsible for spawn of the attacker
+    /// </summary>
     public class Spawner : MonoBehaviour
     {
         public event Action WaveEnded;
@@ -38,6 +41,9 @@ namespace Attackers.Waves
             _currentWaveIndex = -1;
         }
 
+        /// <summary>
+        /// Start the next wave
+        /// </summary>
         public void StartNextWave()
         {
             WaveState = WaveState.InProgress;
@@ -46,6 +52,11 @@ namespace Attackers.Waves
             StartCoroutine(SpawnCoroutine(_waves[_currentWaveIndex]));
         }
 
+        /// <summary>
+        /// Coroutine to spawn attackers
+        /// </summary>
+        /// <param name="wave">wave to spawn</param>
+        /// <returns></returns>
         private IEnumerator SpawnCoroutine(Wave wave)
         {
             foreach (var attackerPrefab in wave.Attackers.Keys)

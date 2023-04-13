@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Defender.Towers.Base
 {
+    /// <summary>
+    /// Attribute of the tower
+    /// </summary>
     [Serializable]
     public class Attribute : ILevelChanger
     {

@@ -11,6 +11,10 @@ namespace Defender.Towers.Farming
         [SerializeField] private FarmingTowerData _towerData;
 
         private FarmingTowerView _towerView;
+        
+        /// <summary>
+        /// Time elapsed since the previous shoot
+        /// </summary>
         private float _elapsedTimeFromShoot;
 
         public override BaseTowerData BaseTowerData => _towerData;

@@ -3,6 +3,9 @@ using Zenject;
 
 namespace Attackers.Movement
 {
+    /// <summary>
+    /// The component responsible for the movement of the attacker
+    /// </summary>
     [RequireComponent(typeof(Attacker))]
     public class AttackerMovement : MonoBehaviour
     {
@@ -11,6 +14,9 @@ namespace Attackers.Movement
         private Transform _currentPoint;
         private Route _route;
 
+        /// <summary>
+        /// Remaining distance to the castle
+        /// </summary>
         public float DistanceToCastle { get; private set; }
 
         [Inject]

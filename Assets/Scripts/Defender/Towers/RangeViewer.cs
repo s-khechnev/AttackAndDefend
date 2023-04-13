@@ -2,6 +2,9 @@
 
 namespace Defender.Towers
 {
+    /// <summary>
+    /// Component that draws a circle using a LineRenderer around a gameObject 
+    /// </summary>
     public class RangeViewer
     {
         private const int NumSegments = 300;
@@ -26,6 +29,10 @@ namespace Defender.Towers
             _lineRenderer.loop = true;
         }
 
+        /// <summary>
+        /// Draw the circle
+        /// </summary>
+        /// <param name="radius">radius of the circle</param>
         public void DrawCircle(float radius)
         {
             const float deltaTheta = (float)(2.0 * Mathf.PI) / NumSegments;

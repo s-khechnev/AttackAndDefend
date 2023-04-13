@@ -4,8 +4,15 @@ namespace Defender.HUD.Bars
 {
     public class AttributeBar : Bar
     {
+        /// <summary>
+        /// The attribute that is currently displayed
+        /// </summary>
         private ILevelChanger _attribute;
 
+        /// <summary>
+        /// Initialize the bar
+        /// </summary>
+        /// <param name="attribute">attribute to display</param>
         public void Init(ILevelChanger attribute)
         {
             if (_attribute != null)

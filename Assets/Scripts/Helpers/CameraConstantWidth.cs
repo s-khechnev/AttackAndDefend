@@ -2,6 +2,9 @@
 
 namespace Helpers
 {
+    /// <summary>
+    /// Component to maintain a constant width of the camera
+    /// </summary>
     public class CameraConstantWidth : MonoBehaviour
     {
         [SerializeField] private Vector2 _defaultResolution;

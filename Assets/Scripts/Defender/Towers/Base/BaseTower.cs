@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Defender.Towers.Base
 {
+    /// <summary>
+    /// The base class for the towers
+    /// </summary>
     [SelectionBase, RequireComponent(typeof(BoxCollider), typeof(ITowerView))]
     public abstract class BaseTower : MonoBehaviour
     {

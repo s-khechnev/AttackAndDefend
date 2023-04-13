@@ -17,7 +17,15 @@ namespace Attackers
         private IAttackerFactory _attackerFactory;
         
         public int Health { get; private set; }
+        
+        /// <summary>
+        /// Data of attacker
+        /// </summary>
         public AttackerData AttackerData => _attackerData;
+        
+        /// <summary>
+        /// Remaining distance to the castle
+        /// </summary>
         public float DistanceToCastle => _mover.DistanceToCastle;
 
         [Inject]
@@ -40,12 +48,20 @@ namespace Attackers
             }
         }
 
+        /// <summary>
+        /// Attack the castle
+        /// </summary>
+        /// <param name="castle">castle to attack</param>
         protected virtual void Attack(Castle castle)
         {
             castle.TakeDamage(AttackerData.Damage);
             _attackerFactory.Destroy(this);
         }
 
+        /// <summary>
+        /// Take the damage
+        /// </summary>
+        /// <param name="damage">damage to take</param>
         public void TakeDamage(int damage)
         {
             Health -= damage;

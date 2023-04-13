@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Models
 {
+    /// <summary>
+    /// Model of castle
+    /// </summary>
     public class Castle : MonoBehaviour
     {
         public int Health { get; private set; }

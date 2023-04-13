@@ -14,7 +14,11 @@ namespace Defender.HUD.Menus
         [SerializeField] private Button _attributeUpgradeButton;
         [SerializeField] private TMP_Text _attributeText;
 
+        /// <summary>
+        /// The attribute that is currently displayed
+        /// </summary>
         private Attribute _attribute;
+        
         private Wallet _wallet;
 
         [Inject]
@@ -23,6 +27,10 @@ namespace Defender.HUD.Menus
             _wallet = wallet;
         }
 
+        /// <summary>
+        /// Initialize the attribute view
+        /// </summary>
+        /// <param name="attribute">attribute to display</param>
         public void Init(Attribute attribute)
         {
             _attribute = attribute;

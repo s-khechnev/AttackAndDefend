@@ -36,6 +36,10 @@ namespace Defender.HUD
             GameState = newState;
         }
 
+        /// <summary>
+        /// Initialize the UI camera
+        /// </summary>
+        /// <param name="uiCamera">UI camera</param>
         public void InitCamera(Camera uiCamera)
         {
             _canvas.renderMode = RenderMode.ScreenSpaceCamera;

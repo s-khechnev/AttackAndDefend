@@ -2,6 +2,9 @@
 
 namespace Models
 {
+    /// <summary>
+    /// Model of player's wallet
+    /// </summary>
     public class Wallet
     {
         public event Action<int> MoneyChanged;

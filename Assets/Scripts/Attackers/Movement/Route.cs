@@ -4,6 +4,9 @@ namespace Attackers.Movement
 {
     public class Route : MonoBehaviour
     {
+        /// <summary>
+        /// Distance of route to castle
+        /// </summary>
         public float DistanceToCastle { get; private set; }
 
         private void Awake()
@@ -11,6 +14,11 @@ namespace Attackers.Movement
             DistanceToCastle = GetDistanceToCastle();
         }
 
+        /// <summary>
+        /// Get the next route point
+        /// </summary>
+        /// <param name="currentPoint">current point</param>
+        /// <returns>Next point relative to the current one</returns>
         public Transform GetNextPoint(Transform currentPoint)
         {
             if (currentPoint == null)
@@ -21,6 +29,10 @@ namespace Attackers.Movement
                 : null;
         }
 
+        /// <summary>
+        /// Get the distance of route to castle 
+        /// </summary>
+        /// <returns>Distance of route to castle</returns>
         private float GetDistanceToCastle()
         {
             var distanceToCastle = 0f;
